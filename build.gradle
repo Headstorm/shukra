@@ -1,0 +1,157 @@
+buildscript {
+    ext.scala_version = '2.13'
+    ext.akka_version = '2.6.0-M7'
+}
+
+plugins {
+    id 'scala'
+    id 'idea'
+    id 'application'
+    id 'org.scoverage' version '3.2.0'
+    id "com.github.alisiikh.scalastyle" version "3.1.0"
+    id 'cz.augi.gradle.wartremover' version '0.9.7'
+    id 'cz.alenkacz.gradle.scalafmt' version '1.8.0'
+    id "com.github.maiflai.scalatest" version "0.25"
+}
+
+application {
+    mainClassName = 'com.headstorm.shukra'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url 'https://plugins.gradle.org/m2/'
+    }
+}
+
+wartremover {
+    warningWarts.removeAll('Any', 'EitherProjectionPartial', 'DefaultArguments', 'NonUnitStatements')
+    test {
+        warningWarts.removeAll('Any', 'EitherProjectionPartial', 'IsInstanceOf', 'AsInstanceOf',
+                'DefaultArguments', 'Null', 'Var')
+    }
+}
+
+scalastyle {
+    scalaVersion = '2.12'
+    scalastyleVersion = '1.0.0'
+    config = file("${projectDir}/scalastyle-config.xml") // path to scalastyle config xml file
+    skip = false                                         // skips scalastyle check if set to true
+    inputEncoding = 'UTF-8'
+    outputEncoding = 'UTF-8'
+    failOnWarning = true
+    verbose = false
+    quiet = false
+}
+
+compileScala.dependsOn(scalafmtAll)
+
+task('hsBuild', type: ScalaCompile) dependsOn(scalastyleCheck, checkScalafmtAll) {
+    build
+}
+
+dependencies {
+    compile "org.scala-lang:scala-library:$scala_version.0" // Use Scala 2.13 in our project
+    implementation "com.outr:scribe_$scala_version:2.7.9"
+    implementation "com.outr:scribe-slf4j_$scala_version:2.7.9"
+
+    //Akka Dependencies
+    implementation "com.typesafe.akka:akka-actor-typed_$scala_version:$akka_version"
+    implementation "com.typesafe.akka:akka-actor_$scala_version:$akka_version"
+    implementation "com.typesafe.akka:akka-remote_$scala_version:$akka_version"
+    implementation "com.typesafe.akka:akka-cluster-typed_$scala_version:$akka_version"
+    implementation "com.typesafe.akka:akka-persistence-typed_$scala_version:$akka_version"
+    implementation "com.github.dnvriend:akka-persistence-jdbc_$scala_version:3.5.2"
+    testImplementation "com.github.dnvriend:akka-persistence-inmemory_$scala_version:2.5.15.2"
+
+    // PureConfig
+    implementation "com.github.pureconfig:pureconfig_$scala_version:0.11.1"
+
+    // Use Scalatest for testing our library
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.scalatest:scalatest_$scala_version:3.0.8"
+    testImplementation "org.scalacheck:scalacheck_$scala_version:1.14.0"
+    testImplementation "org.scalamock:scalamock_$scala_version:4.3.0"
+    testRuntime "org.pegdown:pegdown:1.6.0"
+
+    // Use ScalaMock for unit test mocking
+    testImplementation "org.mockito:mockito-core:2.22.0"
+
+    // Code Check
+    implementation "org.scalastyle:scalastyle_2.12:1.0.0"
+
+    // H2 database
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.199'
+    implementation "org.tpolecat:doobie-h2_$scala_version:0.8.0-RC1"
+
+    // the stable versions once those are released.
+    implementation "dev.zio:zio_$scala_version:1.0.0-RC10-1"
+    implementation "dev.zio:zio-interop-cats_$scala_version:2.0.0.0-RC1"
+}
+
+configurations {
+    compile.exclude group: "ch.qos.logback", module: "logback-classic"
+    compile.exclude group: "org.scala-lang.modules", module: "scala-xml_2.12"
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters = [
+            "-deprecation", // Emit warning and location for usages of deprecated APIs.
+            "-explaintypes", // Explain type errors in more detail.
+            "-feature", // Emit warning and location for usages of features that should be imported explicitly.
+            "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
+            "-language:experimental.macros", // Allow macro definition (besides implementation and application)
+            "-language:higherKinds", // Allow higher-kinded types
+            "-language:implicitConversions", // Allow definition of implicit functions called views
+            "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+            "-Xcheckinit", // Wrap field accessors to throw an exception on uninitialized access.
+            "-Xfatal-warnings", // Fail the compilation if there are any warnings.
+            "-Xlint:adapted-args", // Warn if an argument list is modified to match the receiver.
+            "-Xlint:constant", // Evaluation of a constant arithmetic expression results in an error.
+            "-Xlint:delayedinit-select", // Selecting member of DelayedInit.
+            "-Xlint:doc-detached", // A Scaladoc comment appears to be detached from its element.
+            "-Xlint:inaccessible", // Warn about inaccessible types in method signatures.
+            "-Xlint:infer-any", // Warn when a type argument is inferred to be `Any`.
+            "-Xlint:missing-interpolator", // A string literal appears to be missing an interpolator id.
+            "-Xlint:nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
+            "-Xlint:nullary-unit", // Warn when nullary methods return Unit.
+            "-Xlint:option-implicit", // Option.apply used implicit view.
+            "-Xlint:package-object-classes", // Class or object defined in package object.
+            "-Xlint:poly-implicit-overload", // Parameterized overloaded implicit methods are not visible as view bounds.
+            "-Xlint:private-shadow", // A private field (or class parameter) shadows a superclass field.
+            "-Xlint:stars-align", // Pattern sequence wildcard must align with sequence component.
+            "-Xlint:type-parameter-shadow", // A local type parameter shadows a type already in scope.
+            "-Ywarn-dead-code", // Warn when dead code is identified.
+            "-Ywarn-extra-implicit", // Warn when more than one implicit parameter section is defined.
+            "-Ywarn-numeric-widen", // Warn when numerics are widened.
+            "-Ywarn-unused:implicits", // Warn if an implicit parameter is unused.
+            "-Ywarn-unused:imports", // Warn if an import selector is not referenced.
+            "-Ywarn-unused:locals", // Warn if a local definition is unused.
+//          "-Ywarn-unused:params", // Warn if a value parameter is unused.
+            "-Ywarn-unused:patvars", // Warn if a variable bound in a pattern is unused.
+            "-Ywarn-unused:privates", // Warn if a private member is unused.
+            "-Ywarn-value-discard", // Warn when non-Unit expression results are unused.
+            "-Ybackend-parallelism", "8", // Enable paralellisation — change to desired number!
+            "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
+            "-Ycache-macro-class-loader:last-modified", // and macro definitions. This can lead to performance improvements.
+    ]
+}
+
+scoverage {
+    scoverageVersion = "1.4.0"
+    scoverageScalaVersion = "2.13"
+    minimumRate = 0.2
+}
+
+compileScala.targetCompatibility = 1.8
+ScalaCompileOptions.metaClass.useAnt = false
+
+task demoAkka(type: JavaExec) {
+    sourceSets.main.scala.srcDirs += ['src/scala']
+    sourceSets.main.resources.srcDirs += ['src/resources']
+    classpath += sourceSets.main.runtimeClasspath
+
+    main = 'com.headstorm.shukra.DemoActorSystem'
+}
