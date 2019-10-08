@@ -11,4 +11,4 @@ http APIs
 <br>
 
 ## How to Run ##
-Using SBT, run `docker:publishLocal` command to publish the local docker image. To start the cluster, run `docker-compose up` command.
+Using SBT, run `docker:publishLocal` command to locally publish the docker image. To start the cluster, run `docker-compose up` command.
