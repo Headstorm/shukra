@@ -3,14 +3,6 @@
 
 require 'yaml'
 
-# Check to see if docker-compose plugin is already installed
-# If not, the plugin is installed and you then have to rerun `vagrant up`
-unless Vagrant.has_plugin?("vagrant-docker-compose")
-  system("vagrant plugin install vagrant-docker-compose")
-  puts "Dependencies installed. Please try the command again"
-  exit
-end
-
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -78,7 +70,7 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
 
-  # Setting GUI and memory for vm
+  # Setting GUI and Memory for VM
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = false
@@ -87,29 +79,17 @@ Vagrant.configure("2") do |config|
   end
 
   # Forwarding ports
-  config.vm.network "forwarded_port", guest: 8401, host: 8401, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8402, host: 8402, host_ip: "127.0.0.1"
 
   # Install docker
-  config.vm.provision "shell", inline: <<-SHELL
-    echo "Installing docker..."
-    apt-get update
-  SHELL
-  config.vm.provision :docker, preserve_order: true
+  config.vm.provision :docker
 
   # Installing java, scala and sbt
-  config.vm.provision "shell", preserve_order: true, path: "scripts/vagrant/install-java-sbt.sh"
+  config.vm.provision "shell", path: "scripts/vagrant/install-java-sbt.sh"
 
   # Building and publishing sbt project to local docker
-  config.vm.provision "shell", preserve_order: true, inline: <<-SHELL
-    echo "Building and publishing sbt project"
-    cd /vagrant
-    sbt clean
-    sbt docker:publishLocal
-  SHELL
+  config.vm.provision "shell", path: "scripts/vagrant/sbt-project-build-publish.sh"
 
-  # Docker compose
-  config.vm.provision "shell", preserve_order: true, inline: <<-SHELL
-    echo "Docker compose"
-  SHELL
-  config.vm.provision :docker_compose, yml: "/vagrant/docker-compose.yml", preserve_order: true, run: "always"
+  # Start docker container
+  config.vm.provision "shell", path: "scripts/vagrant/docker-install-compose.sh"
 end

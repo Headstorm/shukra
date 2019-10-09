@@ -27,6 +27,8 @@ libraryDependencies ++= Seq (
   "com.lightbend.akka.management" %% "akka-management-cluster-http" % "1.0.3"
 )
 
+import com.typesafe.sbt.packager.docker.DockerPlugin
+
 enablePlugins(DockerPlugin)
 version in Docker := "latest"
 dockerExposedPorts in Docker := Seq(1600)
