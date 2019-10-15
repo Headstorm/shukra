@@ -5,7 +5,7 @@ services:
     image: headstorm/shukra:latest
     ports:
       - '1600:1600'
-      - '8401:8401'
+      - '8402:8402'
     environment:
       AKKA_MANAGEMENT_ENABLE: enabled
       CLUSTER_PORT: 1600
