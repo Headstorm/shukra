@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toolbar, AppBar, Grid, CssBaseline, Typography, Button, Divider } from '@material-ui/core';
-import { BrowserRouter as Router, Link, LinkProps } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import { BrowserRouter as Router, Link, LinkProps } from "react-router-dom";
 
 import './App.scss';
 import AppRouting from './AppRouting';

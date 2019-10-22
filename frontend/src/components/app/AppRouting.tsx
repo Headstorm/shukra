@@ -2,14 +2,21 @@ import React from 'react';
 import ClusterDashboard from '../cluster-dashboard/ClusterDashboard';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+interface RouteType {
+  path?: string;
+  exact?: boolean;
+  component?: any; //eslint-disable-line @typescript-eslint/no-explicit-any
+  routes?: string[];
+}
+
 // A special wrapper for <Route> that knows how to
 // handle "sub"-routes by passing them in a `routes`
 // prop to the component it renders.
-function RouteWithSubRoutes(route: any) {
+function RouteWithSubRoutes(route: RouteType): JSX.Element {
   return (
     <Route
       path={route.path}
-      render={props => (
+      render={ props => (  //eslint-disable-line @typescript-eslint/explicit-function-return-type
         // pass the sub-routes down to keep nesting
         <route.component {...props} routes={route.routes} />
       )}
@@ -19,10 +26,10 @@ function RouteWithSubRoutes(route: any) {
 
 const AppRouting: React.FC = () => {
 
-  const RedirectComponent = () => <Redirect to="/home"/>
+  const RedirectComponent = (): JSX.Element => <Redirect to="/home"/>
   RedirectComponent.displayName = "RedirectToHomeComponent"
 
-  const routes = [
+  const routes: RouteType[] = [
     {
       path: "/",
       exact: true,
