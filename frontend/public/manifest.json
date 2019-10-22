@@ -1,0 +1,6 @@
+{
+  "short_name": "Shukra UI",
+  "name": "Shukra UI for Akka Cluster Visualization",
+  "start_url": ".",
+  "display": "standalone"
+}
