@@ -7,10 +7,10 @@ const ClusterDashboard: React.FC = () => {
     <React.Fragment>
       <Grid container md item direction="row" className="shukra-body">
         <Grid item xs={3}>
-          <Paper></Paper>
+          <Paper />
         </Grid>
         <Grid item xs={9}>
-          <Paper></Paper>
+          <Paper />
         </Grid>
       </Grid>
     </React.Fragment>
