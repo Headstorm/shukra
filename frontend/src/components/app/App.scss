@@ -13,7 +13,8 @@
     min-height: $header-height;
     max-height: $header-height;
     margin-bottom: $single-spacing;
-
+    width: 100%;
+    
     & .MuiAppBar-root {
       color: $secondary-theme-color;
       background-color: $primary-theme-color;
