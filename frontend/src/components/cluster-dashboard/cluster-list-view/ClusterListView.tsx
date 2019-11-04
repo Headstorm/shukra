@@ -8,6 +8,7 @@ import {
   ArrowDropDown as ArrowDropDownIcon,
   ArrowRight as ArrowRightIcon
 } from '@material-ui/icons';
+import querystring from 'query-string';
 
 import './ClusterListView.scss';
 import { Cluster } from '../Cluster.model';
@@ -29,19 +30,50 @@ const ClusterListView: React.FC<ClusterListViewProps> = (props: ClusterListViewP
   const [confDialogTitle, setConfDialogTitle] = React.useState("");
   const [confDialogContent, setConfDialogContent] = React.useState("");
   const [confDialogData, setConfDialogData] = React.useState({});
+  const [addNodeAddress, setAddNodeAddress] = React.useState("");
   const clusterData: Cluster = props.clusterData;
   const akkaGetClusterMembersUrl = akkaClusterProps["akka.management.url"] + "/cluster/members";
 
-  const handleMemberLeave = (member: string): void => {
-    setConfDialogTitle("Remove Node From Cluster?");
-    setConfDialogContent("Are you sure you want to remove node " + member + " from the cluster?");
-    setConfDialogData({ member: member });
+  const handleMember = (member: string, mode: string): void => {
+    setConfDialogTitle(mode.toLowerCase() === "leave" ? "Remove Node From Cluster?" : "Shutdown Node in Cluster?");
+    setConfDialogContent(
+      mode.toLowerCase() === "leave" ? 
+      "Are you sure you want to remove node " + member + " from the cluster?" : 
+      "Are you sure you want to shutdown node " + member + " in the cluster?"
+    );
+    setConfDialogData({ member: member, mode: mode });
     setOpenConfDialog(true);
   }
 
-  const handleMemberLeaveConfirm = ({ member }: { member: string }): void => {
+  const addMember = (): void => {
+    if(!addNodeAddress || addNodeAddress.trim() === "") { return; }
+    
+    axios.post(akkaGetClusterMembersUrl, 
+        querystring.stringify({ address: addNodeAddress.trim() }),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" }}
+      )
+      .then(response => {
+        if(response.status === 200) {
+          setSnackBarMessage(response.data.message);
+          setOpenSnackBar(true);
+          props.refreshClusterData();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        setSnackBarMessage(error.message && error.message.message ? error.message.message : error.message);
+        setOpenSnackBar(true);
+      })
+
+
+  }
+
+  const handleMemberConfirm = ({ member, mode }: { member: string; mode: string }): void => {
     setOpenConfDialog(false);
-    axios.delete(akkaGetClusterMembersUrl + "/" + member.split('://')[1])
+    axios.put(akkaGetClusterMembersUrl + "/" + member.split('://')[1], 
+        querystring.stringify({ operation: mode }),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" }}
+      )
       .then(response => {
         if(response.status === 200) {
           setSnackBarMessage(response.data.message);
@@ -97,8 +129,8 @@ const ClusterListView: React.FC<ClusterListViewProps> = (props: ClusterListViewP
                       <div><span className="fo-we-bo">status : </span><span>{member.status.toLowerCase()}</span></div>
                       <div><span className="fo-we-bo">roles : </span><span>{member.roles.join(',')}</span></div>
                       <div className="member-actions">
-                        <Button variant="contained" size="small" onClick={(): void  => handleMemberLeave(member.node)}>LEAVE</Button>
-                        <Button className="themed" variant="contained" size="small">SHUTDOWN</Button>
+                        <Button variant="contained" size="small" onClick={(): void  => handleMember(member.node, "Leave")}>LEAVE</Button>
+                        <Button className="themed" variant="contained" size="small" onClick={(): void  => handleMember(member.node, "Down")}>SHUTDOWN</Button>
                       </div>
                     </div>
                   } />
@@ -108,9 +140,10 @@ const ClusterListView: React.FC<ClusterListViewProps> = (props: ClusterListViewP
           </TreeView>
         </div>
         <div className="add-member-container">
-          <TextField label="Node Address" placeholder="Enter Node Address" margin="dense" variant="outlined" fullWidth={true}/>
+          <TextField value={addNodeAddress} onChange={(event: React.ChangeEvent<HTMLInputElement>): void => { setAddNodeAddress(event.currentTarget.value) }} 
+            label="Node Address" placeholder="Enter Node Address" margin="dense" variant="outlined" fullWidth={true}/>
           <Tooltip title="Add Node" placement="bottom">
-            <Fab variant="extended" size="small" aria-label="add node address">
+            <Fab variant="extended" size="small" aria-label="add node address" onClick={(): void  => addMember()}>
               <AddIcon/>
             </Fab>
           </Tooltip>
@@ -118,7 +151,7 @@ const ClusterListView: React.FC<ClusterListViewProps> = (props: ClusterListViewP
       </Grid>
       <SimpleSnackBar message={snackBarMessage} open={openSnackBar} setOpen={setOpenSnackBar}/>
       <ConfirmationDialog title={confDialogTitle} content={confDialogContent} open={openConfDialog} 
-        setOpen={setOpenConfDialog} handleAgree={handleMemberLeaveConfirm} data={confDialogData}
+        setOpen={setOpenConfDialog} handleAgree={handleMemberConfirm} data={confDialogData}
       />
     </React.Fragment>
   );
