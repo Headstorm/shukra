@@ -64,8 +64,6 @@ const ClusterListView: React.FC<ClusterListViewProps> = (props: ClusterListViewP
         setSnackBarMessage(error.message && error.message.message ? error.message.message : error.message);
         setOpenSnackBar(true);
       })
-
-
   }
 
   const handleMemberConfirm = ({ member, mode }: { member: string; mode: string }): void => {

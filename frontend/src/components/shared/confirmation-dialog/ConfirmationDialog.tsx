@@ -24,8 +24,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props: Confirmati
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(): void => props.setOpen(false)}>No</Button>
-          <Button onClick={(): void => props.handleAgree(props.data)} autoFocus>Yes</Button>
+          <Button onClick={(): void => props.setOpen(false)} autoFocus>No</Button>
+          <Button onClick={(): void => props.handleAgree(props.data)}>Yes</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
