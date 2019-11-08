@@ -53,7 +53,8 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (props: ClusterGraphVi
       },
       font: {
         color: styles.primaryColor
-      }
+      },
+      shadow: false
     },
     edges: {
       color: {
@@ -84,7 +85,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (props: ClusterGraphVi
           hover:{border:styles.primaryColor,background:styles.secondaryColorLighter}}}],
         edges: []
       };
-  
+      
       if (!clusterData || !clusterData.members) {
         return graph;
       }
@@ -125,7 +126,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (props: ClusterGraphVi
         graph.nodes.push(memberConfig);
         graph.edges.push({ from: 0, to: index + 1 })
       });
-
+      
       setGraphData(graph);
     };
 
