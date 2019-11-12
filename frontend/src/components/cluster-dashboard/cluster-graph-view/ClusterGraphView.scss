@@ -14,6 +14,7 @@
 
   & .shukra-visual-wrapper {
     height: calc(100vh - 140px);
+    position: relative;
 
     & .vis-network {
       outline: none;
@@ -131,6 +132,41 @@
           &.oldest {
             color: $oldest-node-color;
           }
+        }
+      }
+    }
+
+    & .legend-wrapper {
+      position: absolute;
+      top: $single-spacing;
+      right: $double-spacing;
+
+      & .legend-content {
+        height: 25px;
+        padding: 0px $single-spacing;
+
+        & .legend-icon {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          margin-right: $single-spacing;
+          vertical-align: middle;
+
+          &.oldest {
+            border: 2px dashed $oldest-node-color;
+          }
+
+          &.leader {
+            border: 1px solid transparent;
+            box-shadow: 0px 0px 6px 1px $leader-node-color;
+          }
+        }
+
+        & .legend-text {
+          font-style: italic;
+          font-size: $text-size-xs;
+          position: relative;
+          top: 1px;
         }
       }
     }

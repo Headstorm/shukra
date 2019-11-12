@@ -81,6 +81,12 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
     interaction: {
       hover: true,
       navigationButtons: true
+    },
+    physics: {
+      barnesHut: {
+        avoidOverlap: 0.2
+      },
+      minVelocity: 0.75
     }
   };
 
@@ -141,13 +147,13 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
         const memberTitle = (
           <React.Fragment>
             <div>
-              <span className="font-bold di-inline-blk">node : </span>
+              <span className="font-bold disp-inline-blk">node : </span>
               <span
                 className={
-                  "status di-inline-blk " + member.status.toLowerCase()
+                  "status disp-inline-blk " + member.status.toLowerCase()
                 }
               ></span>
-              <span className="di-inline-blk">{member.node}</span>
+              <span className="disp-inline-blk">{member.node}</span>
             </div>
             <div>
               <span className="font-bold">nodeUid : </span>
@@ -163,10 +169,10 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
             </div>
             <div>
               {member.node === clusterData.oldest && (
-                <span className="type oldest di-inline-blk">Oldest</span>
+                <span className="type oldest disp-inline-blk">Oldest</span>
               )}
               {member.node === clusterData.leader && (
-                <span className="type leader di-inline-blk">Leader</span>
+                <span className="type leader disp-inline-blk">Leader</span>
               )}
             </div>
           </React.Fragment>
@@ -206,6 +212,16 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
         <div className="shukra-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="shukra-visual-wrapper">
           <Graph graph={graphData} options={options} events={{}} />
+          <div className="legend-wrapper">
+            <div className="legend-content">
+              <span className="legend-icon disp-inline-blk leader"></span>
+              <span className="legend-text disp-inline-blk">Oldest Node</span>
+            </div>
+            <div className="legend-content">
+              <span className="legend-icon disp-inline-blk oldest"></span>
+              <span className="legend-text disp-inline-blk">Leader Node</span>
+            </div>
+          </div>
         </div>
       </Grid>
     </React.Fragment>
