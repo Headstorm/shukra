@@ -1,5 +1,5 @@
-@import './../../../assets/styles/variables.scss';
-@import './../../../assets/styles/common.scss';
+@import "./../../../assets/styles/variables.scss";
+@import "./../../../assets/styles/common.scss";
 
 .shukra-right-container {
   & .shukra-visual-title {
@@ -17,9 +17,66 @@
 
     & .vis-network {
       outline: none;
-      & .affa {
-        font-size: 40px;
+
+      & div.vis-navigation div.vis-button.vis-up,
+      div.vis-navigation div.vis-button.vis-down,
+      div.vis-navigation div.vis-button.vis-left,
+      div.vis-navigation div.vis-button.vis-right,
+      div.vis-navigation div.vis-button.vis-zoomIn,
+      div.vis-navigation div.vis-button.vis-zoomOut,
+      div.vis-navigation div.vis-button.vis-zoomExtends {
+        background-image: none !important;
+        padding: 0px $single-spacing;
       }
+
+      & div.vis-navigation div.vis-button:hover {
+        box-shadow: none !important;
+      }
+
+      & .vis-button:after {
+        font-size: $text-size-md;
+        color: $secondary-color;
+      }
+
+      & .vis-button:hover:after {
+        font-size: $text-size-md;
+        color: $primary-color;
+      }
+
+      & .vis-button.vis-up:after {
+        content: "▲";
+      }
+
+      & .vis-button.vis-down:after {
+        content: "▼";
+      }
+
+      & .vis-button.vis-left:after {
+        content: "◀";
+      }
+
+      & .vis-button.vis-right:after {
+        content: "▶";
+      }
+
+      & .vis-button.vis-zoomIn:after {
+        content: "+";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
+      & .vis-button.vis-zoomOut:after {
+        content: "−";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
+      & .vis-button.vis-zoomExtends:after {
+        content: "⤧";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
       & .vis-tooltip {
         position: absolute;
         background-color: $primary-color;
@@ -50,7 +107,7 @@
           }
 
           &.joining {
-            background-color: $status-joining-color
+            background-color: $status-joining-color;
           }
 
           &.leaving {

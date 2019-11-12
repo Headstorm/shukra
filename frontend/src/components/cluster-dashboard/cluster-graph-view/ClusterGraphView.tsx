@@ -141,7 +141,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
         const memberTitle = (
           <React.Fragment>
             <div>
-              <span className="fo-we-bo di-inline-blk">node : </span>
+              <span className="font-bold di-inline-blk">node : </span>
               <span
                 className={
                   "status di-inline-blk " + member.status.toLowerCase()
@@ -150,15 +150,15 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
               <span className="di-inline-blk">{member.node}</span>
             </div>
             <div>
-              <span className="fo-we-bo">nodeUid : </span>
+              <span className="font-bold">nodeUid : </span>
               <span>{member.nodeUid}</span>
             </div>
             <div>
-              <span className="fo-we-bo">status : </span>
+              <span className="font-bold">status : </span>
               <span>{member.status.toLowerCase()}</span>
             </div>
             <div>
-              <span className="fo-we-bo">roles : </span>
+              <span className="font-bold">roles : </span>
               <span>{member.roles.join(", ")}</span>
             </div>
             <div>
