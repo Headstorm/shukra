@@ -27,9 +27,9 @@ libraryDependencies ++= Seq (
   "com.lightbend.akka.management" %% "akka-management-cluster-http" % "1.0.3"
 )
 
-import com.typesafe.sbt.packager.docker.DockerPlugin
+import com.typesafe.sbt.packager.docker._
 
-enablePlugins(DockerPlugin)
+enablePlugins(com.typesafe.sbt.packager.docker.DockerPlugin)
 version in Docker := "latest"
 dockerExposedPorts in Docker := Seq(1600)
 packageName in Docker := "headstorm/shukra"
