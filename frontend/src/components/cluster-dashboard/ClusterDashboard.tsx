@@ -50,11 +50,7 @@ const ClusterDashboard: React.FC = () => {
           refreshClusterData={loadClusterData}
         />
         <Grid item xs={9} className="shukra-right-container"></Grid>
-        <SimpleSnackBar
-          message={snackBarMessage}
-          open={openSnackBar}
-          setOpen={setOpenSnackBar}
-        />
+        <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       </Grid>
     </React.Fragment>
   );

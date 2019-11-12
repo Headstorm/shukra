@@ -121,93 +121,89 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
             defaultCollapseIcon={<ArrowDropDownIcon />}
             defaultExpandIcon={<ArrowRightIcon />}
           >
-            {clusterData && clusterData.members
-              ? clusterData.members.map((member, index) => {
-                  return (
-                    <TreeItem
-                      key={index}
-                      nodeId={String(index)}
-                      label={
-                        <div className="member-header">
-                          <span className="disp-inline-blk">
-                            <FiberManualRecordIcon
-                              className={`member-status ${member.status.toLowerCase()}`}
-                            />
+            {clusterData &&
+              clusterData.members &&
+              clusterData.members.map((member, index) => {
+                return (
+                  <TreeItem
+                    key={member.nodeUid}
+                    nodeId={String(index)}
+                    label={
+                      <div className="member-header">
+                        <span className="disp-inline-blk">
+                          <FiberManualRecordIcon
+                            className={`member-status ${member.status.toLowerCase()}`}
+                          />
+                        </span>
+                        <Tooltip title={member.node} placement="bottom">
+                          <span className="member-name disp-inline-blk">
+                            {member.node.split("://")[1]}
                           </span>
-                          <Tooltip title={member.node} placement="bottom">
-                            <span className="member-name disp-inline-blk">
-                              {member.node.split("://")[1]}
+                        </Tooltip>
+                        {member.node === clusterData.leader && (
+                          <Tooltip title="Leader Node" placement="bottom">
+                            <span className="member-type disp-inline-blk leader">
+                              L
                             </span>
                           </Tooltip>
-                          {member.node === clusterData.leader ? (
-                            <Tooltip title="Leader Node" placement="bottom">
-                              <span className="member-type disp-inline-blk leader">
-                                L
-                              </span>
-                            </Tooltip>
-                          ) : (
-                            ""
-                          )}
-                          {member.node === clusterData.oldest ? (
-                            <Tooltip title="Oldest Node" placement="bottom">
-                              <span className="member-type disp-inline-blk oldest">
-                                O
-                              </span>
-                            </Tooltip>
-                          ) : (
-                            ""
-                          )}
+                        )}
+                        {member.node === clusterData.oldest && (
+                          <Tooltip title="Oldest Node" placement="bottom">
+                            <span className="member-type disp-inline-blk oldest">
+                              O
+                            </span>
+                          </Tooltip>
+                        )}
+                      </div>
+                    }
+                  >
+                    <TreeItem
+                      nodeId={`${index}child`}
+                      label={
+                        <div className="member-details">
+                          <div>
+                            <span className="font-bold">node : </span>
+                            <span>{member.node}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">nodeUid : </span>
+                            <span>{member.nodeUid}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">status : </span>
+                            <span>{member.status.toLowerCase()}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">roles : </span>
+                            <span>{member.roles.join(",")}</span>
+                          </div>
+                          <div className="member-actions">
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={(): void =>
+                                handleMember(member.node, "Leave")
+                              }
+                            >
+                              LEAVE
+                            </Button>
+                            <Button
+                              className="themed"
+                              variant="contained"
+                              size="small"
+                              onClick={(): void =>
+                                handleMember(member.node, "Down")
+                              }
+                            >
+                              SHUTDOWN
+                            </Button>
+                          </div>
                         </div>
                       }
-                    >
-                      <TreeItem
-                        nodeId={`${index}child`}
-                        label={
-                          <div className="member-details">
-                            <div>
-                              <span className="font-bold">node : </span>
-                              <span>{member.node}</span>
-                            </div>
-                            <div>
-                              <span className="font-bold">nodeUid : </span>
-                              <span>{member.nodeUid}</span>
-                            </div>
-                            <div>
-                              <span className="font-bold">status : </span>
-                              <span>{member.status.toLowerCase()}</span>
-                            </div>
-                            <div>
-                              <span className="font-bold">roles : </span>
-                              <span>{member.roles.join(",")}</span>
-                            </div>
-                            <div className="member-actions">
-                              <Button
-                                variant="contained"
-                                size="small"
-                                onClick={(): void =>
-                                  handleMember(member.node, "Leave")
-                                }
-                              >
-                                LEAVE
-                              </Button>
-                              <Button
-                                className="themed"
-                                variant="contained"
-                                size="small"
-                                onClick={(): void =>
-                                  handleMember(member.node, "Down")
-                                }
-                              >
-                                SHUTDOWN
-                              </Button>
-                            </div>
-                          </div>
-                        }
-                      />
-                    </TreeItem>
-                  );
-                })
-              : ""}
+                    />
+                  </TreeItem>
+                );
+              })}
           </TreeView>
         </div>
         <div className="add-member-container">
@@ -234,11 +230,7 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
           </Tooltip>
         </div>
       </Grid>
-      <SimpleSnackBar
-        message={snackBarMessage}
-        open={openSnackBar}
-        setOpen={setOpenSnackBar}
-      />
+      <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       <ConfirmationDialog
         title={confDialogTitle}
         content={confDialogContent}
