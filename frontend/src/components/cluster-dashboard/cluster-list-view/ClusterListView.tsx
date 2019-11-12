@@ -68,7 +68,7 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
           props.refreshClusterData();
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
         setSnackBarMessage(
           error.message && error.message.message
@@ -100,7 +100,7 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
           props.refreshClusterData();
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
         setSnackBarMessage(
           error.message && error.message.message
@@ -113,7 +113,8 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
 
   return (
     <React.Fragment>
-      <Grid item xs={3} className="shukra-left-container pos-rel">
+      <Grid item xs={3}
+        className="shukra-left-container pos-rel">
         <div className="member-list-container">
           <div className="member-list-container-title">CLUSTER NODES</div>
           <TreeView

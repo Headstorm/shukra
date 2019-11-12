@@ -208,10 +208,12 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
 
   return (
     <React.Fragment>
-      <Grid item xs={9} className="shukra-right-container">
+      <Grid item xs={9}
+        className="shukra-right-container">
         <div className="shukra-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="shukra-visual-wrapper">
-          <Graph graph={graphData} options={options} events={{}} />
+          <Graph graph={graphData} options={options}
+            events={{}} />
           <div className="legend-wrapper">
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk leader"></span>

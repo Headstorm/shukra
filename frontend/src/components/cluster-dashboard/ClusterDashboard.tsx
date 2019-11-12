@@ -28,7 +28,7 @@ const ClusterDashboard: React.FC = () => {
             setCluster(clusterData);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           setSnackBarMessage(
             error.message && error.message.message
@@ -45,13 +45,16 @@ const ClusterDashboard: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Grid container md item direction="row" className="shukra-body">
+      <Grid container md
+        item direction="row"
+        className="shukra-body">
         <ClusterListView
           clusterData={cluster}
           refreshClusterData={loadClusterData}
         />
         <ClusterGraphView clusterData={cluster} />
-        <Grid item xs={9} className="shukra-right-container"></Grid>
+        <Grid item xs={9}
+          className="shukra-right-container"></Grid>
         <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       </Grid>
     </React.Fragment>
