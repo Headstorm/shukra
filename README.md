@@ -2,7 +2,7 @@
 
 # Shukra #
 
-Akka actor visualization and management tool for local and distributed actor systems
+Shukra is a visualization and management tool for Akka clusters, actors, and actor systems.
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 http APIs
