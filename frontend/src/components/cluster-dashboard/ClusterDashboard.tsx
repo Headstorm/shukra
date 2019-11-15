@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction, Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
@@ -44,20 +44,19 @@ const ClusterDashboard: React.FC = () => {
   useEffect(loadClusterData, []);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Grid container md
-        item direction="row"
-        className="shukra-body">
+        item
+        direction="row"
+        className="home-body">
         <ClusterListView
           clusterData={cluster}
           refreshClusterData={loadClusterData}
         />
         <ClusterGraphView clusterData={cluster} />
-        <Grid item xs={9}
-          className="shukra-right-container"></Grid>
         <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

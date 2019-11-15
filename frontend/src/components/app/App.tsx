@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Toolbar, AppBar, Grid, CssBaseline, Typography, Button, Divider } from '@material-ui/core';
 import { BrowserRouter as Router, Link, LinkProps } from "react-router-dom";
 
@@ -13,37 +13,47 @@ const App: React.FC = () => {
   RouteLink.displayName = "";
 
   return (
-    <React.Fragment>
+    <Fragment>
       <CssBaseline />
-      <div className="shukra-container">
+      <div className="app-container">
         <Router>
-          <Grid container direction="column" justify="flex-start" alignItems="stretch">
-            <Grid item md className="shukra-header">
+          <Grid container direction="column"
+            justify="flex-start" alignItems="stretch">
+            <Grid item md
+              className="app-header">
               <AppBar position="static">
                 <Toolbar>
-                  <a className="logo" href="/home"><img className="vert-align-middle" src="logo.jpg" alt="Shukra logo"></img></a>
-                  <Typography className="heading" variant="h5" noWrap>
+                  <a className="logo" href="/home">
+                    <img className="vert-align-middle" src="logo.jpg"
+                      alt="Shukra logo"></img>
+                  </a>
+                  <Typography className="heading" variant="h5"
+                    noWrap>
                     SHUKRA
                   </Typography>
                   <Divider orientation="vertical" />
                   <div className="nav-button-group">
-                    <Button color="default" component={RouteLink} to="/home">Home</Button>
+                    <Button color="default" component={RouteLink}
+                      to="/home">Home</Button>
                   </div>
                 </Toolbar>
               </AppBar>
             </Grid>
             <AppRouting></AppRouting>
-            <Grid item md className="shukra-footer">
+            <Grid item md
+              className="app-footer">
               <AppBar position="fixed">
                 <Toolbar>
-                  <div className="brand">Powered By <a href="https://www.headstorm.com">HEADSTORM, LLC.</a></div>
+                  <div className="brand">Powered By
+                    <a href="https://www.headstorm.com">HEADSTORM, LLC.</a>
+                  </div>
                 </Toolbar>
               </AppBar>
             </Grid>
           </Grid>
         </Router>
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

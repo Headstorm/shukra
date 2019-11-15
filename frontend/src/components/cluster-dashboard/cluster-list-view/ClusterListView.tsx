@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Grid, Button, Tooltip, TextField, Fab } from "@material-ui/core";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
@@ -112,9 +112,9 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Grid item xs={3}
-        className="shukra-left-container pos-rel">
+        className="home-left-container pos-rel">
         <div className="member-list-container">
           <div className="member-list-container-title">CLUSTER NODES</div>
           <TreeView
@@ -240,7 +240,7 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
         handleAgree={handleMemberConfirm}
         data={confDialogData}
       />
-    </React.Fragment>
+    </Fragment>
   );
 };
 

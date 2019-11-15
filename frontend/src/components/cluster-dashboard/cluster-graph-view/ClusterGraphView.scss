@@ -1,8 +1,8 @@
 @import "./../../../assets/styles/variables.scss";
 @import "./../../../assets/styles/common.scss";
 
-.shukra-right-container {
-  & .shukra-visual-title {
+.home-right-container {
+  & .home-visual-title {
     text-transform: uppercase;
     color: $primary-color;
     height: 40px;
@@ -12,25 +12,25 @@
     text-align: center;
   }
 
-  & .shukra-visual-wrapper {
+  & .home-visual-wrapper {
     height: calc(100vh - 140px);
     position: relative;
 
     & .vis-network {
       outline: none;
 
-      & div.vis-navigation div.vis-button.vis-up,
-      div.vis-navigation div.vis-button.vis-down,
-      div.vis-navigation div.vis-button.vis-left,
-      div.vis-navigation div.vis-button.vis-right,
-      div.vis-navigation div.vis-button.vis-zoomIn,
-      div.vis-navigation div.vis-button.vis-zoomOut,
-      div.vis-navigation div.vis-button.vis-zoomExtends {
+      & .vis-navigation .vis-button.vis-up,
+      .vis-navigation .vis-button.vis-down,
+      .vis-navigation .vis-button.vis-left,
+      .vis-navigation .vis-button.vis-right,
+      .vis-navigation .vis-button.vis-zoomIn,
+      .vis-navigation .vis-button.vis-zoomOut,
+      .vis-navigation .vis-button.vis-zoomExtends {
         background-image: none !important;
         padding: 0px $single-spacing;
       }
 
-      & div.vis-navigation div.vis-button:hover {
+      & .vis-navigation .vis-button:hover {
         box-shadow: none !important;
       }
 
@@ -89,50 +89,6 @@
         text-align: left;
         box-shadow: 1px 1px 4px 1px $secondary-color;
         border: 1px solid $primary-color;
-
-        & .status {
-          border-radius: 50%;
-          border: 1px solid transparent;
-          width: 10px;
-          height: 10px;
-          margin: 0px 4px;
-          position: relative;
-          top: 1px;
-
-          &.up {
-            background-color: $status-up-color;
-          }
-
-          &.down {
-            background-color: $status-down-color;
-          }
-
-          &.joining {
-            background-color: $status-joining-color;
-          }
-
-          &.leaving {
-            background-color: $status-leaving-color;
-          }
-
-          &.exiting {
-            background-color: $status-exiting-color;
-          }
-        }
-
-        & .type {
-          margin-right: 8px;
-          font-weight: bold;
-          font-style: italic;
-
-          &.leader {
-            color: $leader-node-color;
-          }
-
-          &.oldest {
-            color: $oldest-node-color;
-          }
-        }
       }
     }
 

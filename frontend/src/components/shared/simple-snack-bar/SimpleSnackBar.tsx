@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 import "./SimpleSnackBar.scss";
@@ -17,7 +17,7 @@ const SimpleSnackBar: React.FC<SimpleSnackBarProps> = (
   useEffect(() => setOpen(props.open), [props.open]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={open}
@@ -35,7 +35,7 @@ const SimpleSnackBar: React.FC<SimpleSnackBarProps> = (
           </IconButton>
         ]}
       />
-    </React.Fragment>
+    </Fragment>
   );
 };
 

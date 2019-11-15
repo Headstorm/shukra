@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Grid } from "@material-ui/core";
 import Graph from "react-graph-vis";
@@ -7,6 +7,7 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
 import { Cluster } from "../Cluster.model";
+import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
 
 type ClusterGraphViewProps = {
   clusterData: Cluster;
@@ -16,33 +17,27 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
   props: ClusterGraphViewProps
 ) => {
   const clusterSvg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">' +
-    '<foreignObject x="8.5" y="17" width="100%" height="100%">' +
-    '<div xmlns="http://www.w3.org/1999/xhtml" ' +
-    "style=\"font-size:10px; font-family:'Segoe UI'; font-weight:bold; font-style:italic\">" +
-    '<span style="color:' +
-    styles.primaryColor +
-    '">' +
-    " Cluster</span>" +
-    "</div>" +
-    "</foreignObject>" +
-    "</svg>";
+    `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+      <foreignObject x="8.5" y="17" width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml"  
+          style="font-size:10px; font-family:'Segoe UI'; font-weight:bold; font-style:italic">
+          <span style="color:${styles.primaryColor}">Cluster</span>
+        </div>
+      </foreignObject>
+    </svg>`;
   const clusterUrl =
-    "data:image/svg+xml;charset=utf-8," + encodeURIComponent(clusterSvg);
+    `data:image/svg+xml;charset=utf-8,${encodeURIComponent(clusterSvg)}`;
   const nodeSvg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">' +
-    '<foreignObject x="10" y="15" width="100%" height="100%">' +
-    '<div xmlns="http://www.w3.org/1999/xhtml" ' +
-    "style=\"font-size:12px; font-family:'Segoe UI'; font-weight:bold;  font-style:italic\">" +
-    '<span style="color:' +
-    styles.secondaryThemeColor +
-    '">' +
-    " Node</span>" +
-    "</div>" +
-    "</foreignObject>" +
-    "</svg>";
+    `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+      <foreignObject x="10" y="15" width="100%" height="100%"> 
+        <div xmlns="http://www.w3.org/1999/xhtml" 
+          style="font-size:12px; font-family:'Segoe UI'; font-weight:bold;  font-style:italic">
+          <span style="color:${styles.secondaryThemeColor}">Node</span>
+        </div>
+      </foreignObject>
+    </svg>`;
   const nodeUrl =
-    "data:image/svg+xml;charset=utf-8," + encodeURIComponent(nodeSvg);
+    `data:image/svg+xml;charset=utf-8,${encodeURIComponent(nodeSvg)}`;
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
 
   const options = {
@@ -144,49 +139,18 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
       }
 
       clusterData.members.forEach((member, index) => {
-        const memberTitle = (
-          <React.Fragment>
-            <div>
-              <span className="font-bold disp-inline-blk">node : </span>
-              <span
-                className={
-                  "status disp-inline-blk " + member.status.toLowerCase()
-                }
-              ></span>
-              <span className="disp-inline-blk">{member.node}</span>
-            </div>
-            <div>
-              <span className="font-bold">nodeUid : </span>
-              <span>{member.nodeUid}</span>
-            </div>
-            <div>
-              <span className="font-bold">status : </span>
-              <span>{member.status.toLowerCase()}</span>
-            </div>
-            <div>
-              <span className="font-bold">roles : </span>
-              <span>{member.roles.join(", ")}</span>
-            </div>
-            <div>
-              {member.node === clusterData.oldest && (
-                <span className="type oldest disp-inline-blk">Oldest</span>
-              )}
-              {member.node === clusterData.leader && (
-                <span className="type leader disp-inline-blk">Leader</span>
-              )}
-            </div>
-          </React.Fragment>
-        );
+        const memberTitle = <GraphNodeTooltip member={member} clusterData={clusterData} />;
 
         const memberConfig = {
           id: index + 1,
-          label: "<b>o </b>" + member.node.split("://")[1],
+          label: `<b>o </b>${member.node.split("://")[1]}`,
           image: nodeUrl,
           title: ReactDOMServer.renderToString(memberTitle),
           font: {
             bold: {
               color: styles[`status${member.status}Color`],
-              size: 16
+              size: 16,
+              vadjust: -0.5
             },
             multi: true
           },
@@ -207,11 +171,11 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
   useEffect(loadGraphData, [props.clusterData]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Grid item xs={9}
-        className="shukra-right-container">
-        <div className="shukra-visual-title">CLUSTER VISUAL VIEW</div>
-        <div className="shukra-visual-wrapper">
+        className="home-right-container">
+        <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
+        <div className="home-visual-wrapper">
           <Graph graph={graphData} options={options}
             events={{}} />
           <div className="legend-wrapper">
@@ -226,7 +190,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
           </div>
         </div>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
