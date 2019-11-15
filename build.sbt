@@ -1,7 +1,7 @@
 name := "shukra"
 
 /* scala versions and options */
-scalaVersion := "2.12.7"
+scalaVersion := "2.13.1"
 
 // These options will be used for *all* versions.
 scalacOptions ++= Seq(
@@ -11,7 +11,8 @@ scalacOptions ++= Seq(
   "-Xlint",
 )
 
-val akka = "2.5.25"
+val akka = "2.6.0"
+val akkaMngt = "1.0.3"
 
 /* dependencies */
 libraryDependencies ++= Seq (
@@ -21,10 +22,14 @@ libraryDependencies ++= Seq (
   "com.typesafe.akka" %% "akka-actor-typed" % akka,
   "com.typesafe.akka" %% "akka-slf4j"   % akka,
   "com.typesafe.akka" %% "akka-cluster-typed" % akka,
+  "com.typesafe.akka" %% "akka-discovery" % akka,
+  "com.typesafe.akka" %% "akka-persistence" % akka,
+  "com.typesafe.akka" %% "akka-cluster-sharding" % akka,
+  "com.typesafe.akka" %% "akka-protobuf" % akka,
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % akka % "test",
   // -- Akka Management --
-  "com.lightbend.akka.management" %% "akka-management" % "1.0.3",
-  "com.lightbend.akka.management" %% "akka-management-cluster-http" % "1.0.3"
+  "com.lightbend.akka.management" %% "akka-management" % akkaMngt,
+  "com.lightbend.akka.management" %% "akka-management-cluster-http" % akkaMngt
 )
 
 import com.typesafe.sbt.packager.docker._
