@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction, Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import "./ClusterDashboard.scss";
 import ClusterListView from "./cluster-list-view/ClusterListView";
 import { Cluster } from "./Cluster.model";
 import SimpleSnackBar from "../shared/simple-snack-bar/SimpleSnackBar";
+import ClusterGraphView from "./cluster-graph-view/ClusterGraphView";
 
 const ClusterDashboard: React.FC = () => {
   const [cluster, setCluster]: [
@@ -27,7 +28,7 @@ const ClusterDashboard: React.FC = () => {
             setCluster(clusterData);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           setSnackBarMessage(
             error.message && error.message.message
@@ -43,16 +44,19 @@ const ClusterDashboard: React.FC = () => {
   useEffect(loadClusterData, []);
 
   return (
-    <React.Fragment>
-      <Grid container md item direction="row" className="shukra-body">
+    <Fragment>
+      <Grid container md
+        item
+        direction="row"
+        className="home-body">
         <ClusterListView
           clusterData={cluster}
           refreshClusterData={loadClusterData}
         />
-        <Grid item xs={9} className="shukra-right-container"></Grid>
+        <ClusterGraphView clusterData={cluster} />
         <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

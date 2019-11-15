@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -23,7 +23,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
   props: ConfirmationDialogProps
 ) => {
   return (
-    <React.Fragment>
+    <Fragment>
       <Dialog open={props.open} onClose={(): void => props.setOpen(false)}>
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
@@ -38,7 +38,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

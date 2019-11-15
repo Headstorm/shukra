@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ClusterDashboard from '../cluster-dashboard/ClusterDashboard';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ function RouteWithSubRoutes(route: RouteType): JSX.Element {
   return (
     <Route
       path={route.path}
-      render={ props => (  //eslint-disable-line @typescript-eslint/explicit-function-return-type
+      render={props => (  //eslint-disable-line @typescript-eslint/explicit-function-return-type
         // pass the sub-routes down to keep nesting
         <route.component {...props} routes={route.routes} />
       )}
@@ -26,7 +26,7 @@ function RouteWithSubRoutes(route: RouteType): JSX.Element {
 
 const AppRouting: React.FC = () => {
 
-  const RedirectComponent = (): JSX.Element => <Redirect to="/home"/>
+  const RedirectComponent = (): JSX.Element => <Redirect to="/home" />
   RedirectComponent.displayName = "RedirectToHomeComponent"
 
   const routes: RouteType[] = [
@@ -46,7 +46,7 @@ const AppRouting: React.FC = () => {
   ];
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Switch>
         {
           routes.map((route, i) => (
@@ -54,7 +54,7 @@ const AppRouting: React.FC = () => {
           ))
         }
       </Switch>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

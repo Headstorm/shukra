@@ -1,0 +1,17 @@
+@import './../../../assets/styles/variables.scss';
+
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  secondaryColorLighter: $secondary-color-lighter;
+  primaryThemeColor: $primary-theme-color;
+  primaryThemeColorLighter: $primary-theme-color-lighter;
+  secondaryThemeColor: $secondary-theme-color;
+  leaderNodeColor: $leader-node-color;
+  oldestNodeColor: $oldest-node-color;
+  statusDownColor: $status-down-color;
+  statusUpColor: $status-up-color;
+  statusJoiningColor: $status-joining-color;
+  statusLeavingColor: $status-leaving-color;
+  statusExitingColor: $status-exiting-color;
+}

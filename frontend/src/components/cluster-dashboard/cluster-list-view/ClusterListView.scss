@@ -1,7 +1,7 @@
 @import './../../../assets/styles/variables.scss';
 @import './../../../assets/styles/common.scss';
 
-.shukra-left-container {
+.home-left-container {
   border-right: 1px solid $border-color;
   height: calc(100vh - 100px);
 
@@ -12,7 +12,7 @@
     border-bottom: 1px solid $border-color;
 
     & .member-list-container-title {
-      text-transform: capitalize;
+      text-transform: uppercase;
       color: $primary-color;
       background-color: $secondary-color;
       height: 40px;

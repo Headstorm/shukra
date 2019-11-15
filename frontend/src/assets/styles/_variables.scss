@@ -1,8 +1,10 @@
 $primary-theme-color: #E75B27;
+$primary-theme-color-lighter: lighten($primary-theme-color, 15%);
 $secondary-theme-color: #FFFFFF;
 
 $primary-color: #4A4A4A;
 $secondary-color: #D9D9D9;
+$secondary-color-lighter: lighten($secondary-color, 5%);
 
 $border-color: $secondary-color;
 
@@ -31,4 +33,3 @@ $footer-height: 30px;
 // Spacing
 $single-spacing: 8px;
 $double-spacing: 16px;
-
