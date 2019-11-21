@@ -8,7 +8,6 @@ Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/curr
 http APIs
 
 <br>
-<br>
 
 ## How to Run ##
 Using SBT, run `docker:publishLocal` command to locally publish the docker image. To start the cluster, run `docker-compose up` command.
