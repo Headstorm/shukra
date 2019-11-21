@@ -1,4 +1,4 @@
-<img align="left" width="150" height="200" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Shukra_graha.JPG">
+<img align="left" width="150" height="200" src="https://ibb.co/g3GWFBp">
 
 # Shukra #
 
