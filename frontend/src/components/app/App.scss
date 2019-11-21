@@ -5,41 +5,41 @@
   flex-grow: 1;
   height: 100vh;
 
-  & > .MuiGrid-container {
+  > .MuiGrid-container {
     min-height: 100%;
   }
 
-  & .app-header {
+  .app-header {
     min-height: $header-height;
     max-height: $header-height;
     margin-bottom: $single-spacing;
     width: 100%;
     
-    & .MuiAppBar-root {
+    .MuiAppBar-root {
       color: $secondary-theme-color;
       background-color: $primary-theme-color;
     }
 
-    & .MuiToolbar-root {
+    .MuiToolbar-root {
       height: $header-height;
       min-height: $header-height;
 
-      & .logo {
+      .logo {
         margin-right: $double-spacing;
 
-        & img {
+        img {
           height: 35px;
           width: 35px;
             box-shadow: 2px 2px 10px 0px $primary-color;
         }
       }
 
-      & .heading {
+      .heading {
         font-weight: bold;
         letter-spacing: 3px;
       }
 
-      & .MuiDivider-root {
+      .MuiDivider-root {
         margin-left: $double-spacing;
         margin-right: $double-spacing;
         width: 1px;
@@ -47,35 +47,36 @@
         background-color: $secondary-theme-color;
       }
 
-      & .nav-button-group .MuiButton-label {
+      .nav-button-group .MuiButton-label {
         color: $secondary-theme-color;
       }
     }
   }
 
-  & .app-footer {
+  .app-footer {
     position: fixed;
     bottom: 0;
     min-height: $footer-height;
     width: 100%;
 
-    & .MuiAppBar-root {
+    .MuiAppBar-root {
       top: auto;
       bottom: 0;
       color: $secondary-theme-color;
       background-color: $primary-theme-color;
 
-      & .brand {
+      .brand {
         font-size: $text-size-xs;
 
-        & > a, a:hover, a:visited, a:active, a:focus {
+        > a, a:hover, a:visited, a:active, a:focus {
           color: $secondary-theme-color;
           text-decoration: none;
+          margin-left: 4px;
         }
       }
     }
     
-    & .MuiToolbar-root {
+    .MuiToolbar-root {
       height: $footer-height;
       min-height: $footer-height;
       justify-content: flex-end;

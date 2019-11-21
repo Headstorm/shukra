@@ -13,7 +13,7 @@
   height: $header-height;
   padding: $single-spacing 0px;
 
-  & .MuiTypography-root {
+  .MuiTypography-root {
     vertical-align: middle;
     font-size: $text-size-xs;
     color: $secondary-theme-color;
@@ -21,32 +21,32 @@
     font-weight: bold;
   }
 
-  & .refresh-slider-label {
+  .refresh-slider-label {
     font-size: $text-size-xs;
     color: $secondary-color;
   }
 
-  & .MuiSlider-root {
+  .MuiSlider-root {
     width: 100px;
     top: 8px;
     margin: 0px $single-spacing;
 
-    & .MuiSlider-mark {
+    .MuiSlider-mark {
       background-color: transparent;
     }
 
-    & .MuiSlider-rail {
+    .MuiSlider-rail {
       background-color: $secondary-color;
     }
 
-    & .MuiSlider-thumb { 
+    .MuiSlider-thumb { 
       background-color: $primary-color;
     }
 
-    & .MuiSlider-valueLabel {
+    .MuiSlider-valueLabel {
       top: -$double-spacing;
 
-      & * {
+      * {
         background-color: transparent;
         color: $secondary-theme-color;
       }

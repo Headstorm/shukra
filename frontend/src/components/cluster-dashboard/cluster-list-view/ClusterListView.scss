@@ -5,13 +5,13 @@
   border-right: 1px solid $border-color;
   height: calc(100vh - 100px);
 
-  & .member-list-container {
+  .member-list-container {
     width: 100%;
     max-width: 100%;
     height: calc(100% - 60px);
     border-bottom: 1px solid $border-color;
 
-    & .member-list-container-title {
+    .member-list-container-title {
       text-transform: uppercase;
       color: $primary-color;
       background-color: $secondary-color;
@@ -21,43 +21,43 @@
       font-weight: bold;
     }
 
-    & .member-tree-view {
+    .member-tree-view {
       max-height: calc(100% - 40px);
       overflow-x: hidden;
       height: 100%;
       overflow-y: auto;
 
-      & .MuiTreeItem-content {
+      .MuiTreeItem-content {
         cursor: default;
       }
       
-      & .MuiTreeItem-content:hover, .MuiTreeItem-content:active, .MuiTreeItem-content:focus {
+      .MuiTreeItem-content:hover, .MuiTreeItem-content:active, .MuiTreeItem-content:focus {
         background-color: transparent;
       }
 
-      & .MuiTreeItem-root:focus, .MuiTreeItem-root:active, .MuiTreeItem-root:hover {
-        & > .MuiTreeItem-content {
+      .MuiTreeItem-root:focus, .MuiTreeItem-root:active, .MuiTreeItem-root:hover {
+        > .MuiTreeItem-content {
           background-color: transparent;
         }
       }
       
-      & > .MuiTreeItem-root {
+      > .MuiTreeItem-root {
         border-bottom: 1px solid $border-color;
 
-        & > .MuiTreeItem-content {
+        > .MuiTreeItem-content {
           height: 30px;
           padding: $single-spacing 0px $single-spacing 0px;
           color: $primary-color;
           cursor: pointer;
 
-          & .MuiTreeItem-label {
+          .MuiTreeItem-label {
             width: calc(100% - 25px);
           }
 
-          & .member-header {
+          .member-header {
             position: relative;
 
-            & .member-status {
+            .member-status {
               width: $text-size-sm;
               height: $text-size-sm;
               font-size: $text-size-sm;
@@ -86,7 +86,7 @@
               }
             }
   
-            & .member-name {
+            .member-name {
               font-size: $text-size-sm;
               margin-left: 4px;
               white-space: nowrap;
@@ -96,7 +96,7 @@
               vertical-align: bottom;
             }
 
-            & .member-type {
+            .member-type {
               padding: 0px $single-spacing;
               font-weight: bold;
               float: right;
@@ -112,18 +112,18 @@
           }
         }
 
-        & > .MuiCollapse-container {
+        > .MuiCollapse-container {
           margin-left: 0px;
 
-          & .member-details {
+          .member-details {
             padding: 0px $single-spacing;
             font-size: $text-size-xs;
 
-            & .member-actions {
+            .member-actions {
               text-align: right;
               margin-bottom: $single-spacing;
 
-              & .MuiButton-containedSizeSmall {
+              .MuiButton-containedSizeSmall {
                 padding: 2px 5px;
                 font-size: $text-size-xs;
                 border-radius: 0px;
@@ -142,7 +142,7 @@
     }
   }
 
-  & .add-member-container {
+  .add-member-container {
     width: 100%;
     max-width: 100%;
     height: 60px;
@@ -151,11 +151,11 @@
     bottom: 0px;
     padding: $single-spacing;
 
-    & .MuiFormControl-fullWidth {
+    .MuiFormControl-fullWidth {
       width: 85%;
     }
 
-    & .MuiInputLabel-outlined.MuiInputLabel-marginDense {
+    .MuiInputLabel-outlined.MuiInputLabel-marginDense {
       transform: translate(14px, 12px) scale(1);
       font-size: $text-size-xs;
 
@@ -164,34 +164,34 @@
       }
     }
 
-    & .MuiOutlinedInput-root {
+    .MuiOutlinedInput-root {
       height: 35px;
     }
 
-    & .MuiOutlinedInput-inputMarginDense {
+    .MuiOutlinedInput-inputMarginDense {
       padding: 4px $single-spacing;
       font-size: $text-size-xs;
     }
 
-    & .MuiInputBase-root {
+    .MuiInputBase-root {
       color: $primary-color
     }
 
-    & fieldset {
+    fieldset {
       border: 1px solid $border-color;
     }
 
-    & .MuiOutlinedInput-root, .MuiOutlinedInput-root:hover, .MuiOutlinedInput-root:active, .MuiOutlinedInput-root:focus {
-      & .MuiOutlinedInput-notchedOutline {
+    .MuiOutlinedInput-root, .MuiOutlinedInput-root:hover, .MuiOutlinedInput-root:active, .MuiOutlinedInput-root:focus {
+      .MuiOutlinedInput-notchedOutline {
         border-color: $border-color !important;
       }
     }
 
-    & .MuiFormLabel-root, .MuiFormLabel-root.Mui-Focused {
+    .MuiFormLabel-root, .MuiFormLabel-root.Mui-Focused {
       color: $primary-color !important;
     }
 
-    & .MuiButtonBase-root {
+    .MuiButtonBase-root {
       margin-left: $single-spacing;
       margin-top: 7px;
       border-radius: 2px;

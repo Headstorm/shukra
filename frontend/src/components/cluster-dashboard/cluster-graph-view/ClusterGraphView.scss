@@ -12,14 +12,14 @@
     text-align: center;
   }
 
-  & .home-visual-wrapper {
+  .home-visual-wrapper {
     height: calc(100vh - 140px);
     position: relative;
 
-    & .vis-network {
+    .vis-network {
       outline: none;
 
-      & .vis-navigation .vis-button.vis-up,
+      .vis-navigation .vis-button.vis-up,
       .vis-navigation .vis-button.vis-down,
       .vis-navigation .vis-button.vis-left,
       .vis-navigation .vis-button.vis-right,
@@ -30,55 +30,55 @@
         padding: 0px $single-spacing;
       }
 
-      & .vis-navigation .vis-button:hover {
+      .vis-navigation .vis-button:hover {
         box-shadow: none !important;
       }
 
-      & .vis-button:after {
+      .vis-button:after {
         font-size: $text-size-md;
         color: $secondary-color;
       }
 
-      & .vis-button:hover:after {
+      .vis-button:hover:after {
         font-size: $text-size-md;
         color: $primary-color;
       }
 
-      & .vis-button.vis-up:after {
+      .vis-button.vis-up:after {
         content: "▲";
       }
 
-      & .vis-button.vis-down:after {
+      .vis-button.vis-down:after {
         content: "▼";
       }
 
-      & .vis-button.vis-left:after {
+      .vis-button.vis-left:after {
         content: "◀";
       }
 
-      & .vis-button.vis-right:after {
+      .vis-button.vis-right:after {
         content: "▶";
       }
 
-      & .vis-button.vis-zoomIn:after {
+      .vis-button.vis-zoomIn:after {
         content: "+";
         font-weight: bold;
         font-size: $text-size-xl;
       }
 
-      & .vis-button.vis-zoomOut:after {
+      .vis-button.vis-zoomOut:after {
         content: "−";
         font-weight: bold;
         font-size: $text-size-xl;
       }
 
-      & .vis-button.vis-zoomExtends:after {
+      .vis-button.vis-zoomExtends:after {
         content: "⤧";
         font-weight: bold;
         font-size: $text-size-xl;
       }
 
-      & .vis-tooltip {
+      .vis-tooltip {
         position: absolute;
         background-color: $primary-color;
         color: $secondary-color;
