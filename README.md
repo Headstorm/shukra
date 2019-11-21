@@ -1,4 +1,4 @@
-<img align="left" width="150" height="200" src="https://ibb.co/g3GWFBp">
+<img align="left" width="150" height="200" src="https://i.ibb.co/yXDkBb1/image-1.png">
 
 # Shukra #
 
