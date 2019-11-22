@@ -32,7 +32,7 @@ libraryDependencies ++= Seq (
   "com.lightbend.akka.management" %% "akka-management-cluster-http" % akkaMngt
 )
 
-import com.typesafe.sbt.packager.docker._
+import com.typesafe.sbt.packager.docker.DockerPlugin
 
 enablePlugins(com.typesafe.sbt.packager.docker.DockerPlugin)
 version in Docker := "latest"

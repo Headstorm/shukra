@@ -1,20 +1,20 @@
 @import './../../../assets/styles/variables.scss';
 
 .MuiDialog-container {
-  & .MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     color: $primary-theme-color;
   }
 
-  & .MuiDialogContent-root > .MuiTypography-root {
+  .MuiDialogContent-root > .MuiTypography-root {
     color: $primary-color;
   }
 
-  & .MuiDialogActions-root {
-    & > .MuiButton-root {
+  .MuiDialogActions-root {
+    > .MuiButton-root {
       color: $primary-color;
     }
 
-    & > .MuiButton-root:hover, .MuiButton-root:active, .MuiButton-root:focus {
+    > .MuiButton-root:hover, .MuiButton-root:active, .MuiButton-root:focus {
       background-color: $primary-theme-color;
       color: $secondary-theme-color;
     }
