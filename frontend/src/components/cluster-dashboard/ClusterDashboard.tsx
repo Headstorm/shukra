@@ -24,8 +24,7 @@ const ClusterDashboard: React.FC = () => {
     { value: 30 },
     { value: 60 }
   ];
-  const [firstLoad, setFirstLoad] = useState(false);
-  const [refreshVal, setRefreshVal] = useState(30);
+  const [refreshVal, setRefreshVal] = useState(0);
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [refInterval, setRefInterval]: [any, Dispatch<SetStateAction<any>>] = useState(null);
 
@@ -51,10 +50,6 @@ const ClusterDashboard: React.FC = () => {
         });
     };
     getClusterResponse();
-    if (!firstLoad) {
-      setFirstLoad(true);
-      setRefInterval(setInterval(loadClusterData, refreshVal * 1000));
-    }
   };
 
   const onRefreshIntervalChange = (event: React.ChangeEvent<{}>, value: number): void => {
@@ -81,7 +76,7 @@ const ClusterDashboard: React.FC = () => {
         </Typography>
         <span className="refresh-slider-label disp-inline-blk">OFF</span>
         <Slider
-          defaultValue={30}
+          defaultValue={0}
           valueLabelDisplay="auto"
           marks={refreshIntervals}
           min={refreshIntervals[0].value}
