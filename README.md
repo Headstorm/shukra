@@ -7,8 +7,6 @@ Akka actor visualization and management tool for local and distributed actor sys
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
 
-<br>
-<br>
 
 ## Start Developing Shukra
 
