@@ -1,14 +1,12 @@
-<img align="left" width="150" height="200" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Shukra_graha.JPG">
+![Image](frontend/public/logo.png)
 
 # Shukra #
 
-Akka actor visualization and management tool for local and distributed actor systems
+Akka actor visualization and management tool for local and distributed actor systems.
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
-http APIs
+HTTP APIs.
 
-<br>
-<br>
 
 ## Start Developing Shukra
 
@@ -16,32 +14,53 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Download and install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html) to spin up a sample akka cluster (Shukra Backend). 
+Download and install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html) to spin up a sample Akka cluster (Shukra Backend). 
 Download and install the latest version of [Node.js and NPM](https://nodejs.org/en/download/) to install and start the Shukra UI.
 
-### Installing
+### Installation
 
-Back end:
+#### Back end:
 
-Use the command below to start a sample akka docker cluster.
-
+Use the command below to start a sample Akka Docker cluster.
 ```
 vagrant up
 ```
 
 This will create 3 nodes, a seed and two regular nodes, called seed, c1, and c2 respectively (unless changed in ```docker-compose.yml```). While running, try opening a new terminal and try things like ```docker-compose stop seed``` and watch the cluster nodes respond.
 
-This also starts [Akka Management](https://doc.akka.io/docs/akka-management/current/cluster-http-management.html) on the seed node with the endpoint http://localhost:8402/ShukraManager, unless changed in the ```application.conf``` file. 
+This also starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraManager`, unless changed in the ```application.conf``` file. 
 
-Front end:
+#### Front end:
 
-Use the command below to install the dependencies for Shukra UI.
-
-```npm install```
+Navigate to the `frontend` folder and use the command below to install the dependencies for Shukra UI.
+```
+npm install
+```
 
 Use the command below to start the Shukra UI.
+```
+npm start
+```
 
-```npm start```
+### Configuration
+
+#### Back end:
+
+Akka Management for a member is disabled by default.
+
+In order to enable Akka Management for a member, set `AKKA_MANAGEMENT_ENABLE: enabled` property under `environment` section in `docker-compose.yml`.
+
+Specify the `AKKA_MANAGEMENT_PORT: <port-number>` property to change the Akka Management HTTP endpoint port.
+
+Properties `SEED_PORT_1600_TCP_ADDR` and `SEED_PORT_1600_TCP_PORT` can be used to modify the seed node for a member.
+
+#### Front end:
+
+By default, Shukra UI points to the Akka HTTP URL `http://localhost:8402/ShukraCluster`.
+
+For local development or testing, change the `proxy` property in `package.json` to the Akka Management Host HTTP server address and change the `akka.management.url` property in `akkaClusterProps.js` to the Akka Management Host HTTP base path. The `proxy` property is used to set up reverse proxy to avoid CORS issue on local environments. 
+
+For production, change the `akka.management.url` property in `akkaClusterProps.js` to the entire Akka Management URL, i.e., Akka Management HTTP address + base path.
 
 ## Built With
 

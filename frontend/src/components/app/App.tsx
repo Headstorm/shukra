@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Toolbar, AppBar, Grid, CssBaseline, Typography, Button, Divider } from '@material-ui/core';
+import { Toolbar, AppBar, Grid, CssBaseline, Button, Divider } from '@material-ui/core';
 import { BrowserRouter as Router, Link, LinkProps } from "react-router-dom";
 
 import './App.scss';
@@ -24,13 +24,9 @@ const App: React.FC = () => {
               <AppBar position="static">
                 <Toolbar>
                   <a className="logo" href="/home">
-                    <img className="vert-align-middle" src="logo.jpg"
+                    <img className="vert-align-middle" src="invertedlogo.png"
                       alt="Shukra logo"></img>
                   </a>
-                  <Typography className="heading" variant="h5"
-                    noWrap>
-                    SHUKRA
-                  </Typography>
                   <Divider orientation="vertical" />
                   <div className="nav-button-group">
                     <Button color="default" component={RouteLink}
