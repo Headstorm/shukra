@@ -22,5 +22,10 @@
   "include": [
     "src",
     "types"
-  ]
+  ],
+  "typeAcquisition": {
+    "include": [
+        "jest"
+    ]
+  }
 }
