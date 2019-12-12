@@ -1,9 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { mount } from 'enzyme';
+
 import SimpleSnackBar from "./SimpleSnackBar";
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<SimpleSnackBar message="" open={false} />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("Component SimpleSnackBar", () => {
+  it("renders without crashing", () => {
+    const component = mount(<SimpleSnackBar message="Hello world" open={true} />);
+    expect(component).toExist();
+  });
 });
+
