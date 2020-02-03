@@ -13,11 +13,11 @@ object ClusterListener {
 
   // subscribe to cluster changes, re-subscribe when restart
   val eventListener: Behavior[ClusterDomainEvent] = Behaviors.setup[ClusterDomainEvent] (context => {
-    context.setLoggerClass(this.getClass)
+    context.setLoggerName(this.getClass)
     context.log.info("Starting up cluster listener...")
     if (clusterAkkaManagementEnabled.equalsIgnoreCase("enabled")) {
       context.log.info("Starting management service...")
-      AkkaManagement(context.system.toUntyped).start()
+      AkkaManagement(context.system.toClassic).start()
     }
     val cluster = Cluster(context.system)
     cluster.subscriptions ! Subscribe(context.self, classOf[ClusterDomainEvent])

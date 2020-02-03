@@ -1,0 +1,35 @@
+$primary-theme-color: #E75B27;
+$primary-theme-color-lighter: lighten($primary-theme-color, 15%);
+$secondary-theme-color: #FFFFFF;
+
+$primary-color: #4A4A4A;
+$secondary-color: #D9D9D9;
+$secondary-color-lighter: lighten($secondary-color, 5%);
+
+$border-color: $secondary-color;
+
+// Server status colors
+$status-down-color: #EC5555;
+$status-up-color: #5FF16E;
+$status-joining-color: #FFFF4D;
+$status-leaving-color: #EB6811;
+$status-exiting-color: #EB6811;
+
+// Node indication colors
+$leader-node-color: #413EDF;
+$oldest-node-color: #B16B18;
+
+// Font sizes
+$text-size-xs: 12px;
+$text-size-sm: 16px;
+$text-size-md: 18px;
+$text-size-lg: 20px;
+$text-size-xl: 24px;
+
+// Header, Footer heights
+$header-height: 55px;
+$footer-height: 30px;
+
+// Spacing
+$single-spacing: 8px;
+$double-spacing: 16px;

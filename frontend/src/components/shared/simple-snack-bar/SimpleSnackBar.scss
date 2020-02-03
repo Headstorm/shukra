@@ -1,0 +1,6 @@
+@import './../../../assets/styles/variables.scss';
+
+.MuiSnackbar-root > .MuiTypography-root {
+  background-color: $secondary-color;
+  color: $primary-color;
+}

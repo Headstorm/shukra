@@ -1,0 +1,130 @@
+@import "./../../../assets/styles/variables.scss";
+@import "./../../../assets/styles/common.scss";
+
+.home-right-container {
+  & .home-visual-title {
+    text-transform: uppercase;
+    color: $primary-color;
+    height: 40px;
+    padding: $single-spacing;
+    font-size: $text-size-lg;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .home-visual-wrapper {
+    height: calc(100vh - 140px);
+    position: relative;
+
+    .vis-network {
+      outline: none;
+
+      .vis-navigation .vis-button.vis-up,
+      .vis-navigation .vis-button.vis-down,
+      .vis-navigation .vis-button.vis-left,
+      .vis-navigation .vis-button.vis-right,
+      .vis-navigation .vis-button.vis-zoomIn,
+      .vis-navigation .vis-button.vis-zoomOut,
+      .vis-navigation .vis-button.vis-zoomExtends {
+        background-image: none !important;
+        padding: 0px $single-spacing;
+      }
+
+      .vis-navigation .vis-button:hover {
+        box-shadow: none !important;
+      }
+
+      .vis-button:after {
+        font-size: $text-size-md;
+        color: $secondary-color;
+      }
+
+      .vis-button:hover:after {
+        font-size: $text-size-md;
+        color: $primary-color;
+      }
+
+      .vis-button.vis-up:after {
+        content: "▲";
+      }
+
+      .vis-button.vis-down:after {
+        content: "▼";
+      }
+
+      .vis-button.vis-left:after {
+        content: "◀";
+      }
+
+      .vis-button.vis-right:after {
+        content: "▶";
+      }
+
+      .vis-button.vis-zoomIn:after {
+        content: "+";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
+      .vis-button.vis-zoomOut:after {
+        content: "−";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
+      .vis-button.vis-zoomExtends:after {
+        content: "⤧";
+        font-weight: bold;
+        font-size: $text-size-xl;
+      }
+
+      .vis-tooltip {
+        position: absolute;
+        background-color: $primary-color;
+        color: $secondary-color;
+        padding: $single-spacing;
+        font-size: $text-size-xs;
+        border-radius: 2px;
+        margin-left: $single-spacing;
+        text-align: left;
+        box-shadow: 1px 1px 4px 1px $secondary-color;
+        border: 1px solid $primary-color;
+      }
+    }
+
+    & .legend-wrapper {
+      position: absolute;
+      top: $single-spacing;
+      right: $double-spacing;
+
+      & .legend-content {
+        height: 25px;
+        padding: 0px $single-spacing;
+
+        & .legend-icon {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          margin-right: $single-spacing;
+          vertical-align: middle;
+
+          &.oldest {
+            border: 2px dashed $oldest-node-color;
+          }
+
+          &.leader {
+            border: 1px solid transparent;
+            box-shadow: 0px 0px 6px 1px $leader-node-color;
+          }
+        }
+
+        & .legend-text {
+          font-style: italic;
+          font-size: $text-size-xs;
+          position: relative;
+          top: 1px;
+        }
+      }
+    }
+  }
+}

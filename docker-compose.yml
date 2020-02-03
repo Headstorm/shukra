@@ -8,6 +8,7 @@ services:
       - '8402:8402'
     environment:
       AKKA_MANAGEMENT_ENABLE: enabled
+      AKKA_MANAGEMENT_PORT: 8402
       CLUSTER_PORT: 1600
       CLUSTER_IP: seed
       SEED_PORT_1600_TCP_ADDR: seed
