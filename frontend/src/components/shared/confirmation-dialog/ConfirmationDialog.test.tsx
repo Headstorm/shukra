@@ -1,11 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
+
 import ConfirmationDialog from './ConfirmationDialog';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<ConfirmationDialog data="" open={false}
-    title="" content=""
-    setOpen={(): void => { }} handleAgree={(): void => { }} />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("Component ConfirmationDialog", () => {
+  it('renders without crashing', () => {
+    const component = mount(<ConfirmationDialog data="" open={false}
+      title="Hello" content="World"
+      setOpen={(): void => { }} handleAgree={(): void => { }} />);
+    expect(component).toExist();
+    expect(component).toHaveProp("title", "Hello");
+    expect(component).toHaveProp("content", "World");
+  });
 });

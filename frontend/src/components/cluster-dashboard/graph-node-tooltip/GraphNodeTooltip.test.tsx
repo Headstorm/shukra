@@ -1,11 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
+
 import GraphNodeTooltip from './GraphNodeTooltip';
 import { Cluster } from '../Cluster.model';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<GraphNodeTooltip clusterData={new Cluster()}
-    member={{ node: '', nodeUid: '', roles: [], status: '' }} />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("Component GraphNodeTooltip", () => {
+  it('renders without crashing', () => {
+    const memberDetails = {
+      node: 'akka://clustering-cluster@c1:1601',
+      nodeUid: '88888888', roles: ["dc-default"], status: 'up'
+    };
+
+    const component = mount(<GraphNodeTooltip clusterData={new Cluster()}
+      member={memberDetails} />);
+    expect(component).toExist();
+    expect(component).toHaveProp("clusterData", new Cluster());
+    expect(component).toHaveProp("member", memberDetails);
+  });
 });
