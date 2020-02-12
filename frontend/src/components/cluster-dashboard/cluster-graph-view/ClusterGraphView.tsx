@@ -39,6 +39,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
   const nodeUrl =
     `data:image/svg+xml;charset=utf-8,${encodeURIComponent(nodeSvg)}`;
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
+  const [env] = useState(process.env.NODE_ENV);
 
   const options = {
     nodes: {
@@ -176,8 +177,10 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
         className="home-right-container">
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
-          <Graph graph={graphData} options={options}
-            events={{}} />
+          {
+            env !== "test" && (<Graph graph={graphData} options={options}
+              events={{}} />)
+          }
           <div className="legend-wrapper">
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk leader"></span>
