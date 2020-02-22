@@ -2,15 +2,17 @@
 
 # Shukra #
 
-Akka actor visualization and management tool for local and distributed actor systems.
+Shukra is an Akka visualization and management tool for local and distributed actor systems.
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
 
+## Production Use Installation
+//TODO Karthik
 
-## Start Developing Shukra
+## Development Usage Installation
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+The following instructions will get the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -79,7 +81,7 @@ For production, change the `akka.management.url` property in `akkaClusterProps.j
 
 ## Authors
 
-* **Karthik Pasagada** - *Initial work* - [kpasagada](https://github.com/kpasagada)
+* **Karthik Pasagada** - [kpasagada](https://github.com/kpasagada)
 
 See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/contributors) who participated in this project.
 
