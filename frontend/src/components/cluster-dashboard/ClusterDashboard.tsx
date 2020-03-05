@@ -1,21 +1,19 @@
-import React, { useState, useEffect, Dispatch, SetStateAction, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Grid, Typography, Slider } from "@material-ui/core";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
-import { akkaClusterProps } from "./../../assets/properties/akkaClusterProps";
 import "./ClusterDashboard.scss";
 import ClusterListView from "./cluster-list-view/ClusterListView";
-import { Cluster } from "./Cluster.model";
 import SimpleSnackBar from "../shared/simple-snack-bar/SimpleSnackBar";
 import ClusterGraphView from "./cluster-graph-view/ClusterGraphView";
+import { fetchClusterData, changeRefreshInterval } from "./ClusterDashboardActions";
+import { ClusterDashboardState } from "./ClusterDashboardReducer";
 
 const ClusterDashboard: React.FC = () => {
-  const [cluster, setCluster]: [
-    Cluster,
-    Dispatch<SetStateAction<Cluster>>
-  ] = useState(new Cluster());
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const state: ClusterDashboardState = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard);
+  const dispatch = useDispatch();
+
   const refreshIntervals = [
     { value: 0 },
     { value: 2 },
@@ -24,49 +22,27 @@ const ClusterDashboard: React.FC = () => {
     { value: 30 },
     { value: 60 }
   ];
-  const [refreshVal, setRefreshVal] = useState(0);
-  //eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [refInterval, setRefInterval]: [any, Dispatch<SetStateAction<any>>] = useState(null);
-
-  const loadClusterData = (): void => {
-    const akkaGetClusterMembersUrl = `${akkaClusterProps["akka.management.url"]}/cluster/members`;
-    const getClusterResponse = (): void => {
-      axios
-        .get(akkaGetClusterMembersUrl)
-        .then(response => {
-          if (response.status === 200) {
-            const clusterData: Cluster = response.data;
-            setCluster(clusterData);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-          setSnackBarMessage(
-            error.message && error.message.message
-              ? error.message.message
-              : error.message
-          );
-          setOpenSnackBar(true);
-        });
-    };
-    getClusterResponse();
-  };
 
   const onRefreshIntervalChange = (event: React.ChangeEvent<{}>, value: number): void => {
-    if (refreshVal === value) {
+    if (state.refreshVal === value) {
       return;
     }
-    clearInterval(refInterval);
-    setRefreshVal(value);
 
-    if (value === 0) {
-      setRefInterval(null);
-      return;
+    clearInterval(state.refInterval);
+
+    let interval = null;
+    if (value !== 0) {
+      interval = setInterval(() => {
+        dispatch(fetchClusterData());
+      }, value * 1000);
     }
-    setRefInterval(setInterval(loadClusterData, value * 1000));
+
+    dispatch(changeRefreshInterval({ refreshVal: value, refInterval: interval }));
   };
 
-  useEffect(loadClusterData, []);
+  useEffect(() => {
+    dispatch(fetchClusterData());
+  }, [dispatch]);
 
   return (
     <Fragment>
@@ -96,12 +72,9 @@ const ClusterDashboard: React.FC = () => {
         item
         direction="row"
         className="home-body">
-        <ClusterListView
-          clusterData={cluster}
-          refreshClusterData={loadClusterData}
-        />
-        <ClusterGraphView clusterData={cluster} />
-        <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
+        <ClusterListView />
+        <ClusterGraphView />
+        <SimpleSnackBar message={state.snackBarMessage} open={state.openSnackBar} />
       </Grid>
     </Fragment>
   );

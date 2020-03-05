@@ -1,21 +1,20 @@
 import React, { useState, useEffect, Fragment } from "react";
-import ReactDOMServer from "react-dom/server";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Graph from "react-graph-vis";
 import "./../../../../node_modules/vis-network/dist/vis-network.css";
 
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
-import { Cluster } from "../Cluster.model";
-import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
+import { ClusterDashboardState } from "../ClusterDashboardReducer";
+import { frameGraphData } from "./../ClusterDashboardActions";
 
-type ClusterGraphViewProps = {
-  clusterData: Cluster;
-};
+const ClusterGraphView: React.FC = () => {
+  const state: ClusterDashboardState = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard);
+  const dispatch = useDispatch();
+  const [env] = useState(process.env.NODE_ENV);
 
-const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
-  props: ClusterGraphViewProps
-) => {
   const clusterSvg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
       <foreignObject x="8.5" y="17" width="100%" height="100%">
@@ -38,8 +37,6 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
     </svg>`;
   const nodeUrl =
     `data:image/svg+xml;charset=utf-8,${encodeURIComponent(nodeSvg)}`;
-  const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
-  const [env] = useState(process.env.NODE_ENV);
 
   const options = {
     nodes: {
@@ -86,90 +83,9 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
     }
   };
 
-  const loadGraphData = (): void => {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const frameGraphData = (clusterData: Cluster): any => {
-      const leader = {
-        shadow: {
-          enabled: true,
-          color: styles.leaderNodeColor,
-          size: 15,
-          x: 1,
-          y: 1
-        }
-      };
-      const oldest = {
-        borderWidth: 3,
-        borderWidthSelected: 0,
-        color: {
-          border: styles.oldestNodeColor,
-          highlight: { border: styles.oldestNodeColor },
-          hover: { border: styles.oldestNodeColor }
-        },
-        shapeProperties: { borderDashes: [10, 10] }
-      };
-      //eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const graph: any = {
-        nodes: [
-          {
-            id: 0,
-            label: "Akka Cluster",
-            image: clusterUrl,
-            size: 40,
-            borderWidth: 1,
-            borderWidthSelected: 2,
-            color: {
-              border: styles.primaryColor,
-              background: styles.secondaryColor,
-              highlight: {
-                border: styles.primaryColor,
-                background: styles.secondaryColorLighter
-              },
-              hover: {
-                border: styles.primaryColor,
-                background: styles.secondaryColorLighter
-              }
-            }
-          }
-        ],
-        edges: []
-      };
-
-      if (!clusterData || !clusterData.members) {
-        return graph;
-      }
-
-      clusterData.members.forEach((member, index) => {
-        const memberTitle = <GraphNodeTooltip member={member} clusterData={clusterData} />;
-
-        const memberConfig = {
-          id: index + 1,
-          label: `<b>o </b>${member.node.split("://")[1]}`,
-          image: nodeUrl,
-          title: ReactDOMServer.renderToString(memberTitle),
-          font: {
-            bold: {
-              color: styles[`status${member.status}Color`],
-              size: 16,
-              vadjust: -0.5
-            },
-            multi: true
-          },
-          ...(member.node === clusterData.leader && leader),
-          ...(member.node === clusterData.oldest && oldest)
-        };
-
-        graph.nodes.push(memberConfig);
-        graph.edges.push({ from: 0, to: index + 1 });
-      });
-
-      setGraphData(graph);
-    };
-
-    frameGraphData(props.clusterData);
-  };
-
-  useEffect(loadGraphData, [props.clusterData]);
+  useEffect(() => {
+    dispatch(frameGraphData(styles, nodeUrl, clusterUrl));
+  }, [state.cluster, dispatch, nodeUrl, clusterUrl]);
 
   return (
     <Fragment>
@@ -178,7 +94,7 @@ const ClusterGraphView: React.FC<ClusterGraphViewProps> = (
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
           {
-            env !== "test" && (<Graph graph={graphData} options={options}
+            env !== "test" && (<Graph graph={state.graph} options={options}
               events={{}} />)
           }
           <div className="legend-wrapper">

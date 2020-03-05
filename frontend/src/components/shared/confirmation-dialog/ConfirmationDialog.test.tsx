@@ -7,7 +7,7 @@ describe("Component ConfirmationDialog", () => {
   it('renders without crashing', () => {
     const component = mount(<ConfirmationDialog data="" open={false}
       title="Hello" content="World"
-      setOpen={(): void => { }} handleAgree={(): void => { }} />);
+      handleAgree={(): void => { }} />);
     expect(component).toExist();
     expect(component).toHaveProp("title", "Hello");
     expect(component).toHaveProp("content", "World");

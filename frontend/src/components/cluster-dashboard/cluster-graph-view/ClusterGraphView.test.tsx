@@ -6,7 +6,7 @@ import { Cluster } from '../Cluster.model';
 
 describe("Component ClusterGraphView", () => {
   it('renders without crashing', () => {
-    const component = mount(<ClusterGraphView clusterData={new Cluster()} />);
+    const component = mount(<ClusterGraphView />);
     expect(component).toExist();
     expect(component).toHaveProp("clusterData", new Cluster());
   });
