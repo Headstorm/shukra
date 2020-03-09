@@ -35,7 +35,7 @@ export interface ClusterDashboardState {
   confDialogData: {};
 }
 
-const initialState: ClusterDashboardState = {
+export const initialState: ClusterDashboardState = {
   cluster: new Cluster(),
   loading: false,
   refInterval: null,

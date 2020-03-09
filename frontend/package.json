@@ -48,6 +48,7 @@
     "@types/react-dom": "16.9.2",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.0",
+    "@types/redux-mock-store": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.4.0",
     "@typescript-eslint/parser": "^2.4.0",
     "enzyme": "^3.10.0",
@@ -59,6 +60,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest-enzyme": "^7.1.2",
     "node-sass": "^4.12.0",
+    "redux-mock-store": "^1.5.4",
     "ts-jest": "^24.2.0"
   },
   "proxy": "http://localhost:8402"
