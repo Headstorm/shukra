@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const state: ClusterDashboardState = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard);
   const dispatch = useDispatch();
-  const refreshIntervals = [
+  const refreshIntervalSeconds = [
     { value: 0 },
     { value: 2 },
     { value: 5 },
@@ -77,9 +77,9 @@ const App: React.FC = () => {
                     <Slider
                       defaultValue={0}
                       valueLabelDisplay="auto"
-                      marks={refreshIntervals}
-                      min={refreshIntervals[0].value}
-                      max={refreshIntervals[refreshIntervals.length - 1].value}
+                      marks={refreshIntervalSeconds}
+                      min={refreshIntervalSeconds[0].value}
+                      max={refreshIntervalSeconds[refreshIntervalSeconds.length - 1].value}
                       step={null}
                       track={false}
                       valueLabelFormat={(value: number): string => `${value}s`}
@@ -88,7 +88,7 @@ const App: React.FC = () => {
                       }}
                     />
                     <span className="refresh-slider-label disp-inline-blk">
-                      {`${refreshIntervals[refreshIntervals.length - 1].value}s`}
+                      {`${refreshIntervalSeconds[refreshIntervalSeconds.length - 1].value}s`}
                     </span>
                   </div>
                 </Toolbar>
@@ -100,7 +100,7 @@ const App: React.FC = () => {
               <AppBar position="fixed">
                 <Toolbar>
                   <div className="brand">Powered By
-                      <a href="https://www.headstorm.com">HEADSTORM, LLC.</a>
+                    <a href="https://www.headstorm.com">HEADSTORM, LLC.</a>
                   </div>
                 </Toolbar>
               </AppBar>
