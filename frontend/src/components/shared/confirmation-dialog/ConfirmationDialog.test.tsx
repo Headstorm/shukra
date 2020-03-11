@@ -18,11 +18,13 @@ describe("Component ConfirmationDialog", () => {
       }
     });
 
-    const component = mount(<Provider store={store}>
-      <ConfirmationDialog data="" open={false}
-        title="Hello" content="World"
-        handleAgree={(): void => { }} />
-    </Provider>);
+    const component = mount(
+      <Provider store={store}>
+        <ConfirmationDialog data="" open={false}
+          title="Hello" content="World"
+          handleAgree={(): void => { }} />
+      </Provider>
+    );
 
     expect(component).toExist();
     expect(component.find('ConfirmationDialog')).toExist();

@@ -1,0 +1,38 @@
+@import './../../../assets/styles/variables.scss';
+
+.MuiDialog-container {
+  .MuiDialogTitle-root {
+    color: $primary-theme-color;
+  }
+
+  .MuiDialogContent-root {
+    > .MuiTypography-root {
+      color: $primary-color;
+    }
+
+    > .MuiFormControl-root {
+      label.Mui-focused {
+        color: $primary-theme-color;
+      }
+      
+      .MuiInput-underline:hover:before {
+        border-bottom-color: $primary-theme-color;
+      }
+
+      .MuiInput-underline:after {
+        border-bottom-color: $primary-theme-color;
+      }
+    }
+  }
+
+  .MuiDialogActions-root {
+    > .MuiButton-root {
+      color: $primary-color;
+    }
+
+    > .MuiButton-root:hover, .MuiButton-root:active, .MuiButton-root:focus {
+      background-color: $primary-theme-color;
+      color: $secondary-theme-color;
+    }
+  }
+}

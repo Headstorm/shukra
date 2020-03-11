@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import {
+  ClusterDashboardActionTypes,
   FETCH_CLUSTER_MEMBERS_BEGIN,
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
-  ClusterDashboardActionTypes,
   CHANGE_REFRESH_INTERVAL,
   FRAME_GRAPH_DATA,
   ADD_CLUSTER_NODE_BEGIN,
@@ -15,12 +15,17 @@ import {
   LEAVE_DOWN_CLUSTER_NODE_BEGIN,
   LEAVE_DOWN_CLUSTER_NODE_FAILURE,
   LEAVE_DOWN_CLUSTER_NODE_SUCCESS,
-  CLOSE_CONFIRMATION_DIALOG
+  CLOSE_CONFIRMATION_DIALOG,
+  CHANGE_AKKA_URL
 } from './ClusterDashboardActions';
 import { Cluster } from './Cluster.model';
 import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
+import { akkaClusterProps } from '../../assets/properties/akkaClusterProps';
+
+const AKKA_MANAGEMENT_URL = akkaClusterProps["akka.management.url"];
 
 export interface ClusterDashboardState {
+  akkaManagementUrl: string;
   cluster: Cluster;
   refreshVal: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,6 +41,7 @@ export interface ClusterDashboardState {
 }
 
 export const initialState: ClusterDashboardState = {
+  akkaManagementUrl: AKKA_MANAGEMENT_URL,
   cluster: new Cluster(),
   loading: false,
   refInterval: null,
@@ -248,6 +254,12 @@ export default function ClusterDashboardReducer(state = initialState,
       return {
         ...state,
         openConfDialog: false
+      }
+
+    case CHANGE_AKKA_URL:
+      return {
+        ...state,
+        akkaManagementUrl: action.payload.url
       }
 
     default:
