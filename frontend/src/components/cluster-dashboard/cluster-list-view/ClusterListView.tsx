@@ -20,8 +20,16 @@ import {
 import { ClusterDashboardState } from "../ClusterDashboardReducer";
 
 const ClusterListView: React.FC = () => {
-  const state: ClusterDashboardState = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard);
+  const cluster = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
+  const openConfDialog = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.openConfDialog);
+  const confDialogTitle = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogTitle);
+  const confDialogContent = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogContent);
+  const confDialogData = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogData);
   const dispatch = useDispatch();
   const [addNodeAddress, setAddNodeAddress] = React.useState("");
 
@@ -58,9 +66,9 @@ const ClusterListView: React.FC = () => {
             defaultCollapseIcon={<ArrowDropDownIcon />}
             defaultExpandIcon={<ArrowRightIcon />}
           >
-            {state.cluster &&
-              state.cluster.members &&
-              state.cluster.members.map((member, index) => {
+            {cluster &&
+              cluster.members &&
+              cluster.members.map((member, index) => {
                 return (
                   <TreeItem
                     key={member.nodeUid}
@@ -77,14 +85,14 @@ const ClusterListView: React.FC = () => {
                             {member.node.split("://")[1]}
                           </span>
                         </Tooltip>
-                        {member.node === state.cluster.leader && (
+                        {member.node === cluster.leader && (
                           <Tooltip title="Leader Node" placement="bottom">
                             <span className="member-type disp-inline-blk leader">
                               L
                             </span>
                           </Tooltip>
                         )}
-                        {member.node === state.cluster.oldest && (
+                        {member.node === cluster.oldest && (
                           <Tooltip title="Oldest Node" placement="bottom">
                             <span className="member-type disp-inline-blk oldest">
                               O
@@ -168,11 +176,11 @@ const ClusterListView: React.FC = () => {
         </div>
       </Grid>
       <ConfirmationDialog
-        title={state.confDialogTitle}
-        content={state.confDialogContent}
-        open={state.openConfDialog}
+        title={confDialogTitle}
+        content={confDialogContent}
+        open={openConfDialog}
         handleAgree={handleMemberConfirm}
-        data={state.confDialogData}
+        data={confDialogData}
       />
     </Fragment>
   );
