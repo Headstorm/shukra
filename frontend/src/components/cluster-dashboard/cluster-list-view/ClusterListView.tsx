@@ -22,14 +22,8 @@ import { ClusterDashboardState } from "../ClusterDashboardReducer";
 const ClusterListView: React.FC = () => {
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
-  const openConfDialog = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.openConfDialog);
-  const confDialogTitle = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogTitle);
-  const confDialogContent = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogContent);
-  const confDialogData = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confDialogData);
+  const confirmationDialog = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.confirmationDialog);
   const dispatch = useDispatch();
   const [addNodeAddress, setAddNodeAddress] = React.useState("");
 
@@ -176,11 +170,11 @@ const ClusterListView: React.FC = () => {
         </div>
       </Grid>
       <ConfirmationDialog
-        title={confDialogTitle}
-        content={confDialogContent}
-        open={openConfDialog}
+        title={confirmationDialog.title}
+        content={confirmationDialog.content}
+        open={confirmationDialog.open}
         handleAgree={handleMemberConfirm}
-        data={confDialogData}
+        data={confirmationDialog.data}
       />
     </Fragment>
   );

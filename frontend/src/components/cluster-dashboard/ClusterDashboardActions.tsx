@@ -37,7 +37,7 @@ interface FetchClusterMembersFailureAction {
 
 interface ChangeRefreshIntervalAction {
   type: typeof CHANGE_REFRESH_INTERVAL;
-  payload: { state: { refreshVal: number; refInterval: any } };
+  payload: { state: { value: number; interval: any } };
 }
 
 interface FrameGraphDataAction {
@@ -102,7 +102,7 @@ export const fetchClusterMembersFailure = (error: any): FetchClusterMembersFailu
 });
 
 export const changeRefreshInterval =
-  (state: { refreshVal: number; refInterval: any }): ChangeRefreshIntervalAction => ({
+  (state: { value: number; interval: any }): ChangeRefreshIntervalAction => ({
     type: CHANGE_REFRESH_INTERVAL,
     payload: { state: state }
   });

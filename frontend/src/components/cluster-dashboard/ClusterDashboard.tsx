@@ -10,10 +10,8 @@ import { fetchClusterData } from "./ClusterDashboardActions";
 import { ClusterDashboardState } from "./ClusterDashboardReducer";
 
 const ClusterDashboard: React.FC = () => {
-  const snackBarMessage = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.snackBarMessage);
-  const openSnackBar = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.openSnackBar);
+  const snackBar = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.snackBar);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +26,7 @@ const ClusterDashboard: React.FC = () => {
         className="home-body">
         <ClusterListView />
         <ClusterGraphView />
-        <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
+        <SimpleSnackBar message={snackBar.message} open={snackBar.open} />
       </Grid>
     </Fragment>
   );

@@ -11,10 +11,8 @@ import {
 } from "../cluster-dashboard/ClusterDashboardActions";
 
 const Header: React.FC = () => {
-  const refreshVal = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.refreshVal);
-  const refInterval = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.refInterval);
+  const autoRefresh = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.autoRefresh);
   const dispatch = useDispatch();
 
   const refreshIntervalSeconds = [
@@ -27,11 +25,11 @@ const Header: React.FC = () => {
   ];
 
   const onRefreshIntervalChange = (event: React.ChangeEvent<{}>, value: number): void => {
-    if (refreshVal === value) {
+    if (autoRefresh.value === value) {
       return;
     }
 
-    clearInterval(refInterval);
+    clearInterval(autoRefresh.interval);
 
     let interval = null;
     if (value !== 0) {
@@ -40,7 +38,7 @@ const Header: React.FC = () => {
       }, value * 1000);
     }
 
-    dispatch(changeRefreshInterval({ refreshVal: value, refInterval: interval }));
+    dispatch(changeRefreshInterval({ value: value, interval: interval }));
   };
 
   const RouteLink = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
