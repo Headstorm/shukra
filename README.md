@@ -7,8 +7,23 @@ Akka actor visualization and management tool for local and distributed actor sys
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
 
+## Production Usage Instructions
 
-## Start Developing Shukra
+These instructions will get you a copy of the project up and running on the production environment.
+
+### Generate Production Build
+
+* Set `homepage` property in `package.json` file to reflect the exact deployment URL. For example, `"homepage": "http://localhost:8080/shukra"`. 
+* Use the command `npm run build` (uses create react app `react-scripts build` internally) to generate a production build to serve it with a static server.
+* The `build` folder contains files that are ready to be deployed. 
+* Refer to https://create-react-app.dev/docs/production-build or https://reactjs.org/docs/optimizing-performance.html for more information on generating production ready builds.
+
+### Deploy Production Build
+
+* Move the files created in the `build` folder to a static server. Do not change the folder structure.
+* Follow instructions in the **Configuration** section below to modify the Akka Management URL.
+
+## Development Usage Instructions
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
