@@ -8,107 +8,43 @@ import {
   ArrowDropDown as ArrowDropDownIcon,
   ArrowRight as ArrowRightIcon
 } from "@material-ui/icons";
-import querystring from "query-string";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./ClusterListView.scss";
-import { Cluster } from "../Cluster.model";
-import axios from "axios";
-import { akkaClusterProps } from "./../../../assets/properties/akkaClusterProps";
-import SimpleSnackBar from "../../shared/simple-snack-bar/SimpleSnackBar";
 import ConfirmationDialog from "../../shared/confirmation-dialog/ConfirmationDialog";
+import {
+  addClusterNode,
+  openConfirmationDialog,
+  leaveDownClusterNode
+} from "../ClusterDashboardActions";
+import { ClusterDashboardState } from "../ClusterDashboardReducer";
 
-type ClusterListViewProps = {
-  clusterData: Cluster;
-  refreshClusterData: () => void;
-};
-
-const ClusterListView: React.FC<ClusterListViewProps> = (
-  props: ClusterListViewProps
-) => {
-  const [openSnackBar, setOpenSnackBar] = React.useState(false);
-  const [snackBarMessage, setSnackBarMessage] = React.useState("");
-  const [openConfDialog, setOpenConfDialog] = React.useState(false);
-  const [confDialogTitle, setConfDialogTitle] = React.useState("");
-  const [confDialogContent, setConfDialogContent] = React.useState("");
-  const [confDialogData, setConfDialogData] = React.useState({});
+const ClusterListView: React.FC = () => {
+  const state: ClusterDashboardState = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard);
+  const dispatch = useDispatch();
   const [addNodeAddress, setAddNodeAddress] = React.useState("");
-  const clusterData: Cluster = props.clusterData;
-  const akkaGetClusterMembersUrl = `${akkaClusterProps["akka.management.url"]}/cluster/members`;
 
   const handleMember = (member: string, mode: string): void => {
-    setConfDialogTitle(
-      mode.toLowerCase() === "leave"
-        ? "Remove Node From Cluster?"
-        : "Shutdown Node in Cluster?"
-    );
-    setConfDialogContent(
-      mode.toLowerCase() === "leave"
-        ? `Are you sure you want to remove node ${member} from the cluster?`
-        : `Are you sure you want to shutdown node ${member} in the cluster?`
-    );
-    setConfDialogData({ member: member, mode: mode });
-    setOpenConfDialog(true);
+    const title = mode.toLowerCase() === "leave"
+      ? "Remove Node From Cluster?"
+      : "Shutdown Node in Cluster?";
+    const content = mode.toLowerCase() === "leave"
+      ? `Are you sure you want to remove node ${member} from the cluster?`
+      : `Are you sure you want to shutdown node ${member} in the cluster?`;
+    const data = { member: member, mode: mode };
+    dispatch(openConfirmationDialog(title, content, data));
   };
 
   const addMember = (): void => {
     if (!addNodeAddress || addNodeAddress.trim() === "") {
       return;
     }
-
-    axios
-      .post(
-        akkaGetClusterMembersUrl,
-        querystring.stringify({ address: addNodeAddress.trim() }),
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-      )
-      .then(response => {
-        if (response.status === 200) {
-          setSnackBarMessage(response.data.message);
-          setOpenSnackBar(true);
-          props.refreshClusterData();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-        setSnackBarMessage(
-          error.message && error.message.message
-            ? error.message.message
-            : error.message
-        );
-        setOpenSnackBar(true);
-      });
+    dispatch(addClusterNode(addNodeAddress));
   };
 
-  const handleMemberConfirm = ({
-    member,
-    mode
-  }: {
-    member: string;
-    mode: string;
-  }): void => {
-    setOpenConfDialog(false);
-    axios
-      .put(
-        `${akkaGetClusterMembersUrl}/${member.split("://")[1]}`,
-        querystring.stringify({ operation: mode }),
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-      )
-      .then(response => {
-        if (response.status === 200) {
-          setSnackBarMessage(response.data.message);
-          setOpenSnackBar(true);
-          props.refreshClusterData();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-        setSnackBarMessage(
-          error.message && error.message.message
-            ? error.message.message
-            : error.message
-        );
-        setOpenSnackBar(true);
-      });
+  const handleMemberConfirm = ({ member, mode }: { member: string; mode: string }): void => {
+    dispatch(leaveDownClusterNode(member, mode));
   };
 
   return (
@@ -122,9 +58,9 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
             defaultCollapseIcon={<ArrowDropDownIcon />}
             defaultExpandIcon={<ArrowRightIcon />}
           >
-            {clusterData &&
-              clusterData.members &&
-              clusterData.members.map((member, index) => {
+            {state.cluster &&
+              state.cluster.members &&
+              state.cluster.members.map((member, index) => {
                 return (
                   <TreeItem
                     key={member.nodeUid}
@@ -141,14 +77,14 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
                             {member.node.split("://")[1]}
                           </span>
                         </Tooltip>
-                        {member.node === clusterData.leader && (
+                        {member.node === state.cluster.leader && (
                           <Tooltip title="Leader Node" placement="bottom">
                             <span className="member-type disp-inline-blk leader">
                               L
                             </span>
                           </Tooltip>
                         )}
-                        {member.node === clusterData.oldest && (
+                        {member.node === state.cluster.oldest && (
                           <Tooltip title="Oldest Node" placement="bottom">
                             <span className="member-type disp-inline-blk oldest">
                               O
@@ -231,14 +167,12 @@ const ClusterListView: React.FC<ClusterListViewProps> = (
           </Tooltip>
         </div>
       </Grid>
-      <SimpleSnackBar message={snackBarMessage} open={openSnackBar} />
       <ConfirmationDialog
-        title={confDialogTitle}
-        content={confDialogContent}
-        open={openConfDialog}
-        setOpen={setOpenConfDialog}
+        title={state.confDialogTitle}
+        content={state.confDialogContent}
+        open={state.openConfDialog}
         handleAgree={handleMemberConfirm}
-        data={confDialogData}
+        data={state.confDialogData}
       />
     </Fragment>
   );
