@@ -9,7 +9,7 @@ import AkkaUrlDialog from "./akka-url-dialog/AkkaUrlDialog";
 
 const Footer: React.FC = () => {
   const akkaManagementUrl = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.akkaManagementUrl);
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.akkaProps.managementUrl);
   const [openEditUrlDialog, setOpenEditUrlDialog] = useState(false);
 
   return (

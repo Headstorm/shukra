@@ -52,7 +52,7 @@ const Header: React.FC = () => {
         className="app-header">
         <AppBar position="static">
           <Toolbar>
-            <a className="logo" href="/home">
+            <a className="logo" href="/">
               <img className="vert-align-middle" src="invertedlogo.png"
                 alt="Shukra logo"></img>
             </a>
