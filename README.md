@@ -13,7 +13,7 @@ These instructions will get you a copy of the project up and running on the prod
 
 ### Generate Production Build
 
-* Set `homepage` property in `package.json` file to reflect the exact deployment URL. For example, `"homepage": "http://localhost:8080/shukra"`. 
+* Set `homepage` property in `package.json` file to reflect the exact deployment URL on the server. For example, `"homepage": "http://localhost:8080/shukra"`. 
 * Use the command `npm run build` (uses create react app `react-scripts build` internally) to generate a production build to serve it with a static server.
 * The `build` folder contains files that are ready to be deployed. 
 * Refer to https://create-react-app.dev/docs/production-build or https://reactjs.org/docs/optimizing-performance.html for more information on generating production ready builds.
@@ -43,7 +43,7 @@ vagrant up
 
 This will create 3 nodes, a seed and two regular nodes, called seed, c1, and c2 respectively (unless changed in ```docker-compose.yml```). While running, try opening a new terminal and try things like ```docker-compose stop seed``` and watch the cluster nodes respond.
 
-This also starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraManager`, unless changed in the ```application.conf``` file. 
+This also starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraCluster`, unless changed in the ```application.conf``` file. 
 
 #### Front end:
 
@@ -73,9 +73,9 @@ Properties `SEED_PORT_1600_TCP_ADDR` and `SEED_PORT_1600_TCP_PORT` can be used t
 
 By default, Shukra UI points to the Akka HTTP URL `http://localhost:8402/ShukraCluster`.
 
-For local development or testing, change the `proxy` property in `package.json` to the Akka Management Host HTTP server address and change the `akka.management.url` property in `akkaClusterProps.js` to the Akka Management Host HTTP base path. The `proxy` property is used to set up reverse proxy to avoid CORS issue on local environments. 
+For local development or testing, change the `proxy` property in `package.json` to the Akka Management Host HTTP server address and change the `akka.management.url` property in `public/akkaClusterProps.json` to the Akka Management Host HTTP base path. The `proxy` property is used to set up reverse proxy to avoid CORS issue on local environments. 
 
-For production, change the `akka.management.url` property in `akkaClusterProps.js` to the entire Akka Management URL, i.e., Akka Management HTTP address + base path.
+For production, change the `akka.management.url` property in `public/akkaClusterProps.json` to the entire Akka Management URL, i.e., Akka Management HTTP address + base path.
 
 ## Built With
 
@@ -93,5 +93,4 @@ See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/c
 ## Acknowledgments
 
 * Thanks to [akka-docker-cluster-example](https://github.com/akka/akka-sample-cluster-docker-compose-scala) for initial akka cluster setup.
-
 
