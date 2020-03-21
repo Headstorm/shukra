@@ -38,7 +38,7 @@
       top: 0px;
       right: $double-spacing;
       height: $header-height;
-      padding: $single-spacing 0px;
+      padding: 4px 0px;
     
       .MuiTypography-root {
         vertical-align: middle;
@@ -55,7 +55,7 @@
     
       .MuiSlider-root {
         width: 100px;
-        top: 8px;
+        top: 10px;
         margin: 0px $single-spacing;
     
         .MuiSlider-mark {

@@ -1,12 +1,14 @@
-import React, { Fragment } from "react";
-import { Grid, Button, Tooltip, TextField, Fab } from "@material-ui/core";
+import React, { Fragment, useEffect } from "react";
+import { Grid, Button, Tooltip, TextField, Fab, IconButton } from "@material-ui/core";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 import {
   FiberManualRecord as FiberManualRecordIcon,
   Add as AddIcon,
   ArrowDropDown as ArrowDropDownIcon,
-  ArrowRight as ArrowRightIcon
+  ArrowRight as ArrowRightIcon,
+  ArrowDownward as ArrowDownwardIcon,
+  ArrowUpward as ArrowUpwardIcon
 } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -26,6 +28,8 @@ const ClusterListView: React.FC = () => {
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.confirmationDialog);
   const dispatch = useDispatch();
   const [addNodeAddress, setAddNodeAddress] = React.useState("");
+  const [expanded, setExpanded] = React.useState(true);
+  const [expandedViewNodes, setExpandedViewNodes] = React.useState<string[]>([]);
 
   const handleMember = (member: string, mode: string): void => {
     const title = mode.toLowerCase() === "leave"
@@ -49,16 +53,61 @@ const ClusterListView: React.FC = () => {
     dispatch(leaveDownClusterNode(member, mode));
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleNodeToggle = (event: any, nodeIds: string[]): void => {
+    setExpandedViewNodes(nodeIds);
+  };
+
+  useEffect(() => {
+    if (expanded) {
+      let nodeIds: string[] = [];
+      if (cluster && cluster.members) {
+        nodeIds = cluster.members.map((_member, index) => String(index));
+      }
+      setExpandedViewNodes(nodeIds);
+    }
+    else {
+      setExpandedViewNodes([]);
+    }
+    // eslint-disable-next-line
+  }, [expanded]);
+
   return (
     <Fragment>
       <Grid item xs={3}
         className="home-left-container pos-rel">
         <div className="member-list-container">
-          <div className="member-list-container-title">CLUSTER NODES</div>
+          <div className="member-list-container-title">
+            <span>CLUSTER NODES</span>
+            <div className="member-list-tools">
+              {
+                !expanded &&
+                <IconButton size="small"
+                  onClick={(): void => setExpanded(true)}
+                >
+                  <Tooltip title="Expand All" placement="bottom">
+                    <ArrowDownwardIcon />
+                  </Tooltip>
+                </IconButton>
+              }
+              {
+                expanded &&
+                <IconButton size="small"
+                  onClick={(): void => setExpanded(false)}
+                >
+                  <Tooltip title="Collapse All" placement="bottom">
+                    <ArrowUpwardIcon />
+                  </Tooltip>
+                </IconButton>
+              }
+            </div>
+          </div>
           <TreeView
             className="member-tree-view"
             defaultCollapseIcon={<ArrowDropDownIcon />}
             defaultExpandIcon={<ArrowRightIcon />}
+            expanded={expandedViewNodes}
+            onNodeToggle={handleNodeToggle}
           >
             {cluster &&
               cluster.members &&
