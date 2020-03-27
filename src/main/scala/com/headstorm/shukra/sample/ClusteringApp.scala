@@ -1,9 +1,8 @@
-package com.headstorm.shukra
+package com.headstorm.shukra.sample
 
-import ClusteringConfig.clusterName
-
-import akka.actor.typed.{ActorSystem, Behavior, Terminated}
 import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ActorSystem, Behavior, Terminated}
+import com.headstorm.shukra.sample.ClusteringConfig.clusterName
 
 object ClusteringApp {
 

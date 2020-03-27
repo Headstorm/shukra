@@ -20,12 +20,14 @@ libraryDependencies ++= Seq (
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   // -- Akka --
   "com.typesafe.akka" %% "akka-actor-typed" % akka,
-  "com.typesafe.akka" %% "akka-slf4j"   % akka,
+  "com.typesafe.akka" %% "akka-slf4j" % akka,
   "com.typesafe.akka" %% "akka-cluster-typed" % akka,
   "com.typesafe.akka" %% "akka-discovery" % akka,
   "com.typesafe.akka" %% "akka-persistence" % akka,
   "com.typesafe.akka" %% "akka-cluster-sharding" % akka,
   "com.typesafe.akka" %% "akka-protobuf" % akka,
+  "com.typesafe.akka" %% "akka-stream" % akka,
+  "com.typesafe.akka" %% "akka-http" % "10.1.9",
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % akka % "test",
   // -- Akka Management --
   "com.lightbend.akka.management" %% "akka-management" % akkaMngt,

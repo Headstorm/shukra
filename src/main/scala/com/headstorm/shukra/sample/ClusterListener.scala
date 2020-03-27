@@ -1,6 +1,4 @@
-package com.headstorm.shukra
-
-import ClusteringConfig.clusterAkkaManagementEnabled
+package com.headstorm.shukra.sample
 
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
@@ -8,6 +6,7 @@ import akka.actor.typed.scaladsl.adapter._
 import akka.cluster.ClusterEvent._
 import akka.cluster.typed.{Cluster, Subscribe}
 import akka.management.scaladsl.AkkaManagement
+import com.headstorm.shukra.sample.ClusteringConfig.clusterAkkaManagementEnabled
 
 object ClusterListener {
 
