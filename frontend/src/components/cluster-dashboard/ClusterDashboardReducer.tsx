@@ -16,23 +16,25 @@ import {
   LEAVE_DOWN_CLUSTER_NODE_FAILURE,
   LEAVE_DOWN_CLUSTER_NODE_SUCCESS,
   CLOSE_CONFIRMATION_DIALOG,
-  CHANGE_AKKA_URL
+  CHANGE_AKKA_URL,
+  FETCH_AKKA_PROPS_BEGIN,
+  FETCH_AKKA_PROPS_SUCCESS,
+  FETCH_AKKA_PROPS_FAILURE
 } from './ClusterDashboardActions';
 import { Cluster } from './Cluster.model';
 import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
-import { akkaClusterProps } from '../../assets/properties/akkaClusterProps';
-
-const AKKA_MANAGEMENT_URL = akkaClusterProps["akka.management.url"];
 
 export interface ClusterDashboardState {
-  akkaManagementUrl: string;
+  loading: boolean;
   cluster: Cluster;
+  akkaProps: {
+    managementUrl: string;
+  };
   autoRefresh: {
     value: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     interval: any;
   };
-  loading: boolean;
   graph: {};
   snackBar: {
     open: boolean;
@@ -47,9 +49,11 @@ export interface ClusterDashboardState {
 }
 
 export const initialState: ClusterDashboardState = {
-  akkaManagementUrl: AKKA_MANAGEMENT_URL,
-  cluster: new Cluster(),
   loading: false,
+  cluster: new Cluster(),
+  akkaProps: {
+    managementUrl: "/ShukraCluster"
+  },
   autoRefresh: {
     value: 0,
     interval: null
@@ -316,8 +320,50 @@ export default function ClusterDashboardReducer(state = initialState,
     case CHANGE_AKKA_URL:
       return {
         ...state,
-        akkaManagementUrl: action.payload.url
+        akkaProps: {
+          ...state.akkaProps,
+          managementUrl: action.payload.url
+        }
       }
+
+    case FETCH_AKKA_PROPS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
+      };
+
+    case FETCH_AKKA_PROPS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        akkaProps: {
+          ...state.akkaProps,
+          ...action.payload
+        },
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
+      };
+
+    case FETCH_AKKA_PROPS_FAILURE:
+      message = action.payload.error.message && action.payload.error.message.message
+        ? action.payload.error.message.message : action.payload.error.message
+      return {
+        ...state,
+        loading: false,
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: message
+        }
+      };
 
     default:
       return state;
