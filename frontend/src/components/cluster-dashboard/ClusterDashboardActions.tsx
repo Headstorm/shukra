@@ -4,9 +4,10 @@ import axios from "axios";
 import querystring from "query-string";
 
 import { Cluster } from "./Cluster.model";
-import { akkaClusterProps } from "../../assets/properties/akkaClusterProps";
+import { ClusterDashboardState, initialState } from "./ClusterDashboardReducer";
 
-const AKKA_MANAGEMENT_URL = akkaClusterProps["akka.management.url"];
+import stripJsonComments from "strip-json-comments";
+
 export const FETCH_CLUSTER_MEMBERS_BEGIN = 'FETCH_CLUSTER_MEMBERS_BEGIN';
 export const FETCH_CLUSTER_MEMBERS_SUCCESS = 'FETCH_CLUSTER_MEMBERS_SUCCESS';
 export const FETCH_CLUSTER_MEMBERS_FAILURE = 'FETCH_CLUSTER_MEMBERS_FAILURE';
@@ -20,6 +21,10 @@ export const LEAVE_DOWN_CLUSTER_NODE_BEGIN = 'LEAVE_DOWN_CLUSTER_NODE_BEGIN';
 export const LEAVE_DOWN_CLUSTER_NODE_SUCCESS = 'LEAVE_DOWN_CLUSTER_NODE_SUCCESS';
 export const LEAVE_DOWN_CLUSTER_NODE_FAILURE = 'LEAVE_DOWN_CLUSTER_NODE_FAILURE';
 export const CLOSE_CONFIRMATION_DIALOG = 'CLOSE_CONFIRMATION_DIALOG';
+export const CHANGE_AKKA_URL = 'CHANGE_AKKA_URL';
+export const FETCH_AKKA_PROPS_BEGIN = 'FETCH_AKKA_PROPS_BEGIN';
+export const FETCH_AKKA_PROPS_SUCCESS = 'FETCH_AKKA_PROPS_SUCCESS';
+export const FETCH_AKKA_PROPS_FAILURE = 'FETCH_AKKA_PROPS_FAILURE';
 
 interface FetchClusterMembersBeginAction {
   type: typeof FETCH_CLUSTER_MEMBERS_BEGIN;
@@ -37,7 +42,7 @@ interface FetchClusterMembersFailureAction {
 
 interface ChangeRefreshIntervalAction {
   type: typeof CHANGE_REFRESH_INTERVAL;
-  payload: { state: { refreshVal: number; refInterval: any } };
+  payload: { state: { value: number; interval: any } };
 }
 
 interface FrameGraphDataAction {
@@ -82,6 +87,25 @@ interface CloseConfirmationDialogAction {
   type: typeof CLOSE_CONFIRMATION_DIALOG;
 }
 
+interface ChangeAkkaUrlAction {
+  type: typeof CHANGE_AKKA_URL;
+  payload: { url: string };
+}
+
+interface FetchAkkaPropsBeginAction {
+  type: typeof FETCH_AKKA_PROPS_BEGIN;
+}
+
+interface FetchAkkaPropsSuccessAction {
+  type: typeof FETCH_AKKA_PROPS_SUCCESS;
+  payload: typeof initialState.akkaProps;
+}
+
+interface FetchAkkaPropsFailureAction {
+  type: typeof FETCH_AKKA_PROPS_FAILURE;
+  payload: { error: any };
+}
+
 export const fetchClusterMembersBegin = (): FetchClusterMembersBeginAction => ({
   type: FETCH_CLUSTER_MEMBERS_BEGIN
 });
@@ -97,7 +121,7 @@ export const fetchClusterMembersFailure = (error: any): FetchClusterMembersFailu
 });
 
 export const changeRefreshInterval =
-  (state: { refreshVal: number; refInterval: any }): ChangeRefreshIntervalAction => ({
+  (state: { value: number; interval: any }): ChangeRefreshIntervalAction => ({
     type: CHANGE_REFRESH_INTERVAL,
     payload: { state: state }
   });
@@ -147,28 +171,52 @@ export const closeConfirmationDialog = (): CloseConfirmationDialogAction => ({
   type: CLOSE_CONFIRMATION_DIALOG
 });
 
+export const changeAkkaUrl = (url: string): ChangeAkkaUrlAction => ({
+  type: CHANGE_AKKA_URL,
+  payload: { url: url }
+});
+
+export const fetchAkkaPropsBegin = (): FetchAkkaPropsBeginAction => ({
+  type: FETCH_AKKA_PROPS_BEGIN
+});
+
+export const fetchAkkaPropsSuccess = (akkaProps: typeof initialState.akkaProps):
+  FetchAkkaPropsSuccessAction => ({
+    type: FETCH_AKKA_PROPS_SUCCESS,
+    payload: akkaProps
+  });
+
+export const fetchAkkaPropsFailure = (error: any): FetchAkkaPropsFailureAction => ({
+  type: FETCH_AKKA_PROPS_FAILURE,
+  payload: { error: error }
+});
+
 export function fetchClusterData() {
-  return (dispatch: Dispatch<ClusterDashboardActionTypes>): any => {
+  return (dispatch: Dispatch<ClusterDashboardActionTypes>,
+    getState: () => { dashboard: ClusterDashboardState }): any => {
     dispatch(fetchClusterMembersBegin());
+    const akkaManagementUrl = getState().dashboard.akkaProps.managementUrl;
     return axios
-      .get(`${AKKA_MANAGEMENT_URL}/cluster/members`)
+      .get(`${akkaManagementUrl}/cluster/members`)
       .then(response => dispatch(fetchClusterMembersSuccess(response.data)))
       .catch(error => dispatch(fetchClusterMembersFailure(error)));
   };
 }
 
 export function addClusterNode(nodeAddress: string) {
-  return (dispatch: Dispatch<ClusterDashboardActionTypes>): any => {
+  return (dispatch: Dispatch<ClusterDashboardActionTypes>,
+    getState: () => { dashboard: ClusterDashboardState }): any => {
     dispatch(addClusterNodeBegin());
+    const akkaManagementUrl = getState().dashboard.akkaProps.managementUrl;
     return axios
       .post(
-        `${AKKA_MANAGEMENT_URL}/cluster/members`,
+        `${akkaManagementUrl}/cluster/members`,
         querystring.stringify({ address: nodeAddress.trim() }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       )
       .then(response => {
         if (response.status === 200) dispatch(addClusterNodeSuccess(response.data.message));
-        setTimeout(() => { fetchClusterData()(dispatch); }, 1000);
+        setTimeout(() => { fetchClusterData()(dispatch, getState); }, 1000);
       })
       .catch(error => {
         dispatch(addClusterNodeFailure(error));
@@ -177,19 +225,39 @@ export function addClusterNode(nodeAddress: string) {
 }
 
 export function leaveDownClusterNode(nodeAddress: string, mode: string) {
-  return (dispatch: Dispatch<ClusterDashboardActionTypes>): any => {
+  return (dispatch: Dispatch<ClusterDashboardActionTypes>,
+    getState: () => { dashboard: ClusterDashboardState }): any => {
     dispatch(leaveDownClusterNodeBegin());
+    const akkaManagementUrl = getState().dashboard.akkaProps.managementUrl;
     return axios
       .put(
-        `${AKKA_MANAGEMENT_URL}/cluster/members/${nodeAddress.split("://")[1]}`,
+        `${akkaManagementUrl}/cluster/members/${nodeAddress.split("://")[1]}`,
         querystring.stringify({ operation: mode }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       )
       .then(response => {
         if (response.status === 200) dispatch(leaveDownClusterNodeSuccess(response.data.message));
-        setTimeout(() => { fetchClusterData()(dispatch); }, 1000);
+        setTimeout(() => { fetchClusterData()(dispatch, getState); }, 1000);
       })
       .catch(error => dispatch(leaveDownClusterNodeFailure(error)));
+  };
+}
+
+export function fetchAkkaProps() {
+  return (dispatch: Dispatch<ClusterDashboardActionTypes>,
+    getState: () => { dashboard: ClusterDashboardState }): any => {
+    dispatch(fetchAkkaPropsBegin());
+    return axios
+      .get('properties/akkaClusterProps.json')
+      .then(response => {
+        const props = JSON.parse(stripJsonComments(response.data));
+        const akkaProps: typeof initialState.akkaProps = {
+          managementUrl: props["akka.management.url"],
+        }
+        dispatch(fetchAkkaPropsSuccess(akkaProps));
+        setTimeout(() => { fetchClusterData()(dispatch, getState); }, 10);
+      })
+      .catch(error => dispatch(fetchAkkaPropsFailure(error)));
   };
 }
 
@@ -198,5 +266,6 @@ export type ClusterDashboardActionTypes = FetchClusterMembersBeginAction |
   ChangeRefreshIntervalAction | FrameGraphDataAction | AddClusterNodeBeginAction |
   AddClusterNodeSuccessAction | AddClusterNodeFailureAction | OpenConfirmationDialogAction |
   LeaveDownClusterNodeBeginAction | LeaveDownClusterNodeSuccessAction |
-  LeaveDownClusterNodeFailureAction | CloseConfirmationDialogAction;
+  LeaveDownClusterNodeFailureAction | CloseConfirmationDialogAction | ChangeAkkaUrlAction |
+  FetchAkkaPropsBeginAction | FetchAkkaPropsSuccessAction | FetchAkkaPropsFailureAction;
 

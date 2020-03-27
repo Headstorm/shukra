@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost:8080",
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "@material-ui/icons": "^4.5.1",
@@ -16,6 +17,7 @@
     "react-scripts": "3.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "strip-json-comments": "^3.0.1",
     "typescript": "3.6.4"
   },
   "scripts": {

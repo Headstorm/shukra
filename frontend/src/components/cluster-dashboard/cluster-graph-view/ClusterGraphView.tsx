@@ -10,8 +10,10 @@ import { ClusterDashboardState } from "../ClusterDashboardReducer";
 import { frameGraphData } from "./../ClusterDashboardActions";
 
 const ClusterGraphView: React.FC = () => {
-  const state: ClusterDashboardState = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard);
+  const cluster = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
+  const graph = useSelector(
+    (state: { dashboard: ClusterDashboardState }) => state.dashboard.graph);
   const dispatch = useDispatch();
   const [env] = useState(process.env.NODE_ENV);
 
@@ -85,7 +87,7 @@ const ClusterGraphView: React.FC = () => {
 
   useEffect(() => {
     dispatch(frameGraphData(styles, nodeUrl, clusterUrl));
-  }, [state.cluster, dispatch, nodeUrl, clusterUrl]);
+  }, [cluster, dispatch, nodeUrl, clusterUrl]);
 
   return (
     <Fragment>
@@ -94,7 +96,7 @@ const ClusterGraphView: React.FC = () => {
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
           {
-            env !== "test" && (<Graph graph={state.graph} options={options}
+            env !== "test" && (<Graph graph={graph} options={options}
               events={{}} />)
           }
           <div className="legend-wrapper">

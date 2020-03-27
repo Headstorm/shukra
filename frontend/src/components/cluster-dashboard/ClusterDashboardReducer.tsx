@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import {
+  ClusterDashboardActionTypes,
   FETCH_CLUSTER_MEMBERS_BEGIN,
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
-  ClusterDashboardActionTypes,
   CHANGE_REFRESH_INTERVAL,
   FRAME_GRAPH_DATA,
   ADD_CLUSTER_NODE_BEGIN,
@@ -15,38 +15,63 @@ import {
   LEAVE_DOWN_CLUSTER_NODE_BEGIN,
   LEAVE_DOWN_CLUSTER_NODE_FAILURE,
   LEAVE_DOWN_CLUSTER_NODE_SUCCESS,
-  CLOSE_CONFIRMATION_DIALOG
+  CLOSE_CONFIRMATION_DIALOG,
+  CHANGE_AKKA_URL,
+  FETCH_AKKA_PROPS_BEGIN,
+  FETCH_AKKA_PROPS_SUCCESS,
+  FETCH_AKKA_PROPS_FAILURE
 } from './ClusterDashboardActions';
 import { Cluster } from './Cluster.model';
 import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
 
 export interface ClusterDashboardState {
-  cluster: Cluster;
-  refreshVal: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  refInterval: any;
   loading: boolean;
+  cluster: Cluster;
+  akkaProps: {
+    managementUrl: string;
+  };
+  autoRefresh: {
+    value: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    interval: any;
+  };
   graph: {};
-  openSnackBar: boolean;
-  snackBarMessage: string;
-  openConfDialog: boolean;
-  confDialogTitle: string;
-  confDialogContent: string;
-  confDialogData: {};
+  snackBar: {
+    open: boolean;
+    message: string;
+  };
+  confirmationDialog: {
+    open: boolean;
+    title: string;
+    content: string;
+    data: {};
+  };
 }
 
 export const initialState: ClusterDashboardState = {
-  cluster: new Cluster(),
   loading: false,
-  refInterval: null,
-  refreshVal: 0,
-  graph: { nodes: [], edges: [] },
-  openSnackBar: false,
-  snackBarMessage: "",
-  openConfDialog: false,
-  confDialogTitle: "",
-  confDialogContent: "",
-  confDialogData: {}
+  cluster: new Cluster(),
+  akkaProps: {
+    managementUrl: "/ShukraCluster"
+  },
+  autoRefresh: {
+    value: 0,
+    interval: null
+  },
+  graph: {
+    nodes: [],
+    edges: []
+  },
+  snackBar: {
+    open: false,
+    message: ""
+  },
+  confirmationDialog: {
+    open: false,
+    title: "",
+    content: "",
+    data: {}
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -139,8 +164,11 @@ export default function ClusterDashboardReducer(state = initialState,
       return {
         ...state,
         loading: true,
-        openSnackBar: false,
-        snackBarMessage: ""
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
       };
 
     case FETCH_CLUSTER_MEMBERS_SUCCESS:
@@ -148,8 +176,11 @@ export default function ClusterDashboardReducer(state = initialState,
         ...state,
         loading: false,
         cluster: action.payload.cluster,
-        openSnackBar: false,
-        snackBarMessage: ""
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
       };
 
     case FETCH_CLUSTER_MEMBERS_FAILURE:
@@ -159,17 +190,26 @@ export default function ClusterDashboardReducer(state = initialState,
         ...state,
         loading: false,
         cluster: new Cluster(),
-        openSnackBar: true,
-        snackBarMessage: message
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: message
+        }
       };
 
     case CHANGE_REFRESH_INTERVAL:
       return {
         ...state,
-        openSnackBar: false,
-        snackBarMessage: "",
-        refreshVal: action.payload.state.refreshVal,
-        refInterval: action.payload.state.refInterval
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        },
+        autoRefresh: {
+          ...state.autoRefresh,
+          value: action.payload.state.value,
+          interval: action.payload.state.interval
+        }
       };
 
     case FRAME_GRAPH_DATA:
@@ -183,16 +223,22 @@ export default function ClusterDashboardReducer(state = initialState,
       return {
         ...state,
         loading: true,
-        openSnackBar: false,
-        snackBarMessage: ""
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
       };
 
     case ADD_CLUSTER_NODE_SUCCESS:
       return {
         ...state,
         loading: false,
-        openSnackBar: true,
-        snackBarMessage: action.payload.message
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: action.payload.message
+        }
       };
 
     case ADD_CLUSTER_NODE_FAILURE:
@@ -201,37 +247,52 @@ export default function ClusterDashboardReducer(state = initialState,
       return {
         ...state,
         loading: false,
-        openSnackBar: true,
-        snackBarMessage: message
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: message
+        }
       };
 
     case OPEN_CONFIRMATION_DIALOG:
       return {
         ...state,
-        confDialogContent: action.payload.content,
-        confDialogTitle: action.payload.title,
-        confDialogData: action.payload.data,
-        openConfDialog: true
+        confirmationDialog: {
+          ...state.confirmationDialog,
+          open: true,
+          title: action.payload.title,
+          content: action.payload.content,
+          data: action.payload.data
+        }
       };
 
     case LEAVE_DOWN_CLUSTER_NODE_BEGIN:
       return {
         ...state,
         loading: true,
-        openSnackBar: false,
-        snackBarMessage: "",
-        openConfDialog: false,
-        confDialogTitle: "",
-        confDialogContent: "",
-        confDialogData: {}
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        },
+        confirmationDialog: {
+          ...state.confirmationDialog,
+          open: false,
+          title: "",
+          content: "",
+          data: {}
+        }
       };
 
     case LEAVE_DOWN_CLUSTER_NODE_SUCCESS:
       return {
         ...state,
         loading: false,
-        openSnackBar: true,
-        snackBarMessage: action.payload.message
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: action.payload.message
+        }
       };
 
     case LEAVE_DOWN_CLUSTER_NODE_FAILURE:
@@ -240,15 +301,69 @@ export default function ClusterDashboardReducer(state = initialState,
       return {
         ...state,
         loading: false,
-        openSnackBar: true,
-        snackBarMessage: message
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: message
+        }
       };
 
     case CLOSE_CONFIRMATION_DIALOG:
       return {
         ...state,
-        openConfDialog: false
+        confirmationDialog: {
+          ...state.confirmationDialog,
+          open: false
+        }
       }
+
+    case CHANGE_AKKA_URL:
+      return {
+        ...state,
+        akkaProps: {
+          ...state.akkaProps,
+          managementUrl: action.payload.url
+        }
+      }
+
+    case FETCH_AKKA_PROPS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
+      };
+
+    case FETCH_AKKA_PROPS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        akkaProps: {
+          ...state.akkaProps,
+          ...action.payload
+        },
+        snackBar: {
+          ...state.snackBar,
+          open: false,
+          message: ""
+        }
+      };
+
+    case FETCH_AKKA_PROPS_FAILURE:
+      message = action.payload.error.message && action.payload.error.message.message
+        ? action.payload.error.message.message : action.payload.error.message
+      return {
+        ...state,
+        loading: false,
+        snackBar: {
+          ...state.snackBar,
+          open: true,
+          message: message
+        }
+      };
 
     default:
       return state;

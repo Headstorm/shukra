@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import ClusterDashboard from '../cluster-dashboard/ClusterDashboard';
 import { Switch, Route, Redirect } from 'react-router-dom';
+
+import ClusterDashboard from '../cluster-dashboard/ClusterDashboard';
 
 interface RouteType {
   path?: string;
@@ -25,18 +26,17 @@ function RouteWithSubRoutes(route: RouteType): JSX.Element {
 }
 
 const AppRouting: React.FC = () => {
-
   const RedirectComponent = (): JSX.Element => <Redirect to="/home" />
   RedirectComponent.displayName = "RedirectToHomeComponent"
 
   const routes: RouteType[] = [
     {
-      path: "/",
+      path: `${process.env.PUBLIC_URL}/`,
       exact: true,
       component: RedirectComponent
     },
     {
-      path: "/home",
+      path: `${process.env.PUBLIC_URL}/home`,
       component: ClusterDashboard
     },
     {
