@@ -95,4 +95,4 @@ https://github.com/Headstorm/shukra/wiki/Shukra
 
 ## Meta
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
+Distributed under the Apache 2 license. See [LICSENSE](LICENSE) for more information.
