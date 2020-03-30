@@ -11,7 +11,6 @@ class ExtendedAkkaRoutes extends ManagementRouteProvider with ExtendedAkkaRoutes
     get {
       extractActorSystem { implicit system =>
         complete {
-          system
           val shardNames = ClusterSharding(system).shardTypeNames
           ShardNames(shardNames)
         }
