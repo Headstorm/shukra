@@ -1,16 +1,33 @@
 package com.headstorm.shukra.akka.routes
 
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
+import akka.cluster.sharding.ClusterSharding
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.management.scaladsl.{ManagementRouteProvider, ManagementRouteProviderSettings}
 
-class ExtendedAkkaRoutes extends ManagementRouteProvider {
-  override def routes(settings: ManagementRouteProviderSettings): Route = {
-    path("hello") {
-      get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+class ExtendedAkkaRoutes extends ManagementRouteProvider with ExtendedAkkaRoutesProtocol {
+
+  private def routeGetShardNames(settings: ManagementRouteProviderSettings): Route = {
+    get {
+      extractActorSystem { implicit system =>
+        complete {
+          system
+          val shardNames = ClusterSharding(system).shardTypeNames
+          ShardNames(shardNames)
+        }
       }
     }
+  }
+
+  override def routes(settings: ManagementRouteProviderSettings): Route = {
+    concat(
+      pathPrefix("extended" / "shardnames") {
+        concat(
+          pathEndOrSingleSlash {
+            routeGetShardNames(settings)
+          }
+        )
+      }
+    )
   }
 }

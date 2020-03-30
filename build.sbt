@@ -24,7 +24,7 @@ libraryDependencies ++= Seq (
   "com.typesafe.akka" %% "akka-cluster-typed" % akka,
   "com.typesafe.akka" %% "akka-discovery" % akka,
   "com.typesafe.akka" %% "akka-persistence" % akka,
-  "com.typesafe.akka" %% "akka-cluster-sharding" % akka,
+  "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akka,
   "com.typesafe.akka" %% "akka-protobuf" % akka,
   "com.typesafe.akka" %% "akka-stream" % akka,
   "com.typesafe.akka" %% "akka-http" % "10.1.9",
