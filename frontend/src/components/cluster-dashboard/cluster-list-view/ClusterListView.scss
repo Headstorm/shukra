@@ -19,6 +19,13 @@
       padding: $single-spacing;
       font-size: $text-size-lg;
       font-weight: bold;
+
+      .member-list-tools {
+        float: right;
+        .MuiIconButton-root {
+          top: -2px;
+        }
+      }
     }
 
     .member-tree-view {
@@ -29,6 +36,10 @@
 
       .MuiTreeItem-content {
         cursor: default;
+      }
+
+      .MuiTreeItem-label {
+        background-color: transparent !important;
       }
       
       .MuiTreeItem-content:hover, .MuiTreeItem-content:active, .MuiTreeItem-content:focus {
@@ -49,6 +60,13 @@
           padding: $single-spacing 0px $single-spacing 0px;
           color: $primary-color;
           cursor: pointer;
+
+          .MuiTreeItem-iconContainer {
+            margin-right: 0px;
+            & svg {
+              font-size: $text-size-lg;
+            }
+          }
 
           .MuiTreeItem-label {
             width: calc(100% - 25px);
@@ -114,6 +132,10 @@
 
         > .MuiCollapse-container {
           margin-left: 0px;
+
+          .MuiTreeItem-iconContainer {
+            width: 0px;
+          }
 
           .member-details {
             padding: 0px $single-spacing;
