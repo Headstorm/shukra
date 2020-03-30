@@ -1,0 +1,84 @@
+@import './../../assets/styles/variables.scss';
+@import './../../assets/styles/common.scss';
+
+.app-header {
+  min-height: $header-height;
+  max-height: $header-height;
+  margin-bottom: $single-spacing;
+  width: 100%;
+  
+  .MuiAppBar-root {
+    color: $secondary-theme-color;
+    background-color: $primary-theme-color;
+  }
+
+  .MuiToolbar-root {
+    height: $header-height;
+    min-height: $header-height;
+
+    .logo img {
+      height: 35px;
+      width: auto;
+    }
+
+    .MuiDivider-root {
+      margin-left: $double-spacing;
+      margin-right: $double-spacing;
+      width: 1px;
+      height: 70%;
+      background-color: $secondary-theme-color;
+    }
+
+    .nav-button-group .MuiButton-label {
+      color: $secondary-theme-color;
+    }
+
+    .auto-refresh-wrapper {
+      position: absolute;
+      top: 0px;
+      right: $double-spacing;
+      height: $header-height;
+      padding: 4px 0px;
+    
+      .MuiTypography-root {
+        vertical-align: middle;
+        font-size: $text-size-xs;
+        color: $secondary-theme-color;
+        margin-right: $single-spacing;
+        font-weight: bold;
+      }
+    
+      .refresh-slider-label {
+        font-size: $text-size-xs;
+        color: $secondary-color;
+      }
+    
+      .MuiSlider-root {
+        width: 100px;
+        top: 10px;
+        margin: 0px $single-spacing;
+    
+        .MuiSlider-mark {
+          background-color: transparent;
+        }
+    
+        .MuiSlider-rail {
+          background-color: $secondary-color;
+        }
+    
+        .MuiSlider-thumb { 
+          background-color: $primary-color;
+        }
+    
+        .MuiSlider-valueLabel {
+          top: -$double-spacing;
+    
+          * {
+            background-color: transparent;
+            color: $secondary-theme-color;
+          }
+        }
+      }
+    }
+  }
+}

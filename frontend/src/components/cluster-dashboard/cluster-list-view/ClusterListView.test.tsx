@@ -1,11 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ClusterListView from './ClusterListView';
-import { Cluster } from '../Cluster.model';
+import { mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<ClusterListView clusterData={new Cluster()}
-    refreshClusterData={(): void => { }} />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import ClusterListView from './ClusterListView';
+import { initialState } from '../ClusterDashboardReducer';
+
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
+
+describe("Component ClusterListView", () => {
+  it('renders without crashing', () => {
+    const store = mockStore({
+      dashboard: {
+        ...initialState
+      }
+    });
+
+    const component = mount(<Provider store={store}><ClusterListView /></Provider>);
+    expect(component).toExist();
+    expect(component.find('ClusterListView')).toExist();
+  });
 });

@@ -4,13 +4,13 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
-import ClusterGraphView from './ClusterGraphView';
-import { initialState } from '../ClusterDashboardReducer';
+import AkkaUrlDialog from './AkkaUrlDialog';
+import { initialState } from '../../cluster-dashboard/ClusterDashboardReducer';
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-describe("Component ClusterGraphView", () => {
+describe("Component AkkaUrlDialog", () => {
   it('renders without crashing', () => {
     const store = mockStore({
       dashboard: {
@@ -18,8 +18,12 @@ describe("Component ClusterGraphView", () => {
       }
     });
 
-    const component = mount(<Provider store={store}><ClusterGraphView /></Provider>);
+    const component = mount(
+      <Provider store={store}>
+        <AkkaUrlDialog open={false} close={(): void => { }} />
+      </Provider>
+    );
     expect(component).toExist();
-    expect(component.find('ClusterGraphView')).toExist();
+    expect(component.find('AkkaUrlDialog')).toExist();
   });
 });

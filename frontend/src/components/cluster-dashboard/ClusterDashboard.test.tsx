@@ -1,9 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ClusterDashboard from './ClusterDashboard';
+import { mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<ClusterDashboard />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import ClusterDashboard from './ClusterDashboard';
+import { initialState } from './ClusterDashboardReducer';
+
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
+
+describe("Component ClusterDashboard", () => {
+  it('renders without crashing', () => {
+    const store = mockStore({
+      dashboard: {
+        ...initialState
+      }
+    });
+
+    const component = mount(<Provider store={store}><ClusterDashboard /></Provider>);
+    expect(component).toExist();
+    expect(component.find('ClusterDashboard')).toExist();
+  });
 });

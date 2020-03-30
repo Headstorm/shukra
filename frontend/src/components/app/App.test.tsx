@@ -1,9 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import App from './App';
+import { initialState } from '../cluster-dashboard/ClusterDashboardReducer';
+
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
+
+describe("Component App", () => {
+  it('renders without crashing', () => {
+    const store = mockStore({
+      dashboard: {
+        ...initialState
+      }
+    });
+    const component = mount(<Provider store={store}><App /></Provider>);
+    expect(component).toExist();
+    expect(component.find('App')).toExist();
+  });
 });

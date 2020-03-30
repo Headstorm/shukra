@@ -1,0 +1,56 @@
+@import './../../assets/styles/variables.scss';
+@import './../../assets/styles/common.scss';
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  min-height: $footer-height;
+  width: 100%;
+
+  .MuiAppBar-root {
+    top: auto;
+    bottom: 0;
+    color: $secondary-theme-color;
+    background-color: $primary-theme-color;
+
+    .akka-url {
+      height: $text-size-lg;
+      border-color: transparent;
+      font-size: $text-size-xs;
+      color: $secondary-theme-color;
+
+      .MuiSvgIcon-root{
+        color: $secondary-color;
+        height: $text-size-sm;
+        width: $text-size-sm;
+      }
+
+      .MuiChip-label {
+        font-family: Consolas;
+      }
+
+      .url-text {
+        color: $secondary-color;
+        position: relative;
+        left: 2px;
+      }
+    }
+
+    .brand {
+      font-size: $text-size-xs;
+      position: absolute;
+      right: 25px;
+
+      > a, a:hover, a:visited, a:active, a:focus {
+        color: $secondary-theme-color;
+        text-decoration: none;
+        margin-left: 4px;
+      }
+    }
+  }
+  
+  .MuiToolbar-root {
+    height: $footer-height;
+    min-height: $footer-height;
+  }
+}
