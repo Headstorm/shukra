@@ -2,7 +2,7 @@
 
 # Shukra #
 
-Akka actor visualization and management tool for local and distributed actor systems.
+Shukra is an Akka visualization and management tool for local and distributed actor systems.
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
@@ -25,7 +25,7 @@ These instructions will get you a copy of the project up and running on the prod
 
 ## Development Usage Instructions
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+The following instructions will get the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -84,9 +84,17 @@ For production, change the `akka.management.url` property in `public/akkaCluster
 * [Akka](https://akka.io/docs/) - Actor system framework
 * [React](https://akka.io/docs/) - Front end JavaScript library
 
+## Contributing
+
+1. Fork it (<https://github.com/Headstorm/shukra/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
+
 ## Authors
 
-* **Karthik Pasagada** - *Initial work* - [kpasagada](https://github.com/kpasagada)
+* **Karthik Pasagada** - [kpasagada](https://github.com/kpasagada)
 
 See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/contributors) who participated in this project.
 
@@ -94,3 +102,10 @@ See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/c
 
 * Thanks to [akka-docker-cluster-example](https://github.com/akka/akka-sample-cluster-docker-compose-scala) for initial akka cluster setup.
 
+## Read More
+
+https://github.com/Headstorm/shukra/wiki/Shukra
+
+## Meta
+
+Distributed under the Apache 2 license. See [LICENSE](LICENSE) for more information.
