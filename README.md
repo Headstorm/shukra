@@ -2,12 +2,13 @@
 
 # Shukra #
 
-Shukra is an Akka visualization and management tool for local and distributed actor systems.
+Shukra is an Akka cluster visualization and management dashboard for inspecting local and remote Akka clusters.  Shukra is developed by Headstorm's Open Source group. Please reach out to us at opensource@headstorm.com
+
+
+![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
-
-![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
 
 ## Production Usage Instructions
 
