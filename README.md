@@ -1,4 +1,4 @@
-<img align="left" width="150" height="200" src="frontend/public/logo.png">
+<img align="left" width="250" height="200" src="frontend/public/logo.png">
 
 # Shukra #
 
