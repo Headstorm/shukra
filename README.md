@@ -1,3 +1,5 @@
+<img align="left" width="300" height="100" src="frontend/public/logo.png">
+
 # Shukra #
 
 Shukra is an Akka visualization and management tool for local and distributed actor systems.
