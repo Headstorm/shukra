@@ -4,21 +4,19 @@
 
 Shukra is an Akka cluster visualization and management dashboard for inspecting local and remote Akka clusters. 
 
-Shukra is developed by Headstorm's Open Source group. Please reach out to us at opensource@headstorm.com
-
+Shukra is lovingly developed by Headstorm's Open Source group. Please reach out to us at: opensource@headstorm.com
 
 ![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
 
-Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
-HTTP APIs.
+Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes an HTTP interface to interact with an Akka cluster.
 
 ## Production Usage Instructions
 
-These instructions will get you a copy of the project up and running on the production environment.
+These instructions guide you through the process to run Shukra in a production environment.
 
 ### Generate Production Build
 
-* Set `homepage` property in `package.json` file to reflect the exact deployment URL on the server. For example, `"homepage": "http://localhost:8080/shukra"`. 
+* Set `homepage` property in `package.json` file to reflect the deployment URL of the server. For example, `"homepage": "http://localhost:8080/shukra"`. 
 * Use the command `npm run build` (uses create react app `react-scripts build` internally) to generate a production build to serve it with a static server.
 * The `build` folder contains files that are ready to be deployed. 
 * Refer to https://create-react-app.dev/docs/production-build or https://reactjs.org/docs/optimizing-performance.html for more information on generating production ready builds.
