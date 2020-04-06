@@ -1,4 +1,4 @@
-![Image](frontend/public/logo.png)
+<img align="left" width="150" height="200" src="frontend/public/logo.png">
 
 # Shukra #
 
@@ -6,6 +6,8 @@ Shukra is an Akka visualization and management tool for local and distributed ac
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes 
 HTTP APIs.
+
+![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
 
 ## Production Usage Instructions
 
