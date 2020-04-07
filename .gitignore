@@ -1,3 +1,7 @@
+.classpath
+.project
+.settings/
+package-lock.json
 .idea/
 
 ### Intellij ###

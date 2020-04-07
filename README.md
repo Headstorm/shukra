@@ -6,9 +6,9 @@ Shukra is an Akka cluster visualization and management dashboard for inspecting 
 
 Shukra is lovingly developed by Headstorm's Open Source group. Please reach out to us at: opensource@headstorm.com
 
-![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
-
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes an HTTP interface to interact with an Akka cluster.
+
+![image](https://user-images.githubusercontent.com/915955/78514456-0eb86300-7777-11ea-85df-b6bdd4563fd7.png)
 
 ## Production Usage Instructions
 
@@ -37,18 +37,26 @@ Download and install the latest version of [Node.js and NPM](https://nodejs.org/
 
 ### Installation
 
-#### Back end:
+#### Back End:
 
-Use the command below to start a sample Akka Docker cluster.
-```
-vagrant up
-```
+Use the commands below to start a sample Akka Docker cluster.
 
-This will create 3 nodes, a seed and two regular nodes, called seed, c1, and c2 respectively (unless changed in ```docker-compose.yml```). While running, try opening a new terminal and try things like ```docker-compose stop seed``` and watch the cluster nodes respond.
+Potential issue #1:
+"A Vagrant environment or target machine is required to run this command." Run ```vagrant init``` to create a new Vagrant environment.
 
-This also starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraCluster`, unless changed in the ```application.conf``` file. 
+Potential issue #2:
+"No usable default provider could be found for your system. Vagrant relies on interactions with 3rd party systems, known as "providers", to provide Vagrant with resources to run development environments. Examples are VirtualBox, VMware, Hyper-V. The easiest solution to this message is to install VirtualBox, which is available for free on all major platforms."
+Refer to [Vagrant](https://www.vagrantup.com/docs/virtualbox/) documentation to see which VirtualBox versions are compatible. Download a compatible version and Vagrant will take care of the rest!
 
-#### Front end:
+You can now ```cd``` to the shukra project folder and run ```vagrant up```. If executed successfully, ```vagrant up``` starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraCluster`, unless changed in the ```application.conf``` file. ```vagrant up``` will create 3 nodes, a seed and two regular nodes, called seed, c1, and c2 respectively (unless changed in ```docker-compose.yml```). If the front-end is running, you should be able to see these nodes appear in the UI upon refreshing the homepage.
+
+You can now use [docker-compose](https://docs.docker.com/compose/reference/ps/) commands to make the cluster nodes respond. First, open a VirtualBox terminal with this command: ```vagrant ssh```. Within the VirtualBox terminal, ```cd /vagrant```, and then type some commands! Some easy commands to start with are:
+```docker-compose stop c1``` - Stops running containers without removing them.
+```docker-compose start c1```- Starts existing containers for a service.
+```docker-compose ps``` Lists containers.
+```docker-compose logs c1``` - Displays log output from services.
+
+#### Front End:
 
 Navigate to the `frontend` folder and use the command below to install the dependencies for Shukra UI.
 ```
@@ -98,6 +106,7 @@ For production, change the `akka.management.url` property in `public/akkaCluster
 ## Authors
 
 * **Karthik Pasagada** - [kpasagada](https://github.com/kpasagada)
+* **Zac Romick** - [zromick](https://github.com/zromick)
 
 See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/contributors) who participated in this project.
 
@@ -105,9 +114,11 @@ See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/c
 
 * Thanks to [akka-docker-cluster-example](https://github.com/akka/akka-sample-cluster-docker-compose-scala) for initial akka cluster setup.
 
-## Read More
+## More Information
 
 https://github.com/Headstorm/shukra/wiki/Shukra
+
+Shukra is the Indian god of light and clarity, and this tool is designed to shed light and clarity on previously hard to observe Akka Clusters. We can now understand what our Akka Clusters look like when they're running in production instead of guesswork from reading logs.
 
 ## Meta
 
