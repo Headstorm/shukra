@@ -1,10 +1,17 @@
-<img align="left" width="350" height="150" src="frontend/public/logo.png">
+<div align="center" >
+    <img width="350" height="150" src="frontend/public/logo.png">
+</div>
+
+[![Github License](https://img.shields.io/github/license/Headstorm/shukra)](https://github.com/Headstorm/shukra/blob/master/LICENSE)
+[![Github Issues](https://img.shields.io/github/issues/Headstorm/shukra)](https://github.com/Headstorm/shukra/issues)
+[![Github Forks](https://img.shields.io/github/forks/Headstorm/shukra)](https://github.com/Headstorm/shukra/)
+[![Github Stars](https://img.shields.io/github/stars/Headstorm/shukra)](https://github.com/Headstorm/shukra/)
 
 # Shukra #
 
 Shukra is an Akka cluster visualization and management dashboard for inspecting local and remote Akka clusters. 
 
-Shukra is lovingly developed by Headstorm's Open Source group. Please reach out to us at: opensource@headstorm.com
+Shukra is lovingly developed by [Headstorm's](https://www.headstorm.com/) Open Source group. Please reach out to us at: opensource@headstorm.com
 
 Shukra relies on [akka-management](https://doc.akka.io/docs/akka-management/current/akka-management.html) which exposes an HTTP interface to interact with an Akka cluster.
 
