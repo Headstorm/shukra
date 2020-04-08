@@ -102,11 +102,11 @@ const ClusterGraphView: React.FC = () => {
           <div className="legend-wrapper">
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk leader"></span>
-              <span className="legend-text disp-inline-blk">Oldest Node</span>
+              <span className="legend-text disp-inline-blk">Leader Node</span>
             </div>
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk oldest"></span>
-              <span className="legend-text disp-inline-blk">Leader Node</span>
+              <span className="legend-text disp-inline-blk">Oldest Node</span>
             </div>
           </div>
         </div>
