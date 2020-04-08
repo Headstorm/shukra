@@ -1,4 +1,4 @@
-package com.headstorm.shukra.sample
+package com.headstorm.shukra.cluster
 
 import com.typesafe.config.ConfigFactory
 

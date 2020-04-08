@@ -1,10 +1,10 @@
-package com.headstorm.shukra.sample
+package com.headstorm.shukra.cluster
 
 import akka.actor.typed.{ActorRef, ActorSystem, Behavior, Terminated}
 import akka.actor.typed.scaladsl.Behaviors
 import akka.cluster.sharding.typed.ShardingEnvelope
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityTypeKey}
-import com.headstorm.shukra.sample.ClusteringConfig.clusterName
+import com.headstorm.shukra.cluster.ClusteringConfig.clusterName
 import scala.concurrent.duration._
 
 object ClusteringApp {

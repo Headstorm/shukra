@@ -1,4 +1,4 @@
-package com.headstorm.shukra.sample
+package com.headstorm.shukra.cluster
 
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorRef, Behavior}
