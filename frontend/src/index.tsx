@@ -8,14 +8,14 @@ import {
   applyMiddleware
 } from "redux";
 import { Provider } from "react-redux";
-
 import * as serviceWorker from "./serviceWorker";
-import rootReducer from "./rootReducer";
 import "./index.scss";
 import App from "./components/app/App";
 
+import ClusterDashboardReducer from "./components/cluster-dashboard/ClusterDashboardReducer";
+
 const reducer = combineReducers({
-  rootReducer,
+  ClusterDashboardReducer,
 });
 
 // @ts-ignore
@@ -31,3 +31,4 @@ ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementB
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
