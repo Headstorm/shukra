@@ -12,10 +12,10 @@ import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 import App from "./components/app/App";
 
-import ClusterDashboardReducer from "./components/cluster-dashboard/ClusterDashboardReducer";
+import dashboard from "./components/cluster-dashboard/ClusterDashboardReducer";
 
 const reducer = combineReducers({
-  ClusterDashboardReducer,
+  dashboard,
 });
 
 // @ts-ignore
