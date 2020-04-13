@@ -41,6 +41,7 @@ const ClusterGraphView: React.FC = () => {
     `data:image/svg+xml;charset=utf-8,${encodeURIComponent(nodeSvg)}`;
 
   const options = {
+    autoResize: true,
     nodes: {
       shape: "circularImage",
       borderWidth: 0.5,
