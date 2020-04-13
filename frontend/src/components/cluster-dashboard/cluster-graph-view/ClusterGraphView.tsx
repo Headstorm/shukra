@@ -6,8 +6,8 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
-import { ClusterDashboardState } from "../ClusterDashboardReducer";
-import { frameGraphData } from "./../ClusterDashboardActions";
+import { ClusterDashboardState } from "../../../reducers/dash";
+import { frameGraphData } from "../../../actions/dash";
 
 const ClusterGraphView: React.FC = () => {
   const cluster = useSelector(

@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, LinkProps } from "react-router-dom";
 
 import "./Header.scss";
-import { ClusterDashboardState } from "../cluster-dashboard/ClusterDashboardReducer";
+import { ClusterDashboardState } from "../../reducers/dash";
 import {
   fetchClusterData,
   changeRefreshInterval
-} from "../cluster-dashboard/ClusterDashboardActions";
+} from "../../actions/dash";
 
 const Header: React.FC = () => {
   const autoRefresh = useSelector(

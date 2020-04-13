@@ -4,7 +4,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import { useSelector } from "react-redux";
 
 import './Footer.scss';
-import { ClusterDashboardState } from "../cluster-dashboard/ClusterDashboardReducer";
+import { ClusterDashboardState } from "../../reducers/dash";
 import AkkaUrlDialog from "./akka-url-dialog/AkkaUrlDialog";
 
 const Footer: React.FC = () => {
