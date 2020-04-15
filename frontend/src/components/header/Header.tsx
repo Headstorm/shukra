@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useCallback } from "react";
 import { Grid, AppBar, Divider, Button, Toolbar, Typography, Slider } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, LinkProps } from "react-router-dom";
@@ -11,20 +11,21 @@ import {
 } from "../cluster-dashboard/ClusterDashboardActions";
 
 const Header: React.FC = () => {
+
+  const dispatch = useDispatch();
   const autoRefresh = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.autoRefresh);
-  const dispatch = useDispatch();
 
   const refreshIntervalSeconds = [
     { value: 0 },
-    { value: 2 },
+    { value: 1 },
     { value: 5 },
     { value: 10 },
     { value: 30 },
     { value: 60 }
   ];
 
-  const onRefreshIntervalChange = (event: React.ChangeEvent<{}>, value: number): void => {
+  const onRefreshIntervalChange = useCallback((value: number): void => {
     if (autoRefresh.value === value) {
       return;
     }
@@ -39,7 +40,11 @@ const Header: React.FC = () => {
     }
 
     dispatch(changeRefreshInterval({ value: value, interval: interval }));
-  };
+  }, [autoRefresh.interval, autoRefresh.value, dispatch]);
+
+  useEffect(() => {
+    onRefreshIntervalChange(1);
+  }, [onRefreshIntervalChange]);
 
   const RouteLink = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
     <Link innerRef={ref} {...props} />
@@ -67,7 +72,7 @@ const Header: React.FC = () => {
               </Typography>
               <span className="refresh-slider-label disp-inline-blk">OFF</span>
               <Slider
-                defaultValue={0}
+                defaultValue={1}
                 valueLabelDisplay="auto"
                 marks={refreshIntervalSeconds}
                 min={refreshIntervalSeconds[0].value}
@@ -76,7 +81,7 @@ const Header: React.FC = () => {
                 track={false}
                 valueLabelFormat={(value: number): string => `${value}s`}
                 onChange={(event, value): void => {
-                  typeof value == 'number' && onRefreshIntervalChange(event, value)
+                  typeof value == 'number' && onRefreshIntervalChange(value)
                 }}
               />
               <span className="refresh-slider-label disp-inline-blk">

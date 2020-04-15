@@ -110,10 +110,12 @@ export const fetchClusterMembersBegin = (): FetchClusterMembersBeginAction => ({
   type: FETCH_CLUSTER_MEMBERS_BEGIN
 });
 
-export const fetchClusterMembersSuccess = (cluster: Cluster): FetchClusterMembersSuccessAction => ({
+export const fetchClusterMembersSuccess = (cluster: Cluster): FetchClusterMembersSuccessAction => {
+	console.log("TCL: cluster", cluster)
+  return({
   type: FETCH_CLUSTER_MEMBERS_SUCCESS,
   payload: { cluster: cluster }
-});
+})};
 
 export const fetchClusterMembersFailure = (error: any): FetchClusterMembersFailureAction => ({
   type: FETCH_CLUSTER_MEMBERS_FAILURE,
