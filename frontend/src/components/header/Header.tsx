@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 
   const refreshIntervalSeconds = [
     { value: 0 },
-    { value: 1 },
+    { value: 2 },
     { value: 5 },
     { value: 10 },
     { value: 30 },
@@ -43,8 +43,9 @@ const Header: React.FC = () => {
   }, [autoRefresh.interval, autoRefresh.value, dispatch]);
 
   useEffect(() => {
-    onRefreshIntervalChange(1);
-  }, [onRefreshIntervalChange]);
+    // Sets refresh interval when component renders for the first time
+    onRefreshIntervalChange(2);
+  });
 
   const RouteLink = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
     <Link innerRef={ref} {...props} />
@@ -72,7 +73,7 @@ const Header: React.FC = () => {
               </Typography>
               <span className="refresh-slider-label disp-inline-blk">OFF</span>
               <Slider
-                defaultValue={1}
+                defaultValue={2}
                 valueLabelDisplay="auto"
                 marks={refreshIntervalSeconds}
                 min={refreshIntervalSeconds[0].value}
