@@ -114,7 +114,9 @@ For production, change the `akka.management.url` property in `public/akkaCluster
 ## Authors
 
 * **Karthik Pasagada** - [kpasagada](https://github.com/kpasagada)
+* **Charles Hunt** - [CharlesAHunt](https://github.com/CharlesAHunt)
 * **Zac Romick** - [zromick](https://github.com/zromick)
+* **August von Trapp** - [augustinevt](https://github.com/augustinevt)
 
 See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/contributors) who participated in this project.
 
