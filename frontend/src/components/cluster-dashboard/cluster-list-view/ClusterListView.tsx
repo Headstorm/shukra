@@ -18,8 +18,8 @@ import {
   addClusterNode,
   openConfirmationDialog,
   leaveDownClusterNode
-} from "../ClusterDashboardActions";
-import { ClusterDashboardState } from "../ClusterDashboardReducer";
+} from "../../../actions/dash";
+import { ClusterDashboardState } from "../../../reducers/dash";
 
 const ClusterListView: React.FC = () => {
   const cluster = useSelector(
@@ -60,11 +60,11 @@ const ClusterListView: React.FC = () => {
 
   useEffect(() => {
     if (expanded) {
-      let nodeIds: string[] = [];
-      if (cluster && cluster.members) {
-        nodeIds = cluster.members.map((_member, index) => String(index));
+      if (cluster && cluster.members && cluster.members.length) {
+        const nodeIds = cluster.members.map((member) => member.nodeUid);
+        setExpandedViewNodes(nodeIds);
       }
-      setExpandedViewNodes(nodeIds);
+      else setExpandedViewNodes([]);
     }
     else {
       setExpandedViewNodes([]);
@@ -115,7 +115,7 @@ const ClusterListView: React.FC = () => {
                 return (
                   <TreeItem
                     key={member.nodeUid}
-                    nodeId={String(index)}
+                    nodeId={member.nodeUid}
                     label={
                       <div className="member-header">
                         <span className="disp-inline-blk">

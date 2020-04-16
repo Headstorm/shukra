@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import "./ConfirmationDialog.scss";
-import { closeConfirmationDialog } from "../../cluster-dashboard/ClusterDashboardActions";
+import { closeConfirmationDialog } from "../../../actions/dash";
 
 type ConfirmationDialogProps = {
   open: boolean;

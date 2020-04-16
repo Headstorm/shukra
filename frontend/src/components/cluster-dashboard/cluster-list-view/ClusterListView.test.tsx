@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import ClusterListView from './ClusterListView';
-import { initialState } from '../ClusterDashboardReducer';
+import { initialState } from '../../../reducers/dash';
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
