@@ -141,9 +141,11 @@ const ClusterGraphView: React.FC = () => {
 
     cluster.members.forEach((member, index) => {
       const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
+      
+      console.log("TCL: memberconfig", member, cluster);
 
       const memberConfig = {
-        id: index + 1,
+        id: member.nodeUid,
         label: `<b>o </b>${member.node.split("://")[1]}`,
         image: nodeUrl,
         title: ReactDOMServer.renderToString(memberTitle),
@@ -159,17 +161,19 @@ const ClusterGraphView: React.FC = () => {
         ...(member.node === cluster.oldest && oldest)
       };
 
-      
-      console.log("TCL: memberconfig", memberConfig, cluster);
-
       graph.nodes.push(memberConfig);
-      graph.edges.push({ from: 0, to: index + 1 });
+      graph.edges.push({ from: 0, to: member.nodeUid });
     });
 
     return graph;
   }
 
-  const graph = setupGraph(styles, nodeUrl, clusterUrl);
+  const graph = 
+  <Graph 
+    graph={setupGraph(styles, nodeUrl, clusterUrl)}
+    options={options}
+    events={{}} 
+  />
 
   return (
     <Fragment>
@@ -178,8 +182,7 @@ const ClusterGraphView: React.FC = () => {
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
           {
-            env !== "test" && (<Graph graph={graph} options={options}
-              events={{}} />)
+            env !== "test" && graph
           }
           <div className="legend-wrapper">
             <div className="legend-content">
