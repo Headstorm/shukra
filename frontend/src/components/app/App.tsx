@@ -7,7 +7,7 @@ import './App.scss';
 import AppRouting from './AppRouting';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
-import { fetchAkkaProps } from '../cluster-dashboard/ClusterDashboardActions';
+import { fetchAkkaProps } from '../../actions/dash';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

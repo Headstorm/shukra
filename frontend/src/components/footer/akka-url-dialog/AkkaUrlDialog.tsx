@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import "./AkkaUrlDialog.scss";
-import { changeAkkaUrl, fetchClusterData } from "../../cluster-dashboard/ClusterDashboardActions";
+import { changeAkkaUrl, fetchClusterData } from "../../../actions/dash";
 
 type AkkaUrlDialogProps = {
   open: boolean;
