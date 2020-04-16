@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import Header from './Header';
-import { initialState } from '../cluster-dashboard/ClusterDashboardReducer';
+import { initialState } from '../../reducers/dash';
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
