@@ -112,8 +112,6 @@ const ClusterListView: React.FC = () => {
             {cluster &&
               cluster.members &&
               cluster.members.map((member, index) => {
-                console.log("TCL: member, index", cluster.members, member, index)
-                debugger;
                 return (
                   <TreeItem
                     nodeId={member.nodeUid}

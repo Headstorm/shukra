@@ -186,7 +186,6 @@ export function fetchClusterData() {
     return axios
       .get(`${akkaManagementUrl}/cluster/members`)
       .then(response => {
-				console.log("TCL: fetchClusterData -> response ", response)
         dispatch(fetchClusterMembersSuccess(response.data))
       })
       .catch(error => dispatch(fetchClusterMembersFailure(error)));

@@ -169,12 +169,8 @@ const ClusterGraphView: React.FC = () => {
     return graph;
   }
 
-  // useEffect(() => {
-  //   setupGraph(styles, nodeUrl, clusterUrl);
-  // }, [cluster, nodeUrl, clusterUrl])
-
   const graph = setupGraph(styles, nodeUrl, clusterUrl);
-  // console.log("TCL: ClusterGraphView:React.FC -> graph", graph)
+
   return (
     <Fragment>
       <Grid item xs={9}
