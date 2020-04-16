@@ -22,7 +22,6 @@ import {
 import { ClusterDashboardState } from "../ClusterDashboardReducer";
 
 const ClusterListView: React.FC = () => {
-  console.log("TCL: cluster graph");
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
   const confirmationDialog = useSelector(

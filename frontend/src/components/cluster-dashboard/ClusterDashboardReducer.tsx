@@ -4,7 +4,6 @@ import {
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
   CHANGE_REFRESH_INTERVAL,
-  FRAME_GRAPH_DATA,
   ADD_CLUSTER_NODE_BEGIN,
   ADD_CLUSTER_NODE_SUCCESS,
   ADD_CLUSTER_NODE_FAILURE,
@@ -31,7 +30,6 @@ export interface ClusterDashboardState {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     interval: any;
   };
-  graph: {};
   snackBar: {
     open: boolean;
     message: string;
@@ -53,10 +51,6 @@ export const initialState: ClusterDashboardState = {
   autoRefresh: {
     value: 0,
     interval: null
-  },
-  graph: {
-    nodes: [],
-    edges: []
   },
   snackBar: {
     open: false,
@@ -126,12 +120,6 @@ export default function ClusterDashboardReducer(state = initialState,
           interval: action.payload.state.interval
         }
       };
-
-    case FRAME_GRAPH_DATA:
-      return {
-        ...state,
-        graph: action.payload.graph,
-      }
 
     case ADD_CLUSTER_NODE_BEGIN:
       return {

@@ -2,9 +2,6 @@
 import { Dispatch } from "react";
 import axios from "axios";
 import querystring from "query-string";
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
 import { Cluster } from "./Cluster.model";
 import { ClusterDashboardState, initialState } from "./ClusterDashboardReducer";
 import stripJsonComments from "strip-json-comments";
@@ -13,7 +10,6 @@ export const FETCH_CLUSTER_MEMBERS_BEGIN = 'FETCH_CLUSTER_MEMBERS_BEGIN';
 export const FETCH_CLUSTER_MEMBERS_SUCCESS = 'FETCH_CLUSTER_MEMBERS_SUCCESS';
 export const FETCH_CLUSTER_MEMBERS_FAILURE = 'FETCH_CLUSTER_MEMBERS_FAILURE';
 export const CHANGE_REFRESH_INTERVAL = 'CHANGE_REFRESH_INTERVAL';
-export const FRAME_GRAPH_DATA = 'FRAME_GRAPH_DATA';
 export const ADD_CLUSTER_NODE_BEGIN = 'ADD_CLUSTER_NODE_BEGIN';
 export const ADD_CLUSTER_NODE_SUCCESS = 'ADD_CLUSTER_NODE_SUCCESS';
 export const ADD_CLUSTER_NODE_FAILURE = 'ADD_CLUSTER_NODE_FAILURE';
@@ -44,11 +40,6 @@ interface FetchClusterMembersFailureAction {
 interface ChangeRefreshIntervalAction {
   type: typeof CHANGE_REFRESH_INTERVAL;
   payload: { state: { value: number; interval: any } };
-}
-
-interface FrameGraphDataAction {
-  type: typeof FRAME_GRAPH_DATA;
-  payload: { graph: {nodes: any[], edges: any[]} };
 }
 
 interface AddClusterNodeBeginAction {
@@ -126,12 +117,6 @@ export const changeRefreshInterval =
   (state: { value: number; interval: any }): ChangeRefreshIntervalAction => ({
     type: CHANGE_REFRESH_INTERVAL,
     payload: { state: state }
-  });
-
-export const frameGraphData = (graph: {nodes: any[], edges: any[]}):
-  FrameGraphDataAction => ({
-    type: FRAME_GRAPH_DATA,
-    payload: { graph },
   });
 
 export const addClusterNodeBegin = (): AddClusterNodeBeginAction => ({
@@ -266,95 +251,9 @@ export function fetchAkkaProps() {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setupGraph = 
-(cluster: Cluster, styles: any, nodeUrl: string, clusterUrl: string): any => 
-(dispatch: any) => {
-  const leader = {
-    shadow: {
-      enabled: true,
-      color: styles.leaderNodeColor,
-      size: 15,
-      x: 1,
-      y: 1
-    }
-  };
-
-  const oldest = {
-    borderWidth: 3,
-    borderWidthSelected: 0,
-    color: {
-      border: styles.oldestNodeColor,
-      highlight: { border: styles.oldestNodeColor },
-      hover: { border: styles.oldestNodeColor }
-    },
-    shapeProperties: { borderDashes: [10, 10] }
-  };
-
-  //eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const graph: any = {
-    nodes: [
-      {
-        id: 0,
-        label: "Akka Cluster",
-        image: clusterUrl,
-        size: 40,
-        borderWidth: 1,
-        borderWidthSelected: 2,
-        color: {
-          border: styles.primaryColor,
-          background: styles.secondaryColor,
-          highlight: {
-            border: styles.primaryColor,
-            background: styles.secondaryColorLighter
-          },
-          hover: {
-            border: styles.primaryColor,
-            background: styles.secondaryColorLighter
-          }
-        }
-      }
-    ],
-    edges: []
-  };
-
-  if (!cluster || !cluster.members) {
-    return graph;
-  }
-
-  cluster.members.forEach((member, index) => {
-    const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
-
-    const memberConfig = {
-      id: index + 1,
-      label: `<b>o </b>${member.node.split("://")[1]}`,
-      image: nodeUrl,
-      title: ReactDOMServer.renderToString(memberTitle),
-      font: {
-        bold: {
-          color: styles[`status${member.status}Color`],
-          size: 16,
-          vadjust: -0.5
-        },
-        multi: true
-      },
-      ...(member.node === cluster.leader && leader),
-      ...(member.node === cluster.oldest && oldest)
-    };
-
-    
-		console.log("TCL: memberconfig", memberConfig, cluster);
-
-    graph.nodes.push(memberConfig);
-    graph.edges.push({ from: 0, to: index + 1 });
-  });
-
-  dispatch(frameGraphData(graph));
-}
-
 export type ClusterDashboardActionTypes = FetchClusterMembersBeginAction |
   FetchClusterMembersSuccessAction | FetchClusterMembersFailureAction |
-  ChangeRefreshIntervalAction | FrameGraphDataAction | AddClusterNodeBeginAction |
+  ChangeRefreshIntervalAction | AddClusterNodeBeginAction |
   AddClusterNodeSuccessAction | AddClusterNodeFailureAction | OpenConfirmationDialogAction |
   LeaveDownClusterNodeBeginAction | LeaveDownClusterNodeSuccessAction |
   LeaveDownClusterNodeFailureAction | CloseConfirmationDialogAction | ChangeAkkaUrlAction |

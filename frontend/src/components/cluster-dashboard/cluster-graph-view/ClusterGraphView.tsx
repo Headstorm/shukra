@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Graph from "react-graph-vis";
 import "./../../../../node_modules/vis-network/dist/vis-network.css";
@@ -7,15 +7,13 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
 import { ClusterDashboardState } from "../ClusterDashboardReducer";
-import { setupGraph } from "./../ClusterDashboardActions";
+import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
+import ReactDOMServer from "react-dom/server";
 
 const ClusterGraphView: React.FC = () => {
   console.log("TCL: cluster view");
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
-  const graph = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.graph);
-  const dispatch = useDispatch();
   const [env] = useState(process.env.NODE_ENV);
 
   const clusterSvg =
@@ -87,11 +85,96 @@ const ClusterGraphView: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(setupGraph(cluster, styles, nodeUrl, clusterUrl));
-  }, [cluster, dispatch, nodeUrl, clusterUrl]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setupGraph = (styles: any, nodeUrl: string, clusterUrl: string): any => {
+    const leader = {
+      shadow: {
+        enabled: true,
+        color: styles.leaderNodeColor,
+        size: 15,
+        x: 1,
+        y: 1
+      }
+    };
 
-  console.log("TCL: ClusterGraphView:React.FC -> graph", graph)
+    const oldest = {
+      borderWidth: 3,
+      borderWidthSelected: 0,
+      color: {
+        border: styles.oldestNodeColor,
+        highlight: { border: styles.oldestNodeColor },
+        hover: { border: styles.oldestNodeColor }
+      },
+      shapeProperties: { borderDashes: [10, 10] }
+    };
+
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const graph: any = {
+      nodes: [
+        {
+          id: 0,
+          label: "Akka Cluster",
+          image: clusterUrl,
+          size: 40,
+          borderWidth: 1,
+          borderWidthSelected: 2,
+          color: {
+            border: styles.primaryColor,
+            background: styles.secondaryColor,
+            highlight: {
+              border: styles.primaryColor,
+              background: styles.secondaryColorLighter
+            },
+            hover: {
+              border: styles.primaryColor,
+              background: styles.secondaryColorLighter
+            }
+          }
+        }
+      ],
+      edges: []
+    };
+
+    if (!cluster || !cluster.members) {
+      return graph;
+    }
+
+    cluster.members.forEach((member, index) => {
+      const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
+
+      const memberConfig = {
+        id: index + 1,
+        label: `<b>o </b>${member.node.split("://")[1]}`,
+        image: nodeUrl,
+        title: ReactDOMServer.renderToString(memberTitle),
+        font: {
+          bold: {
+            color: styles[`status${member.status}Color`],
+            size: 16,
+            vadjust: -0.5
+          },
+          multi: true
+        },
+        ...(member.node === cluster.leader && leader),
+        ...(member.node === cluster.oldest && oldest)
+      };
+
+      
+      console.log("TCL: memberconfig", memberConfig, cluster);
+
+      graph.nodes.push(memberConfig);
+      graph.edges.push({ from: 0, to: index + 1 });
+    });
+
+    return graph;
+  }
+
+  // useEffect(() => {
+  //   setupGraph(styles, nodeUrl, clusterUrl);
+  // }, [cluster, nodeUrl, clusterUrl])
+
+  const graph = setupGraph(styles, nodeUrl, clusterUrl);
+  // console.log("TCL: ClusterGraphView:React.FC -> graph", graph)
   return (
     <Fragment>
       <Grid item xs={9}
