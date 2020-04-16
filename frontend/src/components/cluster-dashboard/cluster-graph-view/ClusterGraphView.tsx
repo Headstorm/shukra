@@ -6,7 +6,7 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
-import { ClusterDashboardState } from "../ClusterDashboardReducer";
+import { ClusterDashboardState } from "../../../reducers/dash";
 import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
 import ReactDOMServer from "react-dom/server";
 

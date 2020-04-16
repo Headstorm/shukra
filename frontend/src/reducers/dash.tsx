@@ -1,5 +1,4 @@
 import {
-  ClusterDashboardActionTypes,
   FETCH_CLUSTER_MEMBERS_BEGIN,
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
@@ -16,8 +15,9 @@ import {
   FETCH_AKKA_PROPS_BEGIN,
   FETCH_AKKA_PROPS_SUCCESS,
   FETCH_AKKA_PROPS_FAILURE
-} from './ClusterDashboardActions';
-import { Cluster } from './Cluster.model';
+} from '../constants/dash';
+import { ClusterDashboardActionTypes } from '../actions/dash'
+import { Cluster } from '../models/Cluster.model';
 
 export interface ClusterDashboardState {
   loading: boolean;
