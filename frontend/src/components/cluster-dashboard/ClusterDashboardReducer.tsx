@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-
 import {
   ClusterDashboardActionTypes,
   FETCH_CLUSTER_MEMBERS_BEGIN,
@@ -22,7 +19,6 @@ import {
   FETCH_AKKA_PROPS_FAILURE
 } from './ClusterDashboardActions';
 import { Cluster } from './Cluster.model';
-import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
 
 export interface ClusterDashboardState {
   loading: boolean;
@@ -73,87 +69,6 @@ export const initialState: ClusterDashboardState = {
     data: {}
   }
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const frameGraph = (cluster: Cluster, styles: any, nodeUrl: string, clusterUrl: string): any => {
-  const leader = {
-    shadow: {
-      enabled: true,
-      color: styles.leaderNodeColor,
-      size: 15,
-      x: 1,
-      y: 1
-    }
-  };
-
-  const oldest = {
-    borderWidth: 3,
-    borderWidthSelected: 0,
-    color: {
-      border: styles.oldestNodeColor,
-      highlight: { border: styles.oldestNodeColor },
-      hover: { border: styles.oldestNodeColor }
-    },
-    shapeProperties: { borderDashes: [10, 10] }
-  };
-
-  //eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const graph: any = {
-    nodes: [
-      {
-        id: 0,
-        label: "Akka Cluster",
-        image: clusterUrl,
-        size: 40,
-        borderWidth: 1,
-        borderWidthSelected: 2,
-        color: {
-          border: styles.primaryColor,
-          background: styles.secondaryColor,
-          highlight: {
-            border: styles.primaryColor,
-            background: styles.secondaryColorLighter
-          },
-          hover: {
-            border: styles.primaryColor,
-            background: styles.secondaryColorLighter
-          }
-        }
-      }
-    ],
-    edges: []
-  };
-
-  if (!cluster || !cluster.members) {
-    return graph;
-  }
-
-  cluster.members.forEach((member, index) => {
-    const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
-
-    const memberConfig = {
-      id: index + 1,
-      label: `<b>o </b>${member.node.split("://")[1]}`,
-      image: nodeUrl,
-      title: ReactDOMServer.renderToString(memberTitle),
-      font: {
-        bold: {
-          color: styles[`status${member.status}Color`],
-          size: 16,
-          vadjust: -0.5
-        },
-        multi: true
-      },
-      ...(member.node === cluster.leader && leader),
-      ...(member.node === cluster.oldest && oldest)
-    };
-
-    graph.nodes.push(memberConfig);
-    graph.edges.push({ from: 0, to: index + 1 });
-  });
-
-  return graph;
-}
 
 export default function ClusterDashboardReducer(state = initialState,
   action: ClusterDashboardActionTypes): ClusterDashboardState {
@@ -215,8 +130,7 @@ export default function ClusterDashboardReducer(state = initialState,
     case FRAME_GRAPH_DATA:
       return {
         ...state,
-        graph: frameGraph(state.cluster, action.payload.styles,
-          action.payload.nodeUrl, action.payload.clusterUrl)
+        graph: action.payload.graph,
       }
 
     case ADD_CLUSTER_NODE_BEGIN:

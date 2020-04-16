@@ -45,7 +45,8 @@ const Header: React.FC = () => {
   useEffect(() => {
     // Sets refresh interval when component renders for the first time
     onRefreshIntervalChange(2);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const RouteLink = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
     <Link innerRef={ref} {...props} />

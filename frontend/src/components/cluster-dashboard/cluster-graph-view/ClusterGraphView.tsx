@@ -7,9 +7,10 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
 import { ClusterDashboardState } from "../ClusterDashboardReducer";
-import { frameGraphData } from "./../ClusterDashboardActions";
+import { setupGraph } from "./../ClusterDashboardActions";
 
 const ClusterGraphView: React.FC = () => {
+  console.log("TCL: cluster view");
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
   const graph = useSelector(
@@ -87,7 +88,7 @@ const ClusterGraphView: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(frameGraphData(styles, nodeUrl, clusterUrl));
+    dispatch(setupGraph(cluster, styles, nodeUrl, clusterUrl));
   }, [cluster, dispatch, nodeUrl, clusterUrl]);
 
   return (
