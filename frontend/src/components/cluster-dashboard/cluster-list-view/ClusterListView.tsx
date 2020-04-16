@@ -18,8 +18,8 @@ import {
   addClusterNode,
   openConfirmationDialog,
   leaveDownClusterNode
-} from "../ClusterDashboardActions";
-import { ClusterDashboardState } from "../ClusterDashboardReducer";
+} from "../../../actions/dash";
+import { ClusterDashboardState } from "../../../reducers/dash";
 
 const ClusterListView: React.FC = () => {
   const cluster = useSelector(

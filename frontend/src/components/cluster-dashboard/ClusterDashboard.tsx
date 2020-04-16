@@ -6,7 +6,7 @@ import "./ClusterDashboard.scss";
 import ClusterListView from "./cluster-list-view/ClusterListView";
 import SimpleSnackBar from "../shared/simple-snack-bar/SimpleSnackBar";
 import ClusterGraphView from "./cluster-graph-view/ClusterGraphView";
-import { ClusterDashboardState } from "./ClusterDashboardReducer";
+import { ClusterDashboardState } from "../../reducers/dash";
 
 const ClusterDashboard: React.FC = () => {
   const snackBar = useSelector(

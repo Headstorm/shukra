@@ -6,8 +6,8 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
-import { ClusterDashboardState } from "../ClusterDashboardReducer";
-import { frameGraphData } from "./../ClusterDashboardActions";
+import { ClusterDashboardState } from "../../../reducers/dash";
+import { frameGraphData } from "../../../actions/dash";
 
 const ClusterGraphView: React.FC = () => {
   const cluster = useSelector(
@@ -41,6 +41,7 @@ const ClusterGraphView: React.FC = () => {
     `data:image/svg+xml;charset=utf-8,${encodeURIComponent(nodeSvg)}`;
 
   const options = {
+    autoResize: true,
     nodes: {
       shape: "circularImage",
       borderWidth: 0.5,
@@ -102,11 +103,11 @@ const ClusterGraphView: React.FC = () => {
           <div className="legend-wrapper">
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk leader"></span>
-              <span className="legend-text disp-inline-blk">Oldest Node</span>
+              <span className="legend-text disp-inline-blk">Leader Node</span>
             </div>
             <div className="legend-content">
               <span className="legend-icon disp-inline-blk oldest"></span>
-              <span className="legend-text disp-inline-blk">Leader Node</span>
+              <span className="legend-text disp-inline-blk">Oldest Node</span>
             </div>
           </div>
         </div>

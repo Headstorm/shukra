@@ -4,7 +4,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import { useSelector } from "react-redux";
 
 import './Footer.scss';
-import { ClusterDashboardState } from "../cluster-dashboard/ClusterDashboardReducer";
+import { ClusterDashboardState } from "../../reducers/dash";
 import AkkaUrlDialog from "./akka-url-dialog/AkkaUrlDialog";
 
 const Footer: React.FC = () => {
@@ -33,8 +33,13 @@ const Footer: React.FC = () => {
                 onClick={(): void => setOpenEditUrlDialog(true)}
               />
             </Tooltip>
-            <div className="brand">Powered By
-                    <a href="https://www.headstorm.com">HEADSTORM, LLC.</a>
+            <div className="brand">
+              Powered By
+              <a href="https://www.headstorm.com">
+                <strong>
+                  HEADSTORM, LLC.
+                </strong>
+              </a>
             </div>
           </Toolbar>
         </AppBar>

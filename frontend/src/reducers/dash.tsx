@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import {
-  ClusterDashboardActionTypes,
   FETCH_CLUSTER_MEMBERS_BEGIN,
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
@@ -20,9 +19,12 @@ import {
   FETCH_AKKA_PROPS_BEGIN,
   FETCH_AKKA_PROPS_SUCCESS,
   FETCH_AKKA_PROPS_FAILURE
-} from './ClusterDashboardActions';
-import { Cluster } from './Cluster.model';
-import GraphNodeTooltip from './graph-node-tooltip/GraphNodeTooltip';
+} from '../constants/dash';
+
+import { ClusterDashboardActionTypes } from '../actions/dash'
+
+import { Cluster } from '../models/Cluster.model';
+import GraphNodeTooltip from '../components/cluster-dashboard/graph-node-tooltip/GraphNodeTooltip';
 
 export interface ClusterDashboardState {
   loading: boolean;
@@ -129,7 +131,7 @@ const frameGraph = (cluster: Cluster, styles: any, nodeUrl: string, clusterUrl: 
   }
 
   cluster.members.forEach((member, index) => {
-    const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
+    const memberTitle = <GraphNodeTooltip member={ member } clusterData = { cluster } />;
 
     const memberConfig = {
       id: index + 1,
