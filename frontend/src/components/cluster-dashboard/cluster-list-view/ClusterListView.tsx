@@ -103,7 +103,98 @@ const ClusterListView: React.FC = () => {
               }
             </div>
           </div>
-          {/**tree view */}
+          <TreeView
+            className="member-tree-view"
+            defaultCollapseIcon={<ArrowDropDownIcon />}
+            defaultExpandIcon={<ArrowRightIcon />}
+            expanded={expandedViewNodes}
+            onNodeToggle={handleNodeToggle}
+          >
+            {cluster &&
+              cluster.members &&
+              cluster.members.map((member, index) => {
+                console.log("TCL: member, index", cluster.members, member, index)
+                debugger;
+                return (
+                  <TreeItem
+                    nodeId={member.nodeUid}
+                    label={
+                      <div className="member-header">
+                        <span className="disp-inline-blk">
+                          <FiberManualRecordIcon
+                            className={`member-status ${member.status.toLowerCase()}`}
+                          />
+                        </span>
+                        <Tooltip title={member.node} placement="bottom">
+                          <span className="member-name disp-inline-blk">
+                            {member.node.split("://")[1]}
+                          </span>
+                        </Tooltip>
+                        {member.node === cluster.leader && (
+                          <Tooltip title="Leader Node" placement="bottom">
+                            <span className="member-type disp-inline-blk leader">
+                              L
+                            </span>
+                          </Tooltip>
+                        )}
+                        {member.node === cluster.oldest && (
+                          <Tooltip title="Oldest Node" placement="bottom">
+                            <span className="member-type disp-inline-blk oldest">
+                              O
+                            </span>
+                          </Tooltip>
+                        )}
+                      </div>
+                    }
+                  >
+                    <TreeItem
+                      nodeId={`${index}child`}
+                      label={
+                        <div className="member-details">
+                          <div>
+                            <span className="font-bold">node : </span>
+                            <span>{member.node}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">nodeUid : </span>
+                            <span>{member.nodeUid}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">status : </span>
+                            <span>{member.status.toLowerCase()}</span>
+                          </div>
+                          <div>
+                            <span className="font-bold">roles : </span>
+                            <span>{member.roles.join(",")}</span>
+                          </div>
+                          <div className="member-actions">
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={(): void =>
+                                handleMember(member.node, "Leave")
+                              }
+                            >
+                              LEAVE
+                            </Button>
+                            <Button
+                              className="themed"
+                              variant="contained"
+                              size="small"
+                              onClick={(): void =>
+                                handleMember(member.node, "Down")
+                              }
+                            >
+                              SHUTDOWN
+                            </Button>
+                          </div>
+                        </div>
+                      }
+                    />
+                  </TreeItem>
+                );
+              })}
+          </TreeView>
         </div>
         <div className="add-member-container">
           <TextField
@@ -141,98 +232,3 @@ const ClusterListView: React.FC = () => {
 };
 
 export default ClusterListView;
-
-// <TreeView
-// className="member-tree-view"
-// defaultCollapseIcon={<ArrowDropDownIcon />}
-// defaultExpandIcon={<ArrowRightIcon />}
-// expanded={expandedViewNodes}
-// onNodeToggle={handleNodeToggle}
-// >
-// {cluster &&
-//   cluster.members &&
-//   cluster.members.map((member, index) => {
-//     console.log("TCL: member, index", cluster.members, member, index)
-//     console.log("TCL: member, index", member, index)
-//     return (
-//       <TreeItem
-//         key={member.nodeUid}
-//         nodeId={String(index)}
-//         label={
-//           <div></div>
-//           // <div className="member-header">
-//           //   <span className="disp-inline-blk">
-//           //     <FiberManualRecordIcon
-//           //       className={`member-status ${member.status.toLowerCase()}`}
-//           //     />
-//           //   </span>
-//           //   <Tooltip title={member.node} placement="bottom">
-//           //     <span className="member-name disp-inline-blk">
-//           //       {member.node.split("://")[1]}
-//           //     </span>
-//           //   </Tooltip>
-//           //   {member.node === cluster.leader && (
-//           //     <Tooltip title="Leader Node" placement="bottom">
-//           //       <span className="member-type disp-inline-blk leader">
-//           //         L
-//           //       </span>
-//           //     </Tooltip>
-//           //   )}
-//           //   {member.node === cluster.oldest && (
-//           //     <Tooltip title="Oldest Node" placement="bottom">
-//           //       <span className="member-type disp-inline-blk oldest">
-//           //         O
-//           //       </span>
-//           //     </Tooltip>
-//           //   )}
-//           // </div>
-//         }
-//       >
-//         {/* <TreeItem
-//           nodeId={`${index}child`}
-//           label={
-//             <div className="member-details">
-//               <div>
-//                 <span className="font-bold">node : </span>
-//                 <span>{member.node}</span>
-//               </div>
-//               <div>
-//                 <span className="font-bold">nodeUid : </span>
-//                 <span>{member.nodeUid}</span>
-//               </div>
-//               <div>
-//                 <span className="font-bold">status : </span>
-//                 <span>{member.status.toLowerCase()}</span>
-//               </div>
-//               <div>
-//                 <span className="font-bold">roles : </span>
-//                 <span>{member.roles.join(",")}</span>
-//               </div>
-//               <div className="member-actions">
-//                 <Button
-//                   variant="contained"
-//                   size="small"
-//                   onClick={(): void =>
-//                     handleMember(member.node, "Leave")
-//                   }
-//                 >
-//                   LEAVE
-//                 </Button>
-//                 <Button
-//                   className="themed"
-//                   variant="contained"
-//                   size="small"
-//                   onClick={(): void =>
-//                     handleMember(member.node, "Down")
-//                   }
-//                 >
-//                   SHUTDOWN
-//                 </Button>
-//               </div>
-//             </div>
-//           }
-//         /> */}
-//       </TreeItem>
-//     );
-//   })}
-// </TreeView>

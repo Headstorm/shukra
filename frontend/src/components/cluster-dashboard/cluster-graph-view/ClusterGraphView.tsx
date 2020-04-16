@@ -91,6 +91,7 @@ const ClusterGraphView: React.FC = () => {
     dispatch(setupGraph(cluster, styles, nodeUrl, clusterUrl));
   }, [cluster, dispatch, nodeUrl, clusterUrl]);
 
+  console.log("TCL: ClusterGraphView:React.FC -> graph", graph)
   return (
     <Fragment>
       <Grid item xs={9}
