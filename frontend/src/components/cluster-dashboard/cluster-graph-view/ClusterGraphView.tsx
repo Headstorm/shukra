@@ -11,7 +11,6 @@ import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
 import ReactDOMServer from "react-dom/server";
 
 const ClusterGraphView: React.FC = () => {
-  console.log("TCL: cluster view");
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
   const [env] = useState(process.env.NODE_ENV);
@@ -108,11 +107,12 @@ const ClusterGraphView: React.FC = () => {
       shapeProperties: { borderDashes: [10, 10] }
     };
 
+    const graphID = Math.random();
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
     const graph: any = {
       nodes: [
         {
-          id: 0,
+          id: graphID,
           label: "Akka Cluster",
           image: clusterUrl,
           size: 40,
@@ -129,7 +129,7 @@ const ClusterGraphView: React.FC = () => {
               border: styles.primaryColor,
               background: styles.secondaryColorLighter
             }
-          }
+          },
         }
       ],
       edges: []
@@ -139,10 +139,8 @@ const ClusterGraphView: React.FC = () => {
       return graph;
     }
 
-    cluster.members.forEach((member, index) => {
+    cluster.members.forEach((member) => {
       const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
-      
-      console.log("TCL: memberconfig", member, cluster);
 
       const memberConfig = {
         id: member.nodeUid,
@@ -162,18 +160,13 @@ const ClusterGraphView: React.FC = () => {
       };
 
       graph.nodes.push(memberConfig);
-      graph.edges.push({ from: 0, to: member.nodeUid });
+      graph.edges.push({ from: graphID, to: member.nodeUid });
     });
 
     return graph;
   }
 
-  const graph = 
-  <Graph 
-    graph={setupGraph(styles, nodeUrl, clusterUrl)}
-    options={options}
-    events={{}} 
-  />
+  const graph = setupGraph(styles, nodeUrl, clusterUrl);
 
   return (
     <Fragment>
@@ -182,7 +175,14 @@ const ClusterGraphView: React.FC = () => {
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
           {
-            env !== "test" && graph
+            env !== "test" && 
+            (
+              <Graph 
+                graph={graph}
+                options={options}
+                events={{}} 
+              />
+            )
           }
           <div className="legend-wrapper">
             <div className="legend-content">
