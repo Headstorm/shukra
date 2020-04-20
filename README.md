@@ -58,9 +58,10 @@ Refer to [Vagrant](https://www.vagrantup.com/docs/virtualbox/) documentation to 
 You can now ```cd``` to the shukra project folder and run ```vagrant up```. If executed successfully, ```vagrant up``` starts Akka Management on the seed node with the endpoint `http://localhost:8402/ShukraCluster`, unless changed in the ```application.conf``` file. ```vagrant up``` will create 3 nodes, a seed and two regular nodes, called seed, c1, and c2 respectively (unless changed in ```docker-compose.yml```). If the front-end is running, you should be able to see these nodes appear in the UI upon refreshing the homepage.
 
 You can now use [docker-compose](https://docs.docker.com/compose/reference/ps/) commands to make the cluster nodes respond. First, open a VirtualBox terminal with this command: ```vagrant ssh```. Within the VirtualBox terminal, ```cd /vagrant```, and then type some commands! Some easy commands to start with are:
+
 ```docker-compose stop c1``` - Stops running containers without removing them.
 ```docker-compose start c1```- Starts existing containers for a service.
-```docker-compose ps``` Lists containers.
+```docker-compose ps``` - Lists containers.
 ```docker-compose logs c1``` - Displays log output from services.
 
 #### Front End:
@@ -113,7 +114,9 @@ For production, change the `akka.management.url` property in `public/akkaCluster
 ## Authors
 
 * **Karthik Pasagada** - [kpasagada](https://github.com/kpasagada)
+* **Charles Hunt** - [CharlesAHunt](https://github.com/CharlesAHunt)
 * **Zac Romick** - [zromick](https://github.com/zromick)
+* **August von Trapp** - [augustinevt](https://github.com/augustinevt)
 
 See also the list of [contributors](https://github.com/Headstorm/shukra/graphs/contributors) who participated in this project.
 
