@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, Fragment, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Graph from "react-graph-vis";
 import "./../../../../node_modules/vis-network/dist/vis-network.css";
@@ -7,15 +7,14 @@ import "./../../../../node_modules/vis-network/dist/vis-network.css";
 import "./ClusterGraphView.scss";
 import styles from "./ClusterGraphView.module.scss";
 import { ClusterDashboardState } from "../../../reducers/dash";
-import { frameGraphData } from "../../../actions/dash";
+import GraphNodeTooltip from "../graph-node-tooltip/GraphNodeTooltip";
+import ReactDOMServer from "react-dom/server";
 
 const ClusterGraphView: React.FC = () => {
   const cluster = useSelector(
     (state: { dashboard: ClusterDashboardState }) => state.dashboard.cluster);
-  const graph = useSelector(
-    (state: { dashboard: ClusterDashboardState }) => state.dashboard.graph);
-  const dispatch = useDispatch();
   const [env] = useState(process.env.NODE_ENV);
+  const [graph, setGraph] = useState({ nodes: [], edges: [] });
 
   const clusterSvg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
@@ -87,8 +86,114 @@ const ClusterGraphView: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(frameGraphData(styles, nodeUrl, clusterUrl));
-  }, [cluster, dispatch, nodeUrl, clusterUrl]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setupGraph = (styles: any, nodeUrl: string, clusterUrl: string): any => {
+      const leader = {
+        shadow: {
+          enabled: true,
+          color: styles.leaderNodeColor,
+          size: 15,
+          x: 1,
+          y: 1
+        }
+      };
+
+      const oldest = {
+        borderWidth: 3,
+        borderWidthSelected: 0,
+        color: {
+          border: styles.oldestNodeColor,
+          background: styles.primaryThemeColor,
+          highlight: {
+            border: styles.oldestNodeColor,
+            background: styles.primaryThemeColorLighter
+          },
+          hover: {
+            border: styles.oldestNodeColor,
+            background: styles.primaryThemeColorLighter
+          }
+        },
+        shapeProperties: { borderDashes: [10, 10] }
+      };
+
+      const graphID = Math.random();
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const graph: any = {
+        nodes: [
+          {
+            id: graphID,
+            label: "Akka Cluster",
+            image: clusterUrl,
+            size: 40,
+            borderWidth: 1,
+            borderWidthSelected: 2,
+            color: {
+              border: styles.primaryColor,
+              background: styles.secondaryColor,
+              highlight: {
+                border: styles.primaryColor,
+                background: styles.secondaryColorLighter
+              },
+              hover: {
+                border: styles.primaryColor,
+                background: styles.secondaryColorLighter
+              }
+            }
+          }
+        ],
+        edges: []
+      };
+
+      if (!cluster || !cluster.members) {
+        return graph;
+      }
+
+      cluster.members.forEach((member) => {
+        const memberTitle = <GraphNodeTooltip member={member} clusterData={cluster} />;
+
+        const memberConfig = {
+          id: member.nodeUid,
+          label: `<b>o </b>${member.node.split("://")[1]}`,
+          image: nodeUrl,
+          title: ReactDOMServer.renderToString(memberTitle),
+          font: {
+            bold: {
+              color: styles[`status${member.status}Color`],
+              size: 16,
+              vadjust: -0.5
+            },
+            multi: true
+          },
+          shadow: false,
+          borderWidth: 1,
+          borderWidthSelected: 2,
+          color: {
+            border: "transparent",
+            background: styles.primaryThemeColor,
+            highlight: {
+              border: styles.primaryThemeColor,
+              background: styles.primaryThemeColorLighter
+            },
+            hover: {
+              border: styles.primaryThemeColor,
+              background: styles.primaryThemeColorLighter
+            }
+          },
+          shapeProperties: { borderDashes: false },
+          ...(member.node === cluster.leader && leader),
+          ...(member.node === cluster.oldest && oldest)
+        };
+
+        graph.nodes.push(memberConfig);
+        graph.edges.push({ from: graphID, to: member.nodeUid });
+      });
+
+      return graph;
+    }
+
+    setGraph(setupGraph(styles, nodeUrl, clusterUrl));
+  }, [cluster, nodeUrl, clusterUrl]);
+
 
   return (
     <Fragment>
@@ -97,8 +202,14 @@ const ClusterGraphView: React.FC = () => {
         <div className="home-visual-title">CLUSTER VISUAL VIEW</div>
         <div className="home-visual-wrapper">
           {
-            env !== "test" && (<Graph graph={graph} options={options}
-              events={{}} />)
+            env !== "test" &&
+            (
+              <Graph
+                graph={graph}
+                options={options}
+                events={{}}
+              />
+            )
           }
           <div className="legend-wrapper">
             <div className="legend-content">

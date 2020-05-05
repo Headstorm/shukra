@@ -2,7 +2,6 @@
 import { Dispatch } from "react";
 import axios from "axios";
 import querystring from "query-string";
-
 import { Cluster } from "../models/Cluster.model";
 import { ClusterDashboardState, initialState } from "../reducers/dash";
 
@@ -13,7 +12,6 @@ import {
   FETCH_CLUSTER_MEMBERS_SUCCESS,
   FETCH_CLUSTER_MEMBERS_FAILURE,
   CHANGE_REFRESH_INTERVAL,
-  FRAME_GRAPH_DATA,
   ADD_CLUSTER_NODE_BEGIN,
   ADD_CLUSTER_NODE_SUCCESS,
   ADD_CLUSTER_NODE_FAILURE,
@@ -45,11 +43,6 @@ interface FetchClusterMembersFailureAction {
 interface ChangeRefreshIntervalAction {
   type: typeof CHANGE_REFRESH_INTERVAL;
   payload: { state: { value: number; interval: any } };
-}
-
-interface FrameGraphDataAction {
-  type: typeof FRAME_GRAPH_DATA;
-  payload: { styles: any; nodeUrl: string; clusterUrl: string };
 }
 
 interface AddClusterNodeBeginAction {
@@ -112,10 +105,11 @@ export const fetchClusterMembersBegin = (): FetchClusterMembersBeginAction => ({
   type: FETCH_CLUSTER_MEMBERS_BEGIN
 });
 
-export const fetchClusterMembersSuccess = (cluster: Cluster): FetchClusterMembersSuccessAction => ({
+export const fetchClusterMembersSuccess = (cluster: Cluster): FetchClusterMembersSuccessAction => {
+  return({
   type: FETCH_CLUSTER_MEMBERS_SUCCESS,
   payload: { cluster: cluster }
-});
+})};
 
 export const fetchClusterMembersFailure = (error: any): FetchClusterMembersFailureAction => ({
   type: FETCH_CLUSTER_MEMBERS_FAILURE,
@@ -126,12 +120,6 @@ export const changeRefreshInterval =
   (state: { value: number; interval: any }): ChangeRefreshIntervalAction => ({
     type: CHANGE_REFRESH_INTERVAL,
     payload: { state: state }
-  });
-
-export const frameGraphData = (styles: any, nodeUrl: string, clusterUrl: string):
-  FrameGraphDataAction => ({
-    type: FRAME_GRAPH_DATA,
-    payload: { styles: styles, nodeUrl: nodeUrl, clusterUrl: clusterUrl }
   });
 
 export const addClusterNodeBegin = (): AddClusterNodeBeginAction => ({
@@ -200,7 +188,9 @@ export function fetchClusterData() {
     const akkaManagementUrl = getState().dashboard.akkaProps.managementUrl;
     return axios
       .get(`${akkaManagementUrl}/cluster/members`)
-      .then(response => dispatch(fetchClusterMembersSuccess(response.data)))
+      .then(response => {
+        dispatch(fetchClusterMembersSuccess(response.data))
+      })
       .catch(error => dispatch(fetchClusterMembersFailure(error)));
   };
 }
@@ -265,7 +255,7 @@ export function fetchAkkaProps() {
 
 export type ClusterDashboardActionTypes = FetchClusterMembersBeginAction |
   FetchClusterMembersSuccessAction | FetchClusterMembersFailureAction |
-  ChangeRefreshIntervalAction | FrameGraphDataAction | AddClusterNodeBeginAction |
+  ChangeRefreshIntervalAction | AddClusterNodeBeginAction |
   AddClusterNodeSuccessAction | AddClusterNodeFailureAction | OpenConfirmationDialogAction |
   LeaveDownClusterNodeBeginAction | LeaveDownClusterNodeSuccessAction |
   LeaveDownClusterNodeFailureAction | CloseConfirmationDialogAction | ChangeAkkaUrlAction |
