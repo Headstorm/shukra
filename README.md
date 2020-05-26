@@ -9,7 +9,7 @@
 
 # Shukra #
 
-Shukra is an Akka cluster visualization and management dashboard for inspecting local and remote Akka clusters. 
+Shukra is an Akka cluster visualization and management dashboard that inspects your local or remote clusters.
 
 Shukra is lovingly developed by [Headstorm's](https://www.headstorm.com/) Open Source group. Please reach out to us at: opensource@headstorm.com
 
@@ -46,7 +46,7 @@ Download and install the latest version of [Node.js and NPM](https://nodejs.org/
 
 #### Back End:
 
-Use the commands below to start a sample Akka Docker cluster.
+Use the commands below to run a local Akka cluster:
 
 Potential issue #1:
 "A Vagrant environment or target machine is required to run this command." Run ```vagrant init``` to create a new Vagrant environment.
