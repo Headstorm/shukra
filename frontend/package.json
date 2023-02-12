@@ -18,7 +18,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "strip-json-comments": "^3.0.1",
-    "typescript": "3.6.4"
+    "typescript": "3.9.10"
   },
   "scripts": {
     "start": "react-scripts start",
